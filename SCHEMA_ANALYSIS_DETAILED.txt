@@ -1,0 +1,743 @@
+================================================================================================================================================
+DATABASE SCHEMA ANALYSIS - invs11142.sql (MariaDB 10.1.22)
+================================================================================================================================================
+
+DATABASE NAME: invslee
+SOURCE SERVER: inv@192.168.100.8
+SERVER TYPE: MariaDB 10.1.22
+TOTAL TABLES: 88 unique tables
+ANALYSIS DATE: 2026-03-23
+FILE SIZE: 512 KB (245,418 lines)
+
+================================================================================================================================================
+SECTION 1: COMPLETE TABLE LIST WITH COLUMN COUNTS
+================================================================================================================================================
+
+[01] accr_disp                    (13 columns) - Accreditation Dispense
+[02] add_in_programs              (10 columns) - Add-In Programs
+[03] adj_reason                   (2 columns)  - Adjustment Reason
+[04] aic                          (6 columns)  - AIC Master
+[05] aic_name                     (5 columns)  - AIC Name
+[06] bdg_amt                      (20 columns) - Budget Amount
+[07] bdg_type                     (8 columns)  - Budget Type
+[08] buy_re_m                     (6 columns)  - Buy Report Monthly
+[09] buy_re_y                     (5 columns)  - Buy Report Yearly
+[10] buycommon                    (7 columns)  - Buy Common Configuration
+[11] buymethod                    (10 columns) - Buy Method
+[12] buyplan                      (31 columns) - Buy Plan
+[13] buyplan_c                    (74 columns) - Buy Plan Child (Detailed)
+[14] buyplan_log                  (16 columns) - Buy Plan Log/History
+[15] card                         (41 columns) - Inventory Card/Transaction
+[16] cnt                          (27 columns) - Contract
+[17] cnt_c                        (18 columns) - Contract Detail/Child
+[18] company                      (25 columns) - Company/Vendor Master
+[19] concept                      (2 columns)  - Concept/Therapeutic Code
+[20] dept_id                      (25 columns) - Department
+[21] dept_map                     (4 columns)  - Department Mapping
+[22] df_con                       (2 columns)  - Document Flow Control
+[23] dispensed                    (8 columns)  - Dispensed Items
+[24] dist_type                    (3 columns)  - Distribution Type
+[25] doc_flow                     (10 columns) - Document Flow
+[26] doc_flow_c                   (7 columns)  - Document Flow Detail
+[27] doc_type                     (3 columns)  - Document Type
+[28] dosage_form                  (3 columns)  - Dosage Form
+[29] drug_compos                  (4 columns)  - Drug Composition
+[30] drug_gn                      (65 columns) - Drug Generic Name Master
+[31] drug_spec                    (4 columns)  - Drug Specification
+[32] drug_vn                      (43 columns) - Drug Vendor/Trade Name
+[33] e_po                         (8 columns)  - Email PO Configuration
+[34] ed_group                     (6 columns)  - ED Group
+[35] edi_drug_vn                  (4 columns)  - EDI Drug Vendor
+[36] focus_list                   (5 columns)  - Focus List
+[37] focus_list_c                 (3 columns)  - Focus List Detail
+[38] form                         (10 columns) - Form Master
+[39] gf                           (6 columns)  - Goods Flow/Good Receipt
+[40] holiday                      (2 columns)  - Holiday Calendar
+[41] hosp                         (2 columns)  - Hospital Code
+[42] hosp_inv                     (25 columns) - Hospital Inventory
+[43] hosp_list                    (5 columns)  - Hospital List
+[44] id_con                       (2 columns)  - ID Control
+[45] inst_name                    (4 columns)  - Institution Name
+[46] inv_has_his                  (5 columns)  - Inventory-HIS Mapping
+[47] inv_md                       (44 columns) - Inventory Master
+[48] inv_md_c                     (19 columns) - Inventory Master Child
+[49] inv_rtn                      (10 columns) - Inventory Return Header
+[50] inv_rtn_c                    (25 columns) - Inventory Return Detail
+[51] inv_site                     (6 columns)  - Inventory Site/Location
+[52] invs_ref                     (2 columns)  - INVS Reference
+[53] item_type                    (5 columns)  - Item Type
+[54] location                     (4 columns)  - Location/Storage
+[55] mbs_re_m                     (15 columns) - MBS Report Monthly
+[56] mbs_re_y                     (9 columns)  - MBS Report Yearly
+[57] menucon                      (6 columns)  - Menu Control
+[58] module_system                (2 columns)  - Module System
+[59] ms_ivo                       (35 columns) - Medical Supply Invoice Header
+[60] ms_ivo_c                     (42 columns) - Medical Supply Invoice Detail
+[61] ms_po                        (55 columns) - Medical Supply PO Header
+[62] ms_po_c                      (63 columns) - Medical Supply PO Detail
+[63] pack_ratio                   (14 columns) - Pack Ratio
+[64] po_con                       (2 columns)  - PO Control
+[65] po_reason                    (3 columns)  - PO Reason
+[66] position_list                (1 column)   - Position List
+[67] prcv_con                     (2 columns)  - Procurement Control
+[68] pre_ms_ivo                   (14 columns) - Pre-Receipt Invoice
+[69] profile                      (12 columns) - User Profile
+[70] quali_goal                   (5 columns)  - Quality Goal
+[71] quali_item                   (2 columns)  - Quality Item
+[72] quali_rcv                    (7 columns)  - Quality Receipt
+[73] relationship                 (2 columns)  - Concept Relationship
+[74] reports                      (21 columns) - Reports Master
+[75] req_con                      (8 columns)  - Request Control
+[76] rs_con                       (2 columns)  - RS Control
+[77] rtn_action                   (3 columns)  - Return Action
+[78] rtn_reason                   (3 columns)  - Return Reason
+[79] sale_unit                    (4 columns)  - Sale Unit of Measure
+[80] scan                         (6 columns)  - Scanned Document
+[81] sm_po                        (29 columns) - Sub-Medicine PO Header
+[82] sm_po_c                      (59 columns) - Sub-Medicine PO Detail
+[83] sm_po_e                      (22 columns) - Sub-Medicine PO Execution
+[84] special                      (7 columns)  - Special Items
+[85] sub_com                      (3 columns)  - Sub-Committee
+[86] tmt                          (15 columns) - TMT (Product Code)
+[87] uom                          (2 columns)  - Unit of Measure
+[88] usercon                      (8 columns)  - User Control
+
+================================================================================================================================================
+SECTION 2: PRIMARY KEY DEFINITIONS
+================================================================================================================================================
+
+Tables with Single Primary Key:
+  - add_in_programs              : ID
+  - aic_name                     : AIC_CODE
+  - buycommon                    : COMMON_CODE
+  - buymethod                    : BUYMET_CODE
+  - company                      : COMPANY_CODE
+  - df_con                       : REF_NO_CON
+  - dispensed                    : RECORD_NUMBER
+  - dist_type                    : DIST_TYPE_CODE
+  - doc_flow                     : REF_NO
+  - dosage_form                  : DFORM_ID
+  - drug_compos                  : COMPOS_CODE
+  - drug_vn                      : TRADE_CODE
+  - e_po                         : ID
+  - ed_group                     : CODE
+  - holiday                      : HOL_DATE
+  - hosp                         : HOSP_CODE
+  - hosp_list                    : HOSP_LIST_CODE
+  - inv_md                       : RECORD_NUMBER
+  - inv_md_c                     : RECORD_NUMBER
+  - inv_rtn_c                    : ID
+  - mbs_re_m                     : RECORD_NUMBER
+  - module_system                : MODULE_ID
+  - ms_po_c                      : RECORD_NUMBER
+  - pack_ratio                   : PACK_CODE
+  - po_reason                    : ID
+  - pre_ms_ivo                   : PRE_RECEIVE_NO
+  - profile                      : UserCode
+  - reports                      : ReportNo
+  - rtn_action                   : ID
+  - rtn_reason                   : ID
+  - sale_unit                    : SU_ID
+  - sm_po                        : RECORD_NUMBER
+  - sm_po_e                      : RECORD_NUMBER
+  - sub_com                      : SUB_COMMIT_CODE
+  - aic                          : RECORD_NUMBER
+
+Tables with Composite Primary Key (Multiple Columns):
+  - accr_disp                    : REQ_NO, WORKING_CODE
+  - cnt_c                        : RECORD_NUMBER, CNT_NO
+  - dept_id                      : RECORD_NUMBER, DEPT_ID
+  - doc_flow_c                   : REF_NO, INVOICE_NO
+  - edi_drug_vn                  : VENDOR_TRADE_CODE, INVS_TRADE_CODE, VENDOR_CODE
+  - form                         : FORM_CODE, FORM_SYS, MOD_SYS
+  - gf                           : GF_NO, RUNNO
+  - inv_site                     : DEPT_ID, TRADE_CODE
+  - item_type                    : WORKING_CODE, HOSP_LIST, FIRST_DATE, LAST_DATE
+  - quali_goal                   : QUALI_ID, WORKING_CODE
+  - quali_rcv                    : RECEIVE_NO, WORKING_CODE, TRADE_CODE, LOT_NO, QUALI_ID
+
+================================================================================================================================================
+SECTION 3: TABLES WITHOUT EXPLICIT PRIMARY KEYS (41 tables)
+================================================================================================================================================
+
+These tables rely on indexes or are lookup/reference tables:
+  - adj_reason                   (2 columns)   - Uses index on AR_ID
+  - bdg_amt                      (20 columns)  - Uses index: BUDGET_TYPE, FISCAL_YEAR, MOD_SYS
+  - bdg_type                     (8 columns)   - Has unique key on RECORD_NUMBER
+  - buy_re_m                     (6 columns)   - Has unique key on RECORD_NUMBER
+  - buy_re_y                     (5 columns)   - Has unique key on RECORD_NUMBER
+  - buyplan                      (31 columns)  - Plan master records
+  - buyplan_c                    (74 columns)  - Plan detail records, indexed on YEAR, WORKING_CODE, DEPT_ID
+  - buyplan_log                  (16 columns)  - Log/history table, indexed on YEAR, WORKING_CODE, MOD_SYS
+  - card                         (41 columns)  - Inventory transaction card, unique on RECORD_NUMBER
+  - cnt                          (27 columns)  - Contract records
+  - concept                      (2 columns)   - Unique key on TMTID
+  - dept_map                     (4 columns)   - Department mapping, indexed on INVS_DEPT, HIS_DEPT
+  - doc_type                     (3 columns)   - Reference table, indexed on DOC_CODE
+  - drug_gn                      (65 columns)  - Unique key on WORKING_CODE
+  - drug_spec                    (4 columns)   - Specification data, indexed on WORKING_CODE
+  - focus_list                   (5 columns)   - Focus list records, indexed on LIST_CODE, USER_ID
+  - focus_list_c                 (3 columns)   - Focus list detail, indexed on LIST_CODE, WORKING_CODE
+  - hosp_inv                     (25 columns)  - Hospital inventory
+  - id_con                       (2 columns)   - ID control
+  - inst_name                    (4 columns)   - Institution reference
+  - inv_has_his                  (5 columns)   - Inventory-HIS mapping
+  - inv_rtn                      (10 columns)  - Return header, indexed on RETURN_NO
+  - invs_ref                     (2 columns)   - Reference table
+  - location                     (4 columns)   - Location reference
+  - mbs_re_y                     (9 columns)   - Yearly report, unique key on RECORD_NUMBER
+  - menucon                      (6 columns)   - Menu configuration
+  - ms_ivo                       (35 columns)  - Invoice master, unique key on RECORD_NUMBER
+  - ms_ivo_c                     (42 columns)  - Invoice detail
+  - ms_po                        (55 columns)  - PO master, unique key on RECORD_NUMBER
+  - po_con                       (2 columns)   - PO control
+  - position_list                (1 column)    - Simple reference
+  - prcv_con                     (2 columns)   - Procurement control
+  - relationship                 (2 columns)   - Concept relationship mapping
+  - req_con                      (8 columns)   - Request control
+  - rs_con                       (2 columns)   - RS control
+  - scan                         (6 columns)   - Scanned documents
+  - sm_po_c                      (59 columns)  - Sub-PO detail, unique key on RECORD_NUMBER
+  - special                      (7 columns)   - Special items
+  - tmt                          (15 columns)  - TMT product master
+  - uom                          (2 columns)   - Unit of measure reference
+  - usercon                      (8 columns)   - User control
+
+================================================================================================================================================
+SECTION 4: INDEXED COLUMNS (EFFICIENT QUERY PATHS)
+================================================================================================================================================
+
+Tables with Composite Indexes (Multiple columns indexed together):
+  - card                         : WORKING_CODE, OPERATE_DATE
+                                   WORKING_CODE, OPERATE_DATE, R_S_STATUS, DEPT_ID, STOCK_ID
+                                   R_S_NUMBER, R_S_STATUS, TRADE_CODE, LOT_NO
+                                   R_S_STATUS, R_S_NUMBER, TRADE_CODE
+
+  - buyplan_c                    : YEAR, WORKING_CODE, DEPT_ID
+  - buyplan_log                  : YEAR, WORKING_CODE, MOD_SYS
+  - bdg_amt                      : BUDGET_TYPE, FISCAL_YEAR, MOD_SYS
+  - ms_ivo_c                     : INVOICE_NO, DEPT_ID, RECEIVE_NO
+                                   RECEIVE_NO, TRADE_CODE
+                                   RECEIVE_NO, FREE_FLAG, TRADE_CODE, LOT_NO
+  - ms_po                        : PO_NO
+  - ms_po_c                      : PO_NO, FREE_FLAG, WORKING_CODE, VENDOR_CODE
+                                   PO_NO
+                                   PO_NO, WORKING_CODE
+  - sm_po                        : SUB_PO_NO, STOCK_ID, SUB_PO_DATE
+                                   SUB_PO_UNO
+  - dispensed                    : DISP_DATE, MED_CODE, DISP_DEPT
+                                   DISP_DATE, MED_CODE, DISP_DEPT, PROCESS_FLAG
+  - scan                         : REF_NO
+                                   DOC_CODE
+                                   REF_NO, DOC_CODE
+                                   REF_NO, DOC_CODE, ID
+
+================================================================================================================================================
+SECTION 5: KEY RELATIONSHIPS AND DATA FLOW ANALYSIS
+================================================================================================================================================
+
+DRUG/MEDICINE MASTER DATA:
+  1. drug_gn (Generic Name Master)
+     - PK: WORKING_CODE (unique)
+     - 65 columns: Product master data including drug name, dosage form, composition
+     - Referenced by: drug_vn, drug_spec, inv_md, inv_md_c, and many transactional tables
+
+  2. drug_vn (Trade Name/Vendor Name)
+     - PK: TRADE_CODE
+     - Links WORKING_CODE to VENDOR_CODE
+     - Maintains vendor-specific product information
+
+  3. drug_spec (Specification)
+     - FK implied: WORKING_CODE -> drug_gn
+     - Stores specification documents/files
+
+  4. drug_compos (Composition)
+     - PK: COMPOS_CODE
+     - FK implied: WORKING_CODE -> drug_gn
+     - Stores composition details
+
+PROCUREMENT FLOW (Purchase Orders):
+  Core PO Tables:
+  - ms_po (Medical Supply PO Header)
+    - PK: RECORD_NUMBER (unique)
+    - Contains: PO_NO, VENDOR_CODE, BUDGET_TYPE, TOTAL_COST
+
+  - ms_po_c (Medical Supply PO Detail)
+    - PK: RECORD_NUMBER
+    - FK implied: PO_NO -> ms_po
+    - Links to WORKING_CODE (drug_gn)
+    - Per-line item data with qty, price
+
+  - sm_po (Sub-Medicine PO Header)
+    - PK: RECORD_NUMBER
+    - FK implied: To departments/stock via DEPT_ID, STOCK_ID
+
+  - sm_po_c (Sub-Medicine PO Detail)
+    - Links SM PO to items
+
+  - sm_po_e (Sub-Medicine PO Execution)
+    - Tracks PO execution/fulfillment
+
+RECEIVING/INVOICE FLOW:
+  - pre_ms_ivo (Pre-Receipt Invoice)
+    - PK: PRE_RECEIVE_NO
+    - Preliminary receiving data before invoice
+
+  - ms_ivo (Medical Supply Invoice Header)
+    - PK: RECORD_NUMBER (unique)
+    - Links to ms_po via PO_NO
+    - Contains: INVOICE_NO, VENDOR_CODE, TOTAL_COST
+    - Status: RECEIVE_NO (can be tracked)
+
+  - ms_ivo_c (Medical Supply Invoice Detail)
+    - Invoice line items
+    - Links to WORKING_CODE, TRADE_CODE
+    - Qty_order, Qty_receive, Free items tracking
+    - Lot number and expiration tracking
+
+QUALITY CONTROL:
+  - quali_item (Quality Item Master)
+    - PK: QUALI_ID
+    - Quality criteria definitions
+
+  - quali_goal (Quality Goal)
+    - PK: QUALI_ID, WORKING_CODE
+    - Min/Max values for specific products
+
+  - quali_rcv (Quality on Receiving)
+    - PK: RECEIVE_NO, WORKING_CODE, TRADE_CODE, LOT_NO, QUALI_ID
+    - Quality test results on receipt
+
+INVENTORY MANAGEMENT:
+  - inv_md (Inventory Master)
+    - PK: RECORD_NUMBER
+    - Unique on: RECORD_NUMBER
+    - Master product inventory data
+    - 44 columns with pricing, cost, quantity data
+
+  - inv_md_c (Inventory Detail by Lot/Expiration)
+    - PK: RECORD_NUMBER
+    - Tracks individual lots/expiration dates
+    - Location, quantity on hand per lot
+    - Indexed on: EXPIRED_DATE, TRADE_CODE, DEPT_ID, LOT_NO
+
+  - inv_site (Inventory Site/Storage Location)
+    - PK: DEPT_ID, TRADE_CODE
+    - Links inventory to storage location
+
+  - card (Inventory Transaction Card)
+    - PK: RECORD_NUMBER (unique)
+    - 41 columns tracking transactions
+    - Indexed on: R_S_STATUS, R_S_NUMBER, TRADE_CODE
+    - Transaction types: Receipt (R_S_STATUS)
+
+DISPENSING:
+  - accr_disp (Accreditation Dispensing)
+    - PK: REQ_NO, WORKING_CODE
+    - Tracks dispensing requests
+
+  - dispensed (Dispensed Items)
+    - PK: RECORD_NUMBER
+    - Actual dispensing records
+    - Indexed on: DISP_DATE, MED_CODE, DISP_DEPT, PROCESS_FLAG
+
+RETURNS:
+  - inv_rtn (Inventory Return Header)
+    - Indexed on: RETURN_NO
+    - Return transactions
+
+  - inv_rtn_c (Inventory Return Detail)
+    - PK: ID
+    - Return line items
+    - Indexed on: RETURN_NO, WORKING_CODE, TRADE_CODE
+    - Tracks return quantity, cost, reasons
+
+DOCUMENT FLOW & CONTROL:
+  - doc_flow (Document Flow Master)
+    - PK: REF_NO
+    - Tracks document routing
+
+  - doc_flow_c (Document Flow Detail)
+    - PK: REF_NO, INVOICE_NO
+    - Invoice-level flow tracking
+
+  - scan (Scanned Documents)
+    - Stores scanned document images
+    - Indexed on: REF_NO, DOC_CODE
+
+BUDGET & PLANNING:
+  - buyplan (Buy Plan Master)
+    - High-level planning
+    - 31 columns: Yearly/trimester quantities and values
+
+  - buyplan_c (Buy Plan Detail)
+    - PK composite: YEAR, WORKING_CODE
+    - Indexed on: YEAR, WORKING_CODE, DEPT_ID
+    - 74 columns: Detailed planning metrics
+
+  - buyplan_log (Plan Changes)
+    - Historical changes to plans
+    - Indexed on: YEAR, WORKING_CODE, MOD_SYS
+
+  - bdg_amt (Budget Amount)
+    - 20 columns: Budget allocation tracking
+    - Indexed on: BUDGET_TYPE, FISCAL_YEAR, MOD_SYS
+
+  - bdg_type (Budget Type Master)
+    - Budget classification
+
+  - buy_re_m (Monthly Buy Report)
+    - Monthly purchasing statistics
+
+  - buy_re_y (Yearly Buy Report)
+    - Yearly purchasing statistics
+
+DEPARTMENT/ORGANIZATION:
+  - dept_id (Department Master)
+    - PK: RECORD_NUMBER, DEPT_ID
+    - 25 columns: Department configuration
+    - Unique on: DEPT_ID
+    - Indexed on: DEPT_ID
+
+  - dept_map (Department Mapping)
+    - Maps INVS departments to HIS departments
+    - Indexed on: INVS_DEPT, HIS_DEPT
+
+  - hosp (Hospital Master)
+    - PK: HOSP_CODE
+
+  - hosp_inv (Hospital Inventory)
+    - Hospital-level inventory
+
+  - hosp_list (Hospital List)
+    - PK: HOSP_LIST_CODE
+    - Unique on: HOSP_LIST_DESC
+
+VENDOR/COMPANY:
+  - company (Company/Vendor Master)
+    - PK: COMPANY_CODE
+    - 25 columns: Vendor information
+    - Vendor flags, contact info
+
+  - buycommon (Buy Common Configuration)
+    - PK: COMMON_CODE
+    - Common purchase terms
+
+  - buymethod (Buy Method)
+    - PK: BUYMET_CODE
+    - Purchase methods available
+
+  - edi_drug_vn (EDI Drug-Vendor Mapping)
+    - PK: VENDOR_TRADE_CODE, INVS_TRADE_CODE, VENDOR_CODE
+    - Maps codes between systems
+
+USER & SYSTEM CONFIG:
+  - profile (User Profile)
+    - PK: UserCode
+    - 12 columns: User settings, password, access level
+
+  - usercon (User Control)
+    - 8 columns: User permissions/control
+
+  - module_system (Module Master)
+    - PK: MODULE_ID
+    - System modules
+
+  - menucon (Menu Control)
+    - 6 columns: Menu configuration
+
+  - form (Form Master)
+    - PK: FORM_CODE, FORM_SYS, MOD_SYS
+    - Form definitions
+
+  - reports (Reports Master)
+    - PK: ReportNo
+    - 21 columns: Report definitions
+
+REFERENCE/LOOKUP TABLES:
+  - dosage_form: Dosage form reference (DFORM_ID)
+  - sale_unit: Sale unit of measure (SU_ID)
+  - uom: Unit of measure
+  - dist_type: Distribution types
+  - doc_type: Document type codes
+  - item_type: Item type classification (PK: WORKING_CODE, HOSP_LIST, FIRST_DATE, LAST_DATE)
+  - location: Storage locations
+  - po_reason: PO rejection reasons
+  - rtn_action: Return action codes
+  - rtn_reason: Return reason codes
+  - holiday: Holiday calendar
+  - tmt: TMT product code master (15 columns)
+  - aic: AIC master (6 columns)
+  - aic_name: AIC names (5 columns)
+  - concept: Therapeutic concept codes
+  - relationship: Concept relationships
+  - special: Special item codes
+  - sub_com: Sub-committee codes
+
+REPORTING & ANALYTICS:
+  - mbs_re_m (Monthly MBS Report)
+    - PK: RECORD_NUMBER
+    - Monthly statistics
+    - Indexed on: YEAR, MONTH, DEPT_ID, IS_ED, BUY_FLAG
+
+  - mbs_re_y (Yearly MBS Report)
+    - Yearly statistics
+
+================================================================================================================================================
+SECTION 6: ENTITY RELATIONSHIP DIAGRAM (ERD) STRUCTURE
+================================================================================================================================================
+
+CORE PROCUREMENT-TO-INVENTORY FLOW:
+
+company (COMPANY_CODE)
+    |
+    +----> buycommon (COMMON_CODE) - Common purchase terms
+    |
+    +----> buymethod (BUYMET_CODE) - Purchase methods
+    |
+    +----> ms_po (PO_NO) - Medical Supply Purchase Order Header
+            |
+            +----> ms_po_c (PO_NO) - PO Detail Lines
+                    |
+                    +----> drug_gn (WORKING_CODE) - Drug/Product Master
+                    +----> drug_vn (TRADE_CODE) - Trade Name
+                    +----> pack_ratio (PACK_CODE) - Pack information
+            |
+            +----> ms_ivo (PO_NO) - Invoice from PO
+                    |
+                    +----> ms_ivo_c (INVOICE_NO) - Invoice Detail
+                            |
+                            +----> drug_gn (WORKING_CODE)
+                            +----> drug_vn (TRADE_CODE)
+                            +----> quali_rcv (RECEIVE_NO) - Quality control on receipt
+                    |
+                    +----> pre_ms_ivo (PRE_RECEIVE_NO) - Pre-receipt
+            |
+            +----> card (R_S_NUMBER) - Inventory Transaction Card
+                    (Status: R_S_STATUS, Product: WORKING_CODE)
+
+INVENTORY TRACKING:
+
+inv_md (RECORD_NUMBER) - Inventory Master
+    |
+    +----> inv_md_c (RECORD_NUMBER) - By Lot/Expiration
+            |
+            +----> inv_site (DEPT_ID, TRADE_CODE) - By Storage Location
+            |
+            +----> card (WORKING_CODE) - Transaction history
+            |
+            +----> location (LOCATION_ID) - Physical storage
+
+DISPENSING & RETURNS:
+
+accr_disp (REQ_NO, WORKING_CODE) - Dispensing Request
+    |
+    +----> drug_gn (WORKING_CODE)
+    |
+    +----> dispensed (DISP_DATE, MED_CODE) - Actual dispensing
+            |
+            +----> inv_md_c - Inventory deduction
+
+inv_rtn (RETURN_NO) - Return Header
+    |
+    +----> inv_rtn_c (RETURN_NO) - Return Detail
+            |
+            +----> drug_vn (TRADE_CODE)
+            +----> drug_gn (WORKING_CODE)
+
+PLANNING & BUDGET:
+
+buyplan (DEPT_ID, WORKING_CODE) - Buy Plan Master
+    |
+    +----> buyplan_c (YEAR, WORKING_CODE) - Plan Detail
+            |
+            +----> buyplan_log (YEAR, WORKING_CODE) - Change History
+            |
+            +----> buymethod (BUYMET_CODE)
+
+bdg_type (BUDGET_TYPE) - Budget Type
+    |
+    +----> bdg_amt (BUDGET_TYPE, FISCAL_YEAR) - Budget Amounts
+            |
+            +----> buyplan (VALUE_THIS_YEAR)
+
+DEPARTMENT HIERARCHY:
+
+dept_id (DEPT_ID) - Department Master
+    |
+    +----> dept_map (INVS_DEPT) - Maps to HIS departments
+    |
+    +----> hosp_inv (HOSP_ID) - Hospital Inventory per Dept
+    |
+    +----> inv_site (DEPT_ID) - Inventory locations per Dept
+    |
+    +----> mbs_re_m (DEPT_ID) - Monthly reports per Dept
+
+hosp (HOSP_CODE) - Hospital
+    |
+    +----> hosp_list (HOSP_LIST_CODE) - Hospital inventory lists
+    |
+    +----> item_type (HOSP_LIST) - Item types per hospital
+
+QUALITY & SPECIFICATIONS:
+
+drug_gn (WORKING_CODE) - Generic Drug/Product
+    |
+    +----> drug_spec (WORKING_CODE) - Specification files
+    |
+    +----> drug_compos (WORKING_CODE) - Composition
+    |
+    +----> drug_vn (WORKING_CODE) - Trade names
+            |
+            +----> edi_drug_vn (INVS_TRADE_CODE) - EDI mapping
+    |
+    +----> quali_goal (WORKING_CODE) - Quality goals
+            |
+            +----> quali_item (QUALI_ID) - Quality criteria
+            |
+            +----> quali_rcv (WORKING_CODE, QUALI_ID) - Quality results
+
+DOCUMENT & WORKFLOW:
+
+doc_flow (REF_NO) - Document Flow Header
+    |
+    +----> doc_flow_c (REF_NO, INVOICE_NO) - By Invoice
+    |
+    +----> scan (REF_NO) - Scanned images
+
+REFERENCE DATA:
+
+dosage_form (DFORM_ID) - Referenced by drug_gn
+sale_unit (SU_ID) - Unit of sale
+uom (UOM_ID) - Unit of measure
+dist_type (DIST_TYPE_CODE) - Distribution types
+doc_type (DOC_CODE) - Document types
+po_reason (ID) - PO reason codes
+rtn_action (ID) - Return actions
+rtn_reason (ID) - Return reasons
+tmt (TPUCode) - Product codes
+aic (AIC_CODE) - AIC codes
+concept (TMTID) - Therapeutic concepts
+special - Special item codes
+sub_com (SUB_COMMIT_CODE) - Sub-committee
+
+USER & SYSTEM:
+
+profile (UserCode) - User master
+    |
+    +----> usercon (UserCode) - User permissions
+    |
+    +----> form (FORM_CODE) - User forms
+    |
+    +----> reports (ReportNo) - Reports
+    |
+    +----> module_system (MODULE_ID) - Modules
+
+================================================================================================================================================
+SECTION 7: KEY INSIGHTS FOR ER DIAGRAM DESIGN
+================================================================================================================================================
+
+1. HIERARCHICAL STRUCTURE:
+   - Clear master-detail relationships (e.g., ms_po -> ms_po_c)
+   - Multi-level hierarchy: po -> invoice -> quality -> receipt
+   - Department-based hierarchies (hosp -> hosp_inv -> inv_md -> inv_md_c)
+
+2. TEMPORAL TRACKING:
+   - Log tables: buyplan_log, card (transaction history)
+   - Date-based records: DISP_DATE, OPERATE_DATE, CHANGE_DATE
+   - Batch/lot tracking: LOT_NO, EXPIRED_DATE
+
+3. INVENTORY DIMENSIONS:
+   - By Product: WORKING_CODE (drug_gn)
+   - By Trade Name: TRADE_CODE (drug_vn)
+   - By Lot/Expiration: LOT_NO, EXPIRED_DATE
+   - By Location: LOCATION_ID, DEPT_ID
+   - By Status: R_S_STATUS, PROCESS_FLAG
+
+4. WORKFLOW STATES:
+   - PO -> Invoice -> Receipt -> Quality -> Inventory
+   - Dispensing -> Depletion
+   - Return -> Restock
+
+5. MISSING EXPLICIT FOREIGN KEYS:
+   - The dump doesn't include explicit FOREIGN KEY constraints
+   - Relationships are implied through column naming conventions
+   - Key matching columns: WORKING_CODE, TRADE_CODE, DEPT_ID, RECORD_NUMBER
+   - Reference columns often named: XXX_CODE, XXX_ID, XXX_NO
+
+6. PERFORMANCE CONSIDERATIONS:
+   - Heavy use of composite indexes
+   - Many multi-column indexes for report queries
+   - UNIQUE constraints used instead of explicit PKs in some tables
+   - Indexed date/status columns for filtering
+
+7. CONFIGURATION TABLES:
+   - Significant lookup/reference data tables (26+ reference tables)
+   - System controls: module_system, menucon, form, reports, usercon
+   - Flexible configuration: aic, concept, relationship, tmt
+
+================================================================================================================================================
+SECTION 8: RECOMMENDED NAMING CONVENTIONS FOR FOREIGN KEYS
+================================================================================================================================================
+
+Based on analysis of actual column usage, infer FK relationships using these patterns:
+
+- WORKING_CODE -> drug_gn.WORKING_CODE
+- TRADE_CODE -> drug_vn.TRADE_CODE
+- VENDOR_CODE -> company.COMPANY_CODE
+- DEPT_ID -> dept_id.DEPT_ID
+- RECORD_NUMBER (in detail tables) -> (header table with same RECORD_NUMBER)
+- CNT_NO -> cnt.CNT_NO
+- PO_NO -> ms_po.PO_NO
+- INVOICE_NO -> ms_ivo.INVOICE_NO
+- SUB_PO_NO -> sm_po.SUB_PO_NO
+- RECEIVE_NO -> pre_ms_ivo.PRE_RECEIVE_NO or ms_ivo.RECEIVE_NO
+- REF_NO -> doc_flow.REF_NO
+- HOSP_CODE -> hosp.HOSP_CODE
+- HOSP_ID -> hosp_inv.HOSP_ID
+- BUDGET_TYPE -> bdg_type.BUDGET_TYPE
+- COMMON_CODE -> buycommon.COMMON_CODE
+- BUYMET_CODE -> buymethod.BUYMET_CODE
+- DFORM_ID -> dosage_form.DFORM_ID
+- SU_ID -> sale_unit.SU_ID
+- RETURN_NO -> inv_rtn.RETURN_NO
+- QUALI_ID -> quali_item.QUALI_ID
+- MODULE_ID -> module_system.MODULE_ID
+- UserCode -> profile.UserCode
+- CODE (in context) -> reference table CODE column
+
+================================================================================================================================================
+SUMMARY STATISTICS
+================================================================================================================================================
+
+TOTAL ELEMENTS:
+  - Tables: 88
+  - Total Columns: 1,142
+  - Average Columns per Table: 13
+
+PRIMARY KEY DISTRIBUTION:
+  - Tables with PK: 47 (53.4%)
+  - Tables without explicit PK: 41 (46.6%)
+  - Composite PKs (2+ columns): 11 (12.5%)
+  - Composite PKs (3+ columns): 2 (2.3%)
+  - Max PK columns: 5 (quali_rcv)
+
+UNIQUE CONSTRAINTS:
+  - Tables with UNIQUE key: 20+
+
+INDEX STATISTICS:
+  - Tables with indexes: 25+
+  - Total named indexes: 100+
+  - Composite indexes (2+ columns): 15+
+  - Composite indexes (4+ columns): 3+
+
+RELATIONSHIP DENSITY:
+  - Core procurement flow: 8 tables
+  - Inventory flow: 6 tables
+  - Budget/planning: 7 tables
+  - Reference/config: 26+ tables
+  - User/system: 8 tables
+
+================================================================================================================================================
+END OF SCHEMA ANALYSIS
+================================================================================================================================================

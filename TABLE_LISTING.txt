@@ -1,0 +1,375 @@
+================================================================================================================================================
+COMPLETE TABLE LISTING WITH SCHEMA DETAILS
+Database: invslee | Source: invs11142.sql | Analysis Date: 2026-03-23
+================================================================================================================================================
+
+TABLE NAME                          COLS  PK                          INDEXES              UNIQUE
+================================================================================================================================================
+accr_disp                             13  REQ_NO, WORKING_CODE          No index
+add_in_programs                       10  ID                            No index
+adj_reason                             2  (none)                        1 index
+aic                                    6  RECORD_NUMBER                 1 index              UNIQUE
+aic_name                               5  AIC_CODE                      1 index
+bdg_amt                               20  (none)                        1 index
+bdg_type                               8  (none)                        1 index              UNIQUE
+buy_re_m                               6  (none)                        1 index              UNIQUE
+buy_re_y                               5  (none)                        1 index              UNIQUE
+buycommon                              7  COMMON_CODE                   No index
+buymethod                             10  BUYMET_CODE                   No index
+buyplan                               31  (none)                        No index
+buyplan_c                             74  (none)                        1 index
+buyplan_log                           16  (none)                        1 index
+card                                  41  (none)                        7 indexes            UNIQUE
+cnt                                   27  (none)                        No index
+cnt_c                                 18  RECORD_NUMBER, CNT_NO         No index
+company                               25  COMPANY_CODE                  No index
+concept                                2  (none)                        1 index              UNIQUE
+dept_id                               25  RECORD_NUMBER, DEPT_ID        1 index              UNIQUE
+dept_map                               4  (none)                        1 index
+df_con                                 2  REF_NO_CON                    No index
+dispensed                              8  RECORD_NUMBER                 2 indexes
+dist_type                              3  DIST_TYPE_CODE                No index
+doc_flow                              10  REF_NO                        No index
+doc_flow_c                             9  REF_NO, INVOICE_NO            No index
+doc_type                               3  (none)                        1 index
+dosage_form                            3  DFORM_ID                      No index
+drug_compos                            4  COMPOS_CODE                   2 indexes
+drug_gn                               65  (none)                        2 indexes            UNIQUE
+drug_spec                              4  (none)                        1 index
+drug_vn                               43  TRADE_CODE                    4 indexes            UNIQUE
+e_po                                   8  ID                            1 index
+ed_group                               6  CODE                          2 indexes            UNIQUE
+edi_drug_vn                            4  VENDOR_TRADE_CODE, ...        No index
+focus_list                             5  (none)                        1 index
+focus_list_c                           3  (none)                        1 index
+form                                  10  FORM_CODE, FORM_SYS, ...      No index
+gf                                     6  GF_NO, RUNNO                  No index
+holiday                                2  HOL_DATE                      No index
+hosp                                   2  HOSP_CODE                     No index
+hosp_inv                              25  (none)                        No index
+hosp_list                              5  HOSP_LIST_CODE                1 index              UNIQUE
+id_con                                 2  (none)                        1 index
+inst_name                              4  (none)                        1 index
+inv_has_his                            5  (none)                        1 index
+inv_md                                44  RECORD_NUMBER                 2 indexes            UNIQUE
+inv_md_c                              19  RECORD_NUMBER                 1 index
+inv_rtn                               10  (none)                        2 indexes
+inv_rtn_c                             25  ID                            1 index
+inv_site                               7  DEPT_ID, TRADE_CODE           1 index
+invs_ref                               2  (none)                        No index
+item_type                              5  WORKING_CODE, HOSP_LIST, ...  No index
+location                               4  (none)                        1 index
+mbs_re_m                              15  RECORD_NUMBER                 1 index
+mbs_re_y                               9  (none)                        1 index              UNIQUE
+menucon                                6  (none)                        No index
+module_system                          2  MODULE_ID                     No index
+ms_ivo                                35  (none)                        2 indexes            UNIQUE
+ms_ivo_c                              42  (none)                        4 indexes
+ms_po                                 55  (none)                        2 indexes            UNIQUE
+ms_po_c                               63  RECORD_NUMBER                 4 indexes            UNIQUE
+pack_ratio                            14  PACK_CODE                     No index
+po_con                                 2  (none)                        No index
+po_reason                              3  ID                            No index
+position_list                          1  (none)                        No index
+prcv_con                               2  (none)                        1 index
+pre_ms_ivo                            14  PRE_RECEIVE_NO                1 index
+profile                               12  UserCode                      No index
+quali_goal                             5  QUALI_ID, WORKING_CODE        No index
+quali_item                             2  QUALI_ID                      No index
+quali_rcv                              7  RECEIVE_NO, WORKING_CODE, ... No index
+relationship                           2  (none)                        2 indexes
+reports                               21  ReportNo                      No index
+req_con                                8  (none)                        No index
+rs_con                                 2  (none)                        No index
+rtn_action                             3  ID                            No index
+rtn_reason                             3  ID                            No index
+sale_unit                              4  SU_ID                         No index
+scan                                   6  (none)                        4 indexes
+sm_po                                 29  RECORD_NUMBER                 3 indexes            UNIQUE
+sm_po_c                               59  (none)                        2 indexes            UNIQUE
+sm_po_e                               22  RECORD_NUMBER                 No index
+special                                7  (none)                        No index
+sub_com                                3  SUB_COMMIT_CODE               1 index
+tmt                                   15  (none)                        No index
+uom                                    2  (none)                        1 index
+usercon                                8  (none)                        No index
+
+================================================================================================================================================
+SUMMARY STATISTICS
+================================================================================================================================================
+
+TOTAL TABLES:                        88
+TOTAL COLUMNS:                       1,195
+AVERAGE COLUMNS PER TABLE:           13.6
+
+PRIMARY KEY STATISTICS:
+  Tables with explicit PK:           47 (53.4%)
+  Tables without PK:                 41 (46.6%)
+  Single column PKs:                 36
+  Composite PKs (2 columns):         8
+  Composite PKs (3+ columns):        3
+  Maximum PK columns:                5 (quali_rcv)
+
+INDEXING STATISTICS:
+  Tables with indexes:               47 (53.4%)
+  Tables without indexes:            41 (46.6%)
+  Total named indexes:               100+
+  Tables with 3+ indexes:            6 (card, drug_vn, ms_ivo_c, ms_po_c, scan, sm_po)
+  Tables with 7 indexes:             1 (card)
+
+UNIQUE CONSTRAINT STATISTICS:
+  Tables with UNIQUE constraint:     20
+  Tables without UNIQUE constraint:  68
+
+LARGEST TABLES (BY COLUMN COUNT):
+  1. buyplan_c                       74 columns  (Planning detail)
+  2. ms_po_c                         63 columns  (PO detail)
+  3. sm_po_c                         59 columns  (Sub-PO detail)
+  4. ms_po                           55 columns  (PO header)
+  5. drug_gn                         65 columns  (Product master) *
+  6. card                            41 columns  (Inventory transaction)
+  7. ms_ivo_c                        42 columns  (Invoice detail)
+  8. ms_ivo                          35 columns  (Invoice header)
+  9. buyplan                         31 columns  (Plan master)
+  10. sm_po                          29 columns  (Sub-PO header)
+
+  * Note: drug_gn has unique constraint but appears to lack explicit PK definition
+
+SMALLEST TABLES (BY COLUMN COUNT):
+  1. position_list                   1 column
+  2. concept                         2 columns
+  3. holiday                         2 columns
+  4. hosp                            2 columns
+  5. id_con                          2 columns
+  6. invs_ref                        2 columns
+  7. module_system                   2 columns
+  8. po_con                          2 columns
+  9. prcv_con                        2 columns
+  10. rs_con                         2 columns
+  11. uom                            2 columns
+
+MOST INDEXED TABLES:
+  1. card                            7 indexes
+  2. drug_vn                         4 indexes
+  3. ms_ivo_c                        4 indexes
+  4. ms_po_c                         4 indexes
+  5. scan                            4 indexes
+  6. sm_po                           3 indexes
+  7. drug_compos                     2 indexes
+  8. dispensed                       2 indexes
+  9. drug_gn                         2 indexes
+  10. ed_group                       2 indexes
+
+================================================================================================================================================
+TABLES ORGANIZED BY BUSINESS FUNCTION
+================================================================================================================================================
+
+┌─ DRUG/PRODUCT MASTER (8 tables) ─────────────────────────────────────────────
+│
+│  CORE PRODUCT DATA:
+│  • drug_gn (65 cols)              - Product/drug master - MOST CRITICAL
+│  • drug_vn (43 cols)              - Vendor/trade names
+│  • drug_spec (4 cols)             - Specifications and attachments
+│  • drug_compos (4 cols)           - Composition details
+│
+│  SUPPORTING DATA:
+│  • pack_ratio (14 cols)           - Packaging and ratio info
+│  • dosage_form (3 cols)           - Dosage form reference
+│  • sale_unit (4 cols)             - Unit of sale reference
+│  • edi_drug_vn (4 cols)           - EDI vendor code mapping
+│
+└──────────────────────────────────────────────────────────────────────────────
+
+┌─ VENDOR/COMPANY MASTER (4 tables) ──────────────────────────────────────────
+│
+│  • company (25 cols)              - Vendor/company master
+│  • buycommon (7 cols)             - Common purchase terms
+│  • buymethod (10 cols)            - Purchase methods
+│  • tmt (15 cols)                  - Product code master
+│
+└──────────────────────────────────────────────────────────────────────────────
+
+┌─ PURCHASE ORDERS (8 tables) ────────────────────────────────────────────────
+│
+│  MEDICAL SUPPLY PO:
+│  • ms_po (55 cols)                - PO header - CRITICAL
+│  • ms_po_c (63 cols)              - PO line items - CRITICAL
+│
+│  SUB-MEDICINE PO (Department-level):
+│  • sm_po (29 cols)                - Sub-PO header
+│  • sm_po_c (59 cols)              - Sub-PO line items
+│  • sm_po_e (22 cols)              - Sub-PO execution
+│
+│  CONTROLS & REFERENCE:
+│  • po_reason (3 cols)             - PO rejection reasons
+│  • po_con (2 cols)                - PO control
+│  • buyplan (31 cols)              - Plan master
+│
+└──────────────────────────────────────────────────────────────────────────────
+
+┌─ RECEIVING & INVOICING (6 tables) ─────────────────────────────────────────
+│
+│  • pre_ms_ivo (14 cols)           - Pre-receipt invoice
+│  • ms_ivo (35 cols)               - Invoice header - CRITICAL
+│  • ms_ivo_c (42 cols)             - Invoice line items
+│  • doc_flow (10 cols)             - Document flow header
+│  • doc_flow_c (9 cols)            - Document flow details
+│  • scan (6 cols)                  - Scanned documents
+│
+└──────────────────────────────────────────────────────────────────────────────
+
+┌─ QUALITY CONTROL (3 tables) ───────────────────────────────────────────────
+│
+│  • quali_item (2 cols)            - Quality criteria master
+│  • quali_goal (5 cols)            - Quality goals by product
+│  • quali_rcv (7 cols)             - Quality test results on receipt
+│
+└──────────────────────────────────────────────────────────────────────────────
+
+┌─ INVENTORY MANAGEMENT (8 tables) ──────────────────────────────────────────
+│
+│  CORE INVENTORY:
+│  • inv_md (44 cols)               - Inventory master - CRITICAL
+│  • inv_md_c (19 cols)             - Inventory by lot/expiration
+│  • card (41 cols)                 - Transaction ledger - HIGH VOLUME
+│  • inv_site (7 cols)              - Inventory by location
+│  • location (4 cols)              - Storage locations
+│
+│  DISPENSING & RETURNS:
+│  • accr_disp (13 cols)            - Dispensing request
+│  • dispensed (8 cols)             - Dispensing records
+│  • inv_rtn (10 cols)              - Return header
+│  • inv_rtn_c (25 cols)            - Return line items
+│
+│  MAPPING:
+│  • inv_has_his (5 cols)           - Inventory-HIS mapping
+│
+└──────────────────────────────────────────────────────────────────────────────
+
+┌─ BUDGET & PLANNING (7 tables) ─────────────────────────────────────────────
+│
+│  • bdg_type (8 cols)              - Budget type master
+│  • bdg_amt (20 cols)              - Budget amounts
+│  • buyplan (31 cols)              - Plan master
+│  • buyplan_c (74 cols)            - Plan details - MOST COMPLEX
+│  • buyplan_log (16 cols)          - Plan change history
+│  • buy_re_m (6 cols)              - Monthly buy report
+│  • buy_re_y (5 cols)              - Yearly buy report
+│
+└──────────────────────────────────────────────────────────────────────────────
+
+┌─ ORGANIZATION & DEPARTMENTS (5 tables) ────────────────────────────────────
+│
+│  • dept_id (25 cols)              - Department master - CRITICAL
+│  • dept_map (4 cols)              - Department to HIS mapping
+│  • hosp (2 cols)                  - Hospital master
+│  • hosp_inv (25 cols)             - Hospital inventory
+│  • hosp_list (5 cols)             - Hospital list
+│
+└──────────────────────────────────────────────────────────────────────────────
+
+┌─ REPORTING & ANALYTICS (4 tables) ─────────────────────────────────────────
+│
+│  • mbs_re_m (15 cols)             - Monthly MBS report
+│  • mbs_re_y (9 cols)              - Yearly MBS report
+│  • reports (21 cols)              - Report definitions
+│  • scan (6 cols)                  - Scanned documents (also under doc flow)
+│
+└──────────────────────────────────────────────────────────────────────────────
+
+┌─ USER & SYSTEM CONFIGURATION (8 tables) ──────────────────────────────────
+│
+│  • profile (12 cols)              - User profiles
+│  • usercon (8 cols)               - User permissions
+│  • module_system (2 cols)         - System modules
+│  • menucon (6 cols)               - Menu configuration
+│  • form (10 cols)                 - Form definitions
+│  • reports (21 cols)              - Report definitions
+│  • add_in_programs (10 cols)      - Add-in programs
+│  • e_po (8 cols)                  - Email PO configuration
+│
+└──────────────────────────────────────────────────────────────────────────────
+
+┌─ REFERENCE/LOOKUP TABLES (26+ tables) ────────────────────────────────────
+│
+│  THERAPEUTIC/PRODUCT REFERENCE:
+│  • aic (6 cols)                   - AIC master
+│  • aic_name (5 cols)              - AIC names
+│  • concept (2 cols)               - Therapeutic concepts
+│  • relationship (2 cols)          - Concept relationships
+│  • special (7 cols)               - Special items
+│  • item_type (5 cols)             - Item types
+│  • adj_reason (2 cols)            - Adjustment reasons
+│
+│  CLASSIFICATION/TYPE REFERENCE:
+│  • dist_type (3 cols)             - Distribution types
+│  • doc_type (3 cols)              - Document types
+│  • rtn_action (3 cols)            - Return actions
+│  • rtn_reason (3 cols)            - Return reasons
+│  • sub_com (3 cols)               - Sub-committee
+│  • ed_group (6 cols)              - ED groups
+│
+│  UNIT & TIME REFERENCE:
+│  • uom (2 cols)                   - Unit of measure
+│  • holiday (2 cols)               - Holiday calendar
+│  • inst_name (4 cols)             - Institution names
+│  • position_list (1 col)          - Positions
+│
+│  CONTROL & REFERENCE:
+│  • focus_list (5 cols)            - Focus list
+│  • focus_list_c (3 cols)          - Focus list details
+│  • cnt (27 cols)                  - Contracts
+│  • cnt_c (18 cols)                - Contract details
+│  • gf (6 cols)                    - Goods flow/receipt
+│  • df_con (2 cols)                - Document flow control
+│  • prcv_con (2 cols)              - Procurement control
+│  • rs_con (2 cols)                - RS control
+│  • req_con (8 cols)               - Request control
+│  • id_con (2 cols)                - ID control
+│  • invs_ref (2 cols)              - INVS reference
+│
+└──────────────────────────────────────────────────────────────────────────────
+
+================================================================================================================================================
+QUERY OPTIMIZATION GUIDELINES
+================================================================================================================================================
+
+FREQUENTLY USED JOINS (based on FK patterns):
+
+1. Get drug details:
+   SELECT d.* FROM drug_gn d
+   WHERE d.WORKING_CODE = ?
+
+2. Get vendor info for drug:
+   SELECT v.* FROM drug_vn v
+   WHERE v.WORKING_CODE = ? AND v.VENDOR_CODE = ?
+
+3. Get inventory:
+   SELECT i.* FROM inv_md i
+   WHERE i.WORKING_CODE = ?
+
+4. Get inventory by lot:
+   SELECT ic.* FROM inv_md_c ic
+   WHERE ic.WORKING_CODE = ? AND ic.EXPIRED_DATE >= CURDATE()
+
+5. Get PO line items:
+   SELECT pc.* FROM ms_po_c pc
+   WHERE pc.PO_NO = ?
+
+6. Get invoice items:
+   SELECT ic.* FROM ms_ivo_c ic
+   WHERE ic.INVOICE_NO = ?
+
+RECOMMENDED INDEXES FOR COMMON QUERIES:
+
+- drug_gn: INDEX(WORKING_CODE, DRUG_NAME) for product lookup
+- inv_md: INDEX(WORKING_CODE, DEPT_ID) for department inventory
+- inv_md_c: INDEX(EXPIRED_DATE, DEPT_ID) for expiration tracking (already exists)
+- card: Additional INDEX(OPERATE_DATE) for transaction history queries
+- dispensed: INDEX(WORKING_CODE, DISP_DATE) for dispensing history
+- ms_po_c: Additional INDEX(VENDOR_CODE) for vendor analytics
+- drug_vn: Additional INDEX(VENDOR_CODE, WORKING_CODE) for cross-reference
+
+================================================================================================================================================
+END OF TABLE LISTING
+================================================================================================================================================

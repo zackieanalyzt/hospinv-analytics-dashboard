@@ -1,0 +1,388 @@
+================================================================================================================================================
+QUICK REFERENCE SCHEMA SUMMARY - Database: invslee
+================================================================================================================================================
+
+DATABASE OVERVIEW
+================================================================================================================================================
+Name: invslee
+Server: MariaDB 10.1.22 (MySQL-compatible)
+Source: inv@192.168.100.8:3306
+Total Tables: 88
+Total Columns: ~1,142
+Avg Columns/Table: 13
+
+CRITICAL STATISTICS
+================================================================================================================================================
+Tables with Primary Keys:    47 (53.4%)
+Tables without PK:           41 (46.6%)
+Composite Primary Keys:      11
+Max PK Columns:              5 (quali_rcv table)
+Unique Constraints:          20+
+Named Indexes:               100+
+
+MAIN BUSINESS PROCESSES
+================================================================================================================================================
+
+1. PROCUREMENT & PURCHASE ORDERS
+   Tables: ms_po, ms_po_c, sm_po, sm_po_c, sm_po_e, po_reason, po_con
+   Flow: PO Creation -> Vendor Selection -> Line Item Definition -> Control Records
+
+2. RECEIVING & INVOICING
+   Tables: ms_ivo, ms_ivo_c, pre_ms_ivo, doc_flow, doc_flow_c, scan
+   Flow: Pre-Receipt -> Invoice -> Document Flow Tracking -> Scanning
+
+3. QUALITY CONTROL
+   Tables: quali_item, quali_goal, quali_rcv
+   Flow: Quality Criteria -> Goals by Product -> Receipt Testing -> Results Recording
+
+4. INVENTORY MANAGEMENT
+   Tables: inv_md, inv_md_c, inv_site, location, card, dispensed, inv_rtn, inv_rtn_c
+   Flow: Master -> Lot Level -> Location -> Transactions -> Dispensing -> Returns
+
+5. BUDGET & PLANNING
+   Tables: buyplan, buyplan_c, buyplan_log, bdg_type, bdg_amt, buy_re_m, buy_re_y
+   Flow: Budget Type -> Amounts -> Buy Plan -> Plan Detail -> Plan History -> Reports
+
+6. ORGANIZATION & DEPARTMENTS
+   Tables: dept_id, dept_map, hosp, hosp_inv, hosp_list
+   Flow: Department Master -> HIS Mapping -> Hospital -> Hospital Inventory
+
+7. DRUG/PRODUCT MASTER
+   Tables: drug_gn, drug_vn, drug_spec, drug_compos, pack_ratio, edi_drug_vn
+   Flow: Generic Name -> Vendor Names -> Trade Names -> Composition -> Specifications
+
+8. REPORTING & ANALYTICS
+   Tables: mbs_re_m, mbs_re_y, buy_re_m, buy_re_y, reports, scan
+   Flow: Transaction Data -> Monthly Reports -> Yearly Reports -> Custom Reports
+
+================================================================================================================================================
+CORE ENTITY RELATIONSHIPS (Simplified ER Diagram)
+================================================================================================================================================
+
+DRUG PRODUCT FLOW:
+┌─────────────────┐
+│   drug_gn       │ (Generic Name Master)
+│  WORKING_CODE   │
+└────────┬────────┘
+         │ 1:N
+         ├─→ drug_vn (Trade Names) ──→ edi_drug_vn (EDI Mapping)
+         ├─→ drug_spec (Specifications)
+         ├─→ drug_compos (Composition)
+         └─→ pack_ratio (Pack Ratios)
+
+PROCUREMENT FLOW:
+┌──────────────────┐
+│   company        │ (Vendor/Company)
+│ COMPANY_CODE     │
+└────────┬─────────┘
+         │ 1:N
+         └─→ ms_po (PO Header)
+             │ 1:N
+             ├─→ ms_po_c (PO Details)
+             │   │
+             │   └─→ drug_gn, drug_vn, pack_ratio
+             │
+             └─→ ms_ivo (Invoice Header)
+                 │ 1:N
+                 ├─→ ms_ivo_c (Invoice Details)
+                 │   │
+                 │   └─→ quali_rcv (Quality Testing)
+                 │
+                 └─→ doc_flow (Document Flow)
+                     │
+                     └─→ scan (Scanned Documents)
+
+INVENTORY FLOW:
+┌─────────────┐
+│  inv_md     │ (Inventory Master)
+│ RECORD_NUM  │
+└──────┬──────┘
+       │ 1:1
+       └─→ inv_md_c (By Lot/Expiration)
+           │
+           ├─→ inv_site (Storage Locations)
+           │
+           ├─→ card (Transaction Ledger)
+           │
+           └─→ location (Physical Locations)
+
+DISPENSING & RETURNS:
+┌─────────────────────────┐
+│   accr_disp             │ (Dispensing Request)
+│  REQ_NO, WORKING_CODE   │
+└──────┬──────────────────┘
+       │
+       └─→ dispensed (Actual Dispensing)
+           │
+           └─→ inv_md_c (Inventory Deduction)
+
+┌────────────────────┐
+│   inv_rtn          │ (Return Header)
+│    RETURN_NO       │
+└────────┬───────────┘
+         │ 1:N
+         └─→ inv_rtn_c (Return Details)
+             │
+             └─→ drug_vn, drug_gn
+
+BUDGET & PLANNING:
+┌──────────────────┐
+│  bdg_type        │ (Budget Type)
+│ BUDGET_TYPE      │
+└────────┬─────────┘
+         │ 1:N
+         └─→ bdg_amt (Budget Amounts)
+             │
+             └─→ buyplan (Plan Master)
+                 │
+                 └─→ buyplan_c (Plan Details)
+                     │
+                     └─→ buyplan_log (Change History)
+
+DEPARTMENT HIERARCHY:
+┌─────────────────┐
+│   dept_id       │ (Department)
+│ RECORD_NUM, ID  │
+└────────┬────────┘
+         │
+         ├─→ dept_map (HIS Mapping)
+         ├─→ inv_site (Inventory Sites)
+         ├─→ hosp_inv (Hospital Inventory)
+         └─→ hosp (Hospital)
+             │
+             └─→ hosp_list (Hospital Lists)
+                 │
+                 └─→ item_type (Item Types)
+
+QUALITY ASSURANCE:
+┌──────────────────┐
+│  quali_item      │ (Quality Criteria)
+│   QUALI_ID       │
+└────────┬─────────┘
+         │ 1:N
+         ├─→ quali_goal (Quality Goals by Product)
+         │   │
+         │   └─→ drug_gn (Product)
+         │
+         └─→ quali_rcv (Receipt Testing Results)
+             │
+             └─→ ms_ivo_c (Invoice Line)
+
+USER & SYSTEM:
+┌──────────────────┐
+│   profile        │ (Users)
+│   UserCode       │
+└────────┬─────────┘
+         │ 1:N
+         └─→ usercon (User Permissions)
+
+================================================================================================================================================
+MOST IMPORTANT TABLES
+================================================================================================================================================
+
+🔴 CRITICAL MASTER TABLES (Primary products/companies):
+  1. drug_gn          - Product/Drug Master (65 cols) - CENTER OF SYSTEM
+  2. company          - Vendor/Company Master (25 cols)
+  3. dept_id          - Department Master (25 cols)
+
+🔴 CRITICAL TRANSACTION TABLES:
+  1. ms_po            - Medical Supply PO Header (55 cols)
+  2. ms_po_c          - PO Details (63 cols)
+  3. ms_ivo           - Invoice Header (35 cols)
+  4. ms_ivo_c         - Invoice Details (42 cols)
+  5. inv_md           - Inventory Master (44 cols)
+  6. inv_md_c         - Inventory by Lot (19 cols)
+  7. card             - Inventory Transactions (41 cols)
+
+🔴 TRANSACTION PROCESSING:
+  1. buyplan_c        - Buy Planning (74 cols) - Most complex
+  2. ms_po_c          - PO Lines (63 cols)
+  3. sm_po_c          - Sub-PO Lines (59 cols)
+
+🔴 OPERATIONAL TABLES:
+  1. dispensed        - Dispensing Records
+  2. inv_rtn_c        - Return Details
+  3. quali_rcv        - Quality Results
+  4. doc_flow         - Document Routing
+
+================================================================================================================================================
+KEY COLUMNS FOR JOINS
+================================================================================================================================================
+
+PRODUCT LINKAGE:
+  - WORKING_CODE      ← Links all product/drug data
+  - TRADE_CODE        ← Links vendor-specific product names
+
+ORGANIZATION LINKAGE:
+  - DEPT_ID           ← Links to department/organization data
+  - HOSP_CODE         ← Links to hospital data
+  - VENDOR_CODE       ← Links to company/vendor data
+
+TRANSACTION LINKAGE:
+  - RECORD_NUMBER     ← Master transaction identifier
+  - PO_NO             ← Purchase order number
+  - INVOICE_NO        ← Invoice number
+  - SUB_PO_NO         ← Sub-purchase order
+  - RETURN_NO         ← Return transaction number
+  - REF_NO            ← Document reference number
+
+DATE TRACKING:
+  - OPERATE_DATE      ← Transaction date (card)
+  - REQ_DATE          ← Request date
+  - DISP_DATE         ← Dispensing date
+  - EXPIRED_DATE      ← Product expiration
+
+STATUS INDICATORS:
+  - R_S_STATUS        ← Receipt/Stock status
+  - PROCESS_FLAG      ← Processing status
+  - RECEIVE_NO        ← Receipt number
+
+LOT/BATCH TRACKING:
+  - LOT_NO            ← Batch/Lot number
+  - EXPIRED_DATE      ← Expiration date
+  - LOCATION          ← Physical location
+
+================================================================================================================================================
+TABLES BY DATA VOLUME RISK
+================================================================================================================================================
+
+HIGH VOLUME (Expected):
+  - card               (Inventory transactions - likely largest)
+  - inv_md_c           (Lot-level inventory)
+  - buyplan_c          (Detailed planning records)
+  - ms_ivo_c           (Invoice line items)
+  - ms_po_c            (PO line items)
+  - dispensed          (Dispensing records)
+
+MEDIUM VOLUME:
+  - inv_md             (Inventory master)
+  - ms_po              (PO headers)
+  - ms_ivo             (Invoice headers)
+  - inv_rtn_c          (Return details)
+  - drug_gn            (Product master - reference data)
+
+LOW VOLUME (Configuration):
+  - company            (Vendor list)
+  - dept_id            (Department list)
+  - drug_vn            (Trade names)
+  - hosp               (Hospital list)
+  - dosage_form        (Reference data)
+
+================================================================================================================================================
+DATABASE GROWTH DRIVERS
+================================================================================================================================================
+
+PRIMARY GROWTH POINTS:
+  1. card table        - Daily transaction volume
+  2. inv_md_c          - Per-lot inventory tracking
+  3. dispensed         - Daily dispensing records
+  4. buyplan_c         - Annual planning data
+  5. ms_ivo_c          - Per-line invoicing
+
+CONSIDER ARCHIVING:
+  - buyplan_log        - Historical changes (can be archived annually)
+  - card               - Older transaction entries (archive by year)
+  - doc_flow           - Historical document flow
+  - scan               - Image data (high storage)
+
+================================================================================================================================================
+MISSING EXPLICIT FOREIGN KEY CONSTRAINTS
+================================================================================================================================================
+
+NOTE: The SQL dump uses SET FOREIGN_KEY_CHECKS = 0, meaning FK constraints are disabled.
+This appears to be intentional - relationships are INFERRED from column naming.
+
+INFERRED FK PATTERNS:
+  - XXX_CODE columns point to XXX table's CODE or XXX_CODE PK
+  - RECORD_NUMBER in detail tables links to header tables with same RECORD_NUMBER
+  - WORKING_CODE appears in ~60+ tables → all link to drug_gn.WORKING_CODE
+  - TRADE_CODE appears in ~20+ tables → all link to drug_vn.TRADE_CODE
+  - DEPT_ID appears in ~15+ tables → all link to dept_id.DEPT_ID
+
+TO ENHANCE DATA INTEGRITY:
+1. Add explicit FOREIGN KEY constraints based on inferred relationships
+2. Enable FOREIGN_KEY_CHECKS = 1
+3. Consider adding CHECK constraints for status fields
+4. Add UNIQUE constraints for key business identifiers
+
+================================================================================================================================================
+INDEXING ANALYSIS
+================================================================================================================================================
+
+WELL-INDEXED TABLES (Multiple composite indexes):
+  - card              (6 indexes)
+  - ms_ivo_c          (4 indexes)
+  - ms_po_c           (4 indexes)
+  - sm_po             (3 indexes)
+  - dispensed         (2 indexes)
+  - scan              (4 indexes)
+
+UNDER-INDEXED (No explicit indexes):
+  - buyplan
+  - cnt
+  - drug_gn
+  - drug_vn
+  - hosp_inv
+  - inv_md
+  - ms_po
+  - ms_ivo
+
+MISSING INDEXES (Candidates):
+  - drug_gn: INDEX on DRUG_NAME (for searches)
+  - inv_md: INDEX on WORKING_CODE, DEPT_ID (for lookups)
+  - ms_po: INDEX on VENDOR_CODE, PO_DATE (for queries)
+  - dispensed: INDEX on WORKING_CODE (for product tracking)
+
+================================================================================================================================================
+DATA MODEL CHARACTERISTICS
+================================================================================================================================================
+
+STRENGTHS:
+✓ Comprehensive coverage of procurement to inventory flow
+✓ Good use of composite keys for multi-dimensional data
+✓ Strategic use of unique constraints and indexes
+✓ Separate detail tables for scalability (e.g., inv_md + inv_md_c)
+✓ Audit trail capability (buyplan_log, card)
+✓ Quality control integrated (quali_rcv)
+
+AREAS FOR IMPROVEMENT:
+✗ Inconsistent PKs - Some tables use RECORD_NUMBER, others use business codes
+✗ Missing explicit FK constraints (intentional but risky)
+✗ No audit columns (created_date, modified_date, created_by, modified_by)
+✗ Limited CHECK constraints for data validation
+✗ Some tables lack formal PKs (41 tables)
+✗ Mixed case table names (some UPPERCASE, some lowercase)
+✗ Some very wide tables (buyplan_c with 74 columns)
+
+================================================================================================================================================
+RECOMMENDED ENHANCEMENTS
+================================================================================================================================================
+
+1. DATA INTEGRITY:
+   - Enable FOREIGN_KEY_CHECKS
+   - Add explicit FK constraints
+   - Add CHECK constraints for status/flag fields
+   - Add NOT NULL constraints where appropriate
+
+2. AUDIT TRAIL:
+   - Add audit columns: created_date, created_by, modified_date, modified_by
+   - Consider audit tables for critical transactions
+
+3. PERFORMANCE:
+   - Add missing indexes on frequently queried columns
+   - Consider partitioning large tables (card, inv_md_c) by date/location
+   - Archive historical data (buyplan_log, old card entries)
+
+4. DATA QUALITY:
+   - Standardize table naming (all lowercase or all UPPERCASE)
+   - Add data validation rules
+   - Document column purposes and valid values
+
+5. REPORTING:
+   - Consider materialized views for common reports
+   - Add business key indexes for report queries
+   - Create dimensional/star schema views for analytics
+
+================================================================================================================================================
+END OF SCHEMA SUMMARY
+================================================================================================================================================

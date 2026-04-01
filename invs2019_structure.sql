@@ -1,0 +1,4030 @@
+/*
+ Navicat Premium Dump SQL
+
+ Source Server         : inv@192.168.100.8
+ Source Server Type    : MariaDB
+ Source Server Version : 100122 (10.1.22-MariaDB)
+ Source Host           : 192.168.100.8:3306
+ Source Schema         : invs2019
+
+ Target Server Type    : MariaDB
+ Target Server Version : 100122 (10.1.22-MariaDB)
+ File Encoding         : 65001
+
+ Date: 01/04/2026 09:46:17
+*/
+
+SET NAMES utf8mb4;
+SET FOREIGN_KEY_CHECKS = 0;
+
+-- ----------------------------
+-- Table structure for accr_disp
+-- ----------------------------
+DROP TABLE IF EXISTS `accr_disp`;
+CREATE TABLE `accr_disp`  (
+  `REQ_NO` char(12) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `WORKING_CODE` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `QTY_REQ` double NULL DEFAULT NULL,
+  `PACK_RATIO` double NULL DEFAULT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REQ_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CONFIRM_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_ID` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `STOCK_ID` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DIST_NO` char(12) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `QTY_DIST` double NULL DEFAULT NULL,
+  `DEL_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MOD_SYS` char(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`REQ_NO`, `WORKING_CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for add_in_programs
+-- ----------------------------
+DROP TABLE IF EXISTS `add_in_programs`;
+CREATE TABLE `add_in_programs`  (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `BAR_CAPTION` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MENU_CAPTION` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ICON` longblob NULL,
+  `USER_ID` varchar(35) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ISSUE_DATE` datetime NULL DEFAULT NULL,
+  `PROGRAM_DATA` longblob NULL,
+  `CHANGE_DATE` datetime NULL DEFAULT NULL,
+  `PROGRAM_NAME` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `VERSION` float NULL DEFAULT 0,
+  PRIMARY KEY (`ID`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for adj_reason
+-- ----------------------------
+DROP TABLE IF EXISTS `adj_reason`;
+CREATE TABLE `adj_reason`  (
+  `AR_ID` int(11) NOT NULL,
+  `AR_DES` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`AR_ID`) USING BTREE,
+  INDEX `adj_reason0`(`AR_ID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for aic
+-- ----------------------------
+DROP TABLE IF EXISTS `aic`;
+CREATE TABLE `aic`  (
+  `AIC_CODE` int(11) NOT NULL,
+  `AIC_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `REF_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `PRESID_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `MOD_SYS` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`RECORD_NUMBER`) USING BTREE,
+  UNIQUE INDEX `aic0`(`AIC_CODE`, `REF_NO`, `MOD_SYS`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 20736 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for aic_name
+-- ----------------------------
+DROP TABLE IF EXISTS `aic_name`;
+CREATE TABLE `aic_name`  (
+  `AIC_CODE` int(11) NOT NULL AUTO_INCREMENT,
+  `AIC_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TITLE_NAME` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `POSITION` varchar(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`AIC_CODE`) USING BTREE,
+  INDEX `aic_name`(`AIC_NAME`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 70 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for bdg_amt
+-- ----------------------------
+DROP TABLE IF EXISTS `bdg_amt`;
+CREATE TABLE `bdg_amt`  (
+  `BUDGET_TYPE` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `FISCAL_YEAR` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUDGET_AMOUNT` double NULL DEFAULT NULL,
+  `TOTAL_BUY` double NULL DEFAULT NULL,
+  `BUDGET_REMAIN` double NULL DEFAULT NULL,
+  `DEBT` double NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUDGET_AMT_TRI1` double NULL DEFAULT NULL,
+  `BUDGET_AMT_TRI2` double NULL DEFAULT NULL,
+  `BUDGET_AMT_TRI3` double NULL DEFAULT NULL,
+  `BUDGET_AMT_TRI4` double NULL DEFAULT NULL,
+  `TOTAL_BUY_TRI1` double NULL DEFAULT NULL,
+  `TOTAL_BUY_TRI2` double NULL DEFAULT NULL,
+  `TOTAL_BUY_TRI3` double NULL DEFAULT NULL,
+  `TOTAL_BUY_TRI4` double NULL DEFAULT NULL,
+  `LIMIT_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUDGET_RM_TRI1` double NULL DEFAULT NULL,
+  `BUDGET_RM_TRI2` double NULL DEFAULT NULL,
+  `BUDGET_RM_TRI3` double NULL DEFAULT NULL,
+  `BUDGET_RM_TRI4` double NULL DEFAULT NULL,
+  INDEX `bdg_amt0`(`BUDGET_TYPE`, `FISCAL_YEAR`, `MOD_SYS`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for bdg_type
+-- ----------------------------
+DROP TABLE IF EXISTS `bdg_type`;
+CREATE TABLE `bdg_type`  (
+  `RECORD_NUMBER` int(11) NOT NULL,
+  `BUDGET_TYPE` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUDGET_NAME` char(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUDGET_AMOUNT` double NULL DEFAULT NULL,
+  `TOTAL_BUY` double NULL DEFAULT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EXPRESS_TYPE` char(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEFAULT_FLAG` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`RECORD_NUMBER`) USING BTREE,
+  UNIQUE INDEX `INDEX0`(`RECORD_NUMBER`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for buy_re_m
+-- ----------------------------
+DROP TABLE IF EXISTS `buy_re_m`;
+CREATE TABLE `buy_re_m`  (
+  `RECORD_NUMBER` int(11) NOT NULL,
+  `YEAR` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MONTH` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUPPLY_TYPE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUDGET_TYPE` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MONTH_VALUE` double NULL DEFAULT NULL,
+  PRIMARY KEY (`RECORD_NUMBER`) USING BTREE,
+  UNIQUE INDEX `INDEX0`(`RECORD_NUMBER`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for buy_re_y
+-- ----------------------------
+DROP TABLE IF EXISTS `buy_re_y`;
+CREATE TABLE `buy_re_y`  (
+  `RECORD_NUMBER` int(11) NOT NULL,
+  `YEA_` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUPPLY_TYPE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUDGET_TYPE` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `YEAR_VALUE` double NULL DEFAULT NULL,
+  PRIMARY KEY (`RECORD_NUMBER`) USING BTREE,
+  UNIQUE INDEX `INDEX0`(`RECORD_NUMBER`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for buycommon
+-- ----------------------------
+DROP TABLE IF EXISTS `buycommon`;
+CREATE TABLE `buycommon`  (
+  `COMMON_CODE` int(11) NOT NULL,
+  `COMMON_DES` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `AUTHOR_SIGN` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `STD_CODE` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEAL_DAYS` smallint(6) NULL DEFAULT NULL,
+  `DEFAULT_FLAG` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`COMMON_CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for buymethod
+-- ----------------------------
+DROP TABLE IF EXISTS `buymethod`;
+CREATE TABLE `buymethod`  (
+  `BUYMET_CODE` int(11) NOT NULL,
+  `BUYMET_DES` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REPORT_NAME` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEAL_DAYS` smallint(6) NULL DEFAULT NULL,
+  `MIN_AMT` double NULL DEFAULT NULL,
+  `MAX_AMT` double NULL DEFAULT NULL,
+  `AUTHOR_SIGN` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `STD_CODE` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEFAULT_FLAG` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`BUYMET_CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for buyplan
+-- ----------------------------
+DROP TABLE IF EXISTS `buyplan`;
+CREATE TABLE `buyplan`  (
+  `YEAR` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `VALUE_1_YEAR` double NULL DEFAULT NULL,
+  `VALUE_2_YEAR` double NULL DEFAULT NULL,
+  `VALUE_3_YEAR` double NULL DEFAULT NULL,
+  `VALUE_THIS_YEAR` double NULL DEFAULT NULL,
+  `LAST_USER` char(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_UPDATE` datetime NULL DEFAULT NULL,
+  `REMAIN_VALUE` double NULL DEFAULT NULL,
+  `BUY_VALUE` double NULL DEFAULT NULL,
+  `LAST_RCV_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CAL_MONTH` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `APPROVE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_RVC_NO` char(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CAL_YEAR` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRIMESTER1` double NULL DEFAULT NULL,
+  `TRIMESTER2` double NULL DEFAULT NULL,
+  `TRIMESTER3` double NULL DEFAULT NULL,
+  `TRIMESTER4` double NULL DEFAULT NULL,
+  `RM_TRIMES1` double NULL DEFAULT NULL,
+  `RM_TRIMES2` double NULL DEFAULT NULL,
+  `RM_TRIMES3` double NULL DEFAULT NULL,
+  `RM_TRIMES4` double NULL DEFAULT NULL,
+  `BUY_TRIMES1` double NULL DEFAULT NULL,
+  `BUY_TRIMES2` double NULL DEFAULT NULL,
+  `BUY_TRIMES3` double NULL DEFAULT NULL,
+  `BUY_TRIMES4` double NULL DEFAULT NULL,
+  `VALUE_DEFENCE` double NULL DEFAULT NULL,
+  `RCV_VALUE` double NULL DEFAULT NULL,
+  `REMAIN_RCV_VALUE` double NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for buyplan_c
+-- ----------------------------
+DROP TABLE IF EXISTS `buyplan_c`;
+CREATE TABLE `buyplan_c`  (
+  `YEAR` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `WORKING_CODE` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `PACK_RATIO` double NULL DEFAULT NULL,
+  `RATE_1_YEAR` double NULL DEFAULT NULL,
+  `RATE_2_YEAR` double NULL DEFAULT NULL,
+  `RATE_3_YEAR` double NULL DEFAULT NULL,
+  `AVG_3_YEAR` double NULL DEFAULT NULL,
+  `MIN_LEVEL` double NULL DEFAULT NULL,
+  `QTY_THIS_YEAR` double NULL DEFAULT NULL,
+  `REMAIN_QTY` double NULL DEFAULT NULL,
+  `REMAIN_VALUE` double NULL DEFAULT NULL,
+  `LAST_UPDATE` datetime NULL DEFAULT NULL,
+  `BUY_QTY` double NULL DEFAULT NULL,
+  `BUY_VALUE` double NULL DEFAULT NULL,
+  `LAST_RCV_DATE` char(23) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRADE_CODE` char(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CAL_MONTH` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `APPROVE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `VALUE_1_YEAE` double NULL DEFAULT NULL,
+  `VALUE_2_YEAR` double NULL DEFAULT NULL,
+  `VALUE_3_YEAR` double NULL DEFAULT NULL,
+  `VALUE_THIS_YEAR` double NULL DEFAULT NULL,
+  `LAST_RCV_NO` char(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_USER` char(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `QTY_ON_HAND` double NULL DEFAULT NULL,
+  `PACK_UNIT_COST` double NULL DEFAULT NULL,
+  `TRIMESTER1` double NULL DEFAULT NULL,
+  `TRIMESTER2` double NULL DEFAULT NULL,
+  `TRIMESTER3` double NULL DEFAULT NULL,
+  `TRIMESTER4` double NULL DEFAULT NULL,
+  `RM_TRIMES1` double NULL DEFAULT NULL,
+  `RM_TRIMES2` double NULL DEFAULT NULL,
+  `RM_TRIMES3` double NULL DEFAULT NULL,
+  `RM_TRIMES4` double NULL DEFAULT NULL,
+  `BUY_TRIMES1` double NULL DEFAULT NULL,
+  `BUY_TRIMES2` double NULL DEFAULT NULL,
+  `BUY_TRIMES3` double NULL DEFAULT NULL,
+  `BUY_TRIMES4` double NULL DEFAULT NULL,
+  `VALUE_FREE_Y3` double NULL DEFAULT NULL,
+  `VALUE_DEFENCE` double NULL DEFAULT NULL,
+  `QTY_TRI1` double NULL DEFAULT NULL,
+  `QTY_TRI2` double NULL DEFAULT NULL,
+  `QTY_TRI3` double NULL DEFAULT NULL,
+  `QTY_TRI4` double NULL DEFAULT NULL,
+  `QTY_BUY_TRI1` double NULL DEFAULT NULL,
+  `QTY_BUY_TRI2` double NULL DEFAULT NULL,
+  `QTY_BUY_TRI3` double NULL DEFAULT NULL,
+  `QTY_BUY_TRI4` double NULL DEFAULT NULL,
+  `QTY_RM_TRI1` double NULL DEFAULT NULL,
+  `QTY_RM_TRI2` double NULL DEFAULT NULL,
+  `QTY_RM_TRI3` double NULL DEFAULT NULL,
+  `QTY_RM_TRI4` double NULL DEFAULT NULL,
+  `DISP_RATIO1` double NULL DEFAULT NULL,
+  `DISP_RATIO2` double NULL DEFAULT NULL,
+  `DISP_RATIO3` double NULL DEFAULT NULL,
+  `DISP_RATIO4` double NULL DEFAULT NULL,
+  `FORECAST` double NULL DEFAULT NULL,
+  `QTY_FORECAST` double NULL DEFAULT NULL,
+  `QTY_PRE_PLAN` double NULL DEFAULT NULL,
+  `QTY_RCV_TRI1` double NULL DEFAULT NULL,
+  `QTY_RCV_TRI2` double NULL DEFAULT NULL,
+  `QTY_RCV_TRI3` double NULL DEFAULT NULL,
+  `QTY_RCV_TRI4` double NULL DEFAULT NULL,
+  `RCV_TRI1` double NULL DEFAULT NULL,
+  `RCV_TRI2` double NULL DEFAULT NULL,
+  `RCV_TRI3` double NULL DEFAULT NULL,
+  `RCV_TRI4` double NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ADJ_REASON` int(11) NULL DEFAULT NULL,
+  `BUYMET_CODE` int(11) NULL DEFAULT NULL,
+  `QTY_FREE_Y3` double NULL DEFAULT NULL,
+  `HIDE` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PLAN_TYPE` int(11) NULL DEFAULT NULL,
+  INDEX `buyplan_c1`(`YEAR`, `WORKING_CODE`, `DEPT_ID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for buyplan_log
+-- ----------------------------
+DROP TABLE IF EXISTS `buyplan_log`;
+CREATE TABLE `buyplan_log`  (
+  `YEAR` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `WORKING_CODE` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PACK_RATIO` double NULL DEFAULT NULL,
+  `QTY_THIS_YEAR` double NULL DEFAULT NULL,
+  `CHANGE_DATE` datetime NULL DEFAULT NULL,
+  `DEPT_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `VALUE_THIS_YEAR` double NULL DEFAULT NULL,
+  `USER_ID` char(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PACK_UNIT_COST` double NULL DEFAULT NULL,
+  `QTY_TRI1` double NULL DEFAULT NULL,
+  `QTY_TRI2` double NULL DEFAULT NULL,
+  `QTY_TRI3` double NULL DEFAULT NULL,
+  `QTY_TRI4` double NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CHANGE_FLAG` smallint(6) NULL DEFAULT NULL,
+  `ADJ_REASON` int(11) NULL DEFAULT NULL,
+  INDEX `buyplan_log0`(`YEAR`, `WORKING_CODE`, `MOD_SYS`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for card
+-- ----------------------------
+DROP TABLE IF EXISTS `card`;
+CREATE TABLE `card`  (
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `WORKING_CODE` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `OPERATE_DATE` datetime NULL DEFAULT NULL,
+  `R_S_STATUS` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BDG_TYPE` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `R_S_NUMBER` char(12) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `VALUE` double NULL DEFAULT NULL,
+  `COST` double NULL DEFAULT NULL,
+  `ACTIVE_QTY1` double NULL DEFAULT NULL,
+  `ACTIVE_PACK1` double NULL DEFAULT NULL,
+  `ACTIVE_QTY2` double NULL DEFAULT NULL,
+  `ACTIVE_PACK2` double NULL DEFAULT NULL,
+  `ACTIVE_QTY3` double NULL DEFAULT NULL,
+  `ACTIVE_PACK3` double NULL DEFAULT NULL,
+  `REMAIN_QTY` double NULL DEFAULT NULL,
+  `TRADE_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `STOCK_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ACTIVE_QTY` double NULL DEFAULT NULL,
+  `ACTIVE_PACK` double NULL DEFAULT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `R_S_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LOT_NO` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CANCEL_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REMAIN_VALUE` double NULL DEFAULT NULL,
+  `FREE_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REMAIN_COST` double NULL DEFAULT NULL,
+  `EXPIRED_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `NLEM` smallint(6) NULL DEFAULT NULL,
+  `REMAIN_QTY_T` float NULL DEFAULT NULL,
+  `REMAIN_COST_T` float NULL DEFAULT NULL,
+  `REMAIN_VALUE_T` float NULL DEFAULT NULL,
+  `APP_VERSION` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SMPOC_RECNO` int(11) NULL DEFAULT NULL,
+  `REMAIN_QTY_LOT` float NULL DEFAULT NULL,
+  `REMAIN_COST_LOT` float NULL DEFAULT NULL,
+  `REMAIN_VALUE_LOT` float NULL DEFAULT NULL,
+  `VENDOR_CODE` int(11) NULL DEFAULT NULL,
+  `PACK_CODE` int(11) NULL DEFAULT NULL,
+  `WT_AVG` float NULL DEFAULT NULL,
+  `PACK_COST` decimal(10, 0) NULL DEFAULT NULL,
+  `HN` varchar(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `VN` varchar(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DISP_NO` int(11) NULL DEFAULT NULL,
+  UNIQUE INDEX `CARD0`(`RECORD_NUMBER`) USING BTREE,
+  INDEX `card1`(`WORKING_CODE`, `OPERATE_DATE`) USING BTREE,
+  INDEX `card2`(`WORKING_CODE`, `OPERATE_DATE`, `R_S_STATUS`, `DEPT_ID`, `STOCK_ID`) USING BTREE,
+  INDEX `card3`(`R_S_NUMBER`, `R_S_STATUS`, `TRADE_CODE`, `LOT_NO`) USING BTREE,
+  INDEX `card4`(`R_S_STATUS`, `R_S_NUMBER`, `TRADE_CODE`) USING BTREE,
+  INDEX `card5`(`R_S_NUMBER`) USING BTREE,
+  INDEX `card6`(`R_S_STATUS`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 314954 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for cnt
+-- ----------------------------
+DROP TABLE IF EXISTS `cnt`;
+CREATE TABLE `cnt`  (
+  `CNT_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `EGP_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PJT_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PARTIES_CODE` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EFFECTIVE_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `END_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUY_METHOD` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUY_COMMON` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LEAD_TIME` varchar(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DOC_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `AUTH_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `AUTH_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `AUTH_TIME` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `AIC_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REMARK` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TOTAL_ITEM` int(11) NULL DEFAULT NULL,
+  `TOTAL_COST` double NULL DEFAULT NULL,
+  `USER_ID` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPOSIT` double NULL DEFAULT NULL,
+  `AIC_NAME` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `AIC_DATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `FISCAL_YEAR` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REMAIN_COST` double NULL DEFAULT NULL,
+  `LAST_UPDATE` datetime NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `GF_NO` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CNT_DATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for cnt_c
+-- ----------------------------
+DROP TABLE IF EXISTS `cnt_c`;
+CREATE TABLE `cnt_c`  (
+  `CNT_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `WORKING_CODE` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUY_UNIT_COST` double NULL DEFAULT NULL,
+  `QTY_CNT` double NULL DEFAULT NULL,
+  `PACK_RATIO` double NULL DEFAULT NULL,
+  `ITEM_TYPE` int(11) NULL DEFAULT NULL,
+  `COST_CNT` double NULL DEFAULT NULL,
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `USER_ID` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PERCENT_CNT` double NULL DEFAULT NULL,
+  `QTY_REMAIN` double NULL DEFAULT NULL,
+  `COST_REMAIN` double NULL DEFAULT NULL,
+  `END_DATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PACK_CODE` int(11) NULL DEFAULT NULL,
+  `REMARK` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRADE_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUY_COMMON` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`RECORD_NUMBER`, `CNT_NO`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for company
+-- ----------------------------
+DROP TABLE IF EXISTS `company`;
+CREATE TABLE `company`  (
+  `COMPANY_CODE` int(11) NOT NULL AUTO_INCREMENT,
+  `VENDOR_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MANUFAC_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `COMPANY_NAME` char(45) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ADDRESS` varchar(150) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DETAILER` char(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ORDER_TIME` double NULL DEFAULT NULL,
+  `TEL` char(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CONFIRM_DATE` datetime NULL DEFAULT NULL,
+  `FAX` char(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ADDRESS2` char(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TITLE_NAME` char(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `END_NAME` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EX_CODE` char(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TAX_ID` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `KEY_WORD` char(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DUE_DAYS` smallint(6) NULL DEFAULT NULL,
+  `BUSINESS_TYPE` smallint(6) NULL DEFAULT NULL,
+  `BANK_ACC_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ISSUE_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EMAIL` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BANK_ACC_NAME` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BANK_NAME` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EDI_VENDOR_CODE` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`COMPANY_CODE`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1384 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for concept
+-- ----------------------------
+DROP TABLE IF EXISTS `concept`;
+CREATE TABLE `concept`  (
+  `TMTID` bigint(20) NULL DEFAULT NULL,
+  `FSN` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+  UNIQUE INDEX `concept0`(`TMTID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for dept_id
+-- ----------------------------
+DROP TABLE IF EXISTS `dept_id`;
+CREATE TABLE `dept_id`  (
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `DEPT_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `DEPT_NAME` char(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `KEEP_INV` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `INV_TYPE` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HOSP_TYPE` int(11) NULL DEFAULT NULL,
+  `DISP_DEPT` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_TYPE` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUPPLY_OFFICER` char(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUPPLY_DIRECTOR` char(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DOC_REF` char(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `INV_DIRECTOR` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PREFIX_PO` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `STD_CODE` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUPPLY_DIRECTOR_ID` int(11) NULL DEFAULT NULL,
+  `SUPPLY_OFFICER_ID` int(11) NULL DEFAULT NULL,
+  `INV_DIRECTOR_ID` int(11) NULL DEFAULT NULL,
+  `DEPT_UID` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LINE_TOKEN` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CAL_RATE` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EMAIL` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ADDRESS` varchar(150) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_TRANSFER` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `cost_center_id` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`RECORD_NUMBER`, `DEPT_ID`) USING BTREE,
+  UNIQUE INDEX `dept_id`(`DEPT_ID`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 183 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for dept_map
+-- ----------------------------
+DROP TABLE IF EXISTS `dept_map`;
+CREATE TABLE `dept_map`  (
+  `INVS_DEPT` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIS_DEPT` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIS_DEPT_NAME` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `AUTO_DISP` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT 'N',
+  INDEX `dept_map0`(`INVS_DEPT`, `HIS_DEPT`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for df_con
+-- ----------------------------
+DROP TABLE IF EXISTS `df_con`;
+CREATE TABLE `df_con`  (
+  `REF_NO_CON` int(11) NOT NULL,
+  `LAST_UPDATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`REF_NO_CON`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for dispensed
+-- ----------------------------
+DROP TABLE IF EXISTS `dispensed`;
+CREATE TABLE `dispensed`  (
+  `DISP_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MED_CODE` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DISP_QTY` double NULL DEFAULT NULL,
+  `DISP_DEPT` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PROCESS_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUB_PO_NO` char(12) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MED_NAME` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `hn` varchar(13) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `vn` varchar(17) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `operate_date` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`RECORD_NUMBER`) USING BTREE,
+  INDEX `dispensed0`(`DISP_DATE`, `MED_CODE`, `DISP_DEPT`) USING BTREE,
+  INDEX `dispensed1`(`DISP_DATE`, `MED_CODE`, `DISP_DEPT`, `PROCESS_FLAG`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 213 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for dist_type
+-- ----------------------------
+DROP TABLE IF EXISTS `dist_type`;
+CREATE TABLE `dist_type`  (
+  `DIST_TYPE_CODE` int(11) NOT NULL,
+  `DIST_TYPE_NAME` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`DIST_TYPE_CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for doc_flow
+-- ----------------------------
+DROP TABLE IF EXISTS `doc_flow`;
+CREATE TABLE `doc_flow`  (
+  `REF_NO` varchar(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `SEND_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SEND_DEPT` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_DEPT` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_UPDATE` datetime NULL DEFAULT NULL,
+  `TOTAL_INVOICE` int(11) NULL DEFAULT NULL,
+  `CONFIRM_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUDGET_TYPE` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`REF_NO`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for doc_flow_c
+-- ----------------------------
+DROP TABLE IF EXISTS `doc_flow_c`;
+CREATE TABLE `doc_flow_c`  (
+  `REF_NO` varchar(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `INVOICE_NO` varchar(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `RCV_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_SEND` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_RCV` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_UPDATE` datetime NULL DEFAULT NULL,
+  `RECEIVE_NO` char(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PACK_CODE` int(11) NULL DEFAULT NULL,
+  `PO_NO` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`REF_NO`, `INVOICE_NO`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for doc_type
+-- ----------------------------
+DROP TABLE IF EXISTS `doc_type`;
+CREATE TABLE `doc_type`  (
+  `DOC_CODE` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `DOC_DES` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  INDEX `doc_type0`(`DOC_CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for dosage_form
+-- ----------------------------
+DROP TABLE IF EXISTS `dosage_form`;
+CREATE TABLE `dosage_form`  (
+  `DFORM_NAME` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DFORM_ID` int(11) UNSIGNED NOT NULL AUTO_INCREMENT,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`DFORM_ID`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 46 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for drug_compos
+-- ----------------------------
+DROP TABLE IF EXISTS `drug_compos`;
+CREATE TABLE `drug_compos`  (
+  `WORKING_CODE` varchar(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `COMPOS_NAME` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `COMPOS_CODE` int(11) NOT NULL,
+  `TMTID` bigint(20) NULL DEFAULT NULL,
+  PRIMARY KEY (`COMPOS_CODE`) USING BTREE,
+  INDEX `drug_compos0`(`WORKING_CODE`) USING BTREE,
+  INDEX `drug_compos1`(`TMTID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for drug_gn
+-- ----------------------------
+DROP TABLE IF EXISTS `drug_gn`;
+CREATE TABLE `drug_gn`  (
+  `WORKING_CODE` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DRUG_NAME_KEY` char(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DRUG_NAME` char(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DOSAGE_FORM` char(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SALE_UNIT` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `COMPOSITION` char(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `GROUP_KEY` char(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `STD_PRICE1` double NULL DEFAULT NULL,
+  `STD_RATIO1` double NULL DEFAULT NULL,
+  `STD_PRICE2` double NULL DEFAULT NULL,
+  `STD_RATIO2` double NULL DEFAULT NULL,
+  `STD_PRICE3` double NULL DEFAULT NULL,
+  `STD_RATIO3` double NULL DEFAULT NULL,
+  `SALE_UNIT_PRICE` double NULL DEFAULT NULL,
+  `TOTAL_COST` double NULL DEFAULT NULL,
+  `QTY_ON_HAND` double NULL DEFAULT NULL,
+  `REORDER_QTY` double NULL DEFAULT NULL,
+  `MIN_LEVEL` double NULL DEFAULT NULL,
+  `RATE_PER_MONTH` double NULL DEFAULT NULL,
+  `PRODUCTION` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `OK` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TOTAL_VALUE` double NULL DEFAULT NULL,
+  `WORK_CODE_KEY` char(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MAX_LEVEL` double NULL DEFAULT NULL,
+  `SPECIAL_CODE` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DATE_ENTER` datetime NULL DEFAULT NULL,
+  `GROUP_CODE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUPPLY_TYPE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ED_LIST_CODE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `NOTE` char(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LOCATION` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `QTY_UNIT` double NULL DEFAULT NULL,
+  `PACK_UNIT` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DFORM_ID` int(11) NULL DEFAULT NULL,
+  `SALE_UNIT_ID` int(11) NULL DEFAULT NULL,
+  `STRENGTH` double NULL DEFAULT NULL,
+  `STRENGTH_UNIT` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EXPRESS_CODE` char(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUBCOM` varchar(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_BUY` datetime NULL DEFAULT NULL,
+  `LAST_BUY_COST` double NULL DEFAULT NULL,
+  `LAST_VENDOR_CODE` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `IS_ED` smallint(6) NULL DEFAULT NULL,
+  `ED_LIST` smallint(6) NULL DEFAULT NULL,
+  `HOSP_LIST` smallint(6) NULL DEFAULT NULL,
+  `VEN_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ISSUE_DATE` datetime NULL DEFAULT NULL,
+  `LAST_PACK_CODE` int(11) NULL DEFAULT NULL,
+  `GPUID` int(11) NULL DEFAULT NULL,
+  `DRUG_NAME_TH` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `COLOR` int(11) NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `STRENGTH_DENO` double NULL DEFAULT NULL,
+  `STR_UID` int(11) NULL DEFAULT NULL,
+  `STR_DENO_UID` int(11) NULL DEFAULT NULL,
+  `IS_HAD` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USE_TRADE_DIS` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_NOTIFY_HAD` datetime NULL DEFAULT NULL,
+  `USER_ID` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REF_PRICE_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUY_FLAG` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MIT` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CONT_VALUE` float NULL DEFAULT NULL,
+  `CONT_UNIT_ID` int(11) NULL DEFAULT NULL,
+  `CHANGE_DATE` datetime NULL DEFAULT NULL,
+  `STD_PRICE4` double NULL DEFAULT NULL,
+  `STD_PRICE5` double NULL DEFAULT NULL,
+  `STD_RATIO4` double NULL DEFAULT NULL,
+  `STD_RATIO5` double NULL DEFAULT NULL,
+  UNIQUE INDEX `drug_gn0`(`WORKING_CODE`) USING BTREE,
+  INDEX `drug_gn1`(`DRUG_NAME`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for drug_spec
+-- ----------------------------
+DROP TABLE IF EXISTS `drug_spec`;
+CREATE TABLE `drug_spec`  (
+  `WORKING_CODE` varchar(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `ATTACH_FILE` longblob NULL,
+  `FILE_NAME` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SPEC_TEXT` text CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+  INDEX `drug_spec0`(`WORKING_CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for drug_vn
+-- ----------------------------
+DROP TABLE IF EXISTS `drug_vn`;
+CREATE TABLE `drug_vn`  (
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `WORKING_CODE` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `VENDOR_CODE` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRADE_NAME_KEY` char(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRADE_NAME` char(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PACK_RATIO` double NULL DEFAULT NULL,
+  `BUY_UNIT_COST` double NULL DEFAULT NULL,
+  `MANUFAC_CODE` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RECORD_STATUS` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_BUY` datetime NULL DEFAULT NULL,
+  `REGIST_NO` char(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `NOTE` char(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BAR_CODE` char(13) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `STD_CODE` char(24) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `GENERIC_CODE` char(24) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SALE_UNIT_PRICE` double NULL DEFAULT NULL,
+  `TRADE_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `LAST_VENDOR` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_PACK_RATIO` double NULL DEFAULT NULL,
+  `LAST_BUY_COST` double NULL DEFAULT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRADE_FLAG` smallint(6) NULL DEFAULT NULL,
+  `IMPORT_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ED_LIST` smallint(6) NULL DEFAULT NULL,
+  `IS_ED` smallint(6) NULL DEFAULT NULL,
+  `SUB_COM_CODE` int(11) NULL DEFAULT NULL,
+  `HOSP_LIST` int(11) NULL DEFAULT NULL,
+  `UNIT_PRICE` double NULL DEFAULT NULL,
+  `PICTURE` longblob NULL,
+  `TMTID` bigint(20) NULL DEFAULT NULL,
+  `24DIGIT` char(24) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ATC` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `GTIN` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CUSTOMER_PRICE` double NULL DEFAULT NULL,
+  `ISSUE_DATE` datetime NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_ID` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CHANGE_DATE` datetime NULL DEFAULT NULL,
+  `PREMA_FLAG` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEF_BUYCOM` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REMARK` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USE_IMPORT_PROD` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `GPSC` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `exchange_code` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`TRADE_CODE`) USING BTREE,
+  UNIQUE INDEX `INDEX0`(`RECORD_NUMBER`) USING BTREE,
+  INDEX `drug_vn0`(`TRADE_CODE`) USING BTREE,
+  INDEX `drug_vn1`(`TRADE_NAME`) USING BTREE,
+  INDEX `drug_vn2`(`WORKING_CODE`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 729 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for e_po
+-- ----------------------------
+DROP TABLE IF EXISTS `e_po`;
+CREATE TABLE `e_po`  (
+  `EMAIL_ACC` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EMAIL_PASS` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EMAIL_CC` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EMAIL_SUBJECT` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_ID` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EMAIL_MSG` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `GoogleToken` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`ID`) USING BTREE,
+  INDEX `e_po0`(`DEPT_ID`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for ed_group
+-- ----------------------------
+DROP TABLE IF EXISTS `ed_group`;
+CREATE TABLE `ed_group`  (
+  `RECORD_NUMBER` int(11) NOT NULL,
+  `CODE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `NAME` char(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUB_COMMIT_CODE` int(11) NULL DEFAULT NULL,
+  `FORECAST` double NULL DEFAULT NULL,
+  `hide` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`CODE`) USING BTREE,
+  UNIQUE INDEX `INDEX0`(`RECORD_NUMBER`) USING BTREE,
+  INDEX `ED_GROUP1`(`CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for edi_drug_vn
+-- ----------------------------
+DROP TABLE IF EXISTS `edi_drug_vn`;
+CREATE TABLE `edi_drug_vn`  (
+  `VENDOR_TRADE_CODE` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `INVS_TRADE_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `VENDOR_CODE` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `TMTID` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`VENDOR_TRADE_CODE`, `INVS_TRADE_CODE`, `VENDOR_CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for exchange_info
+-- ----------------------------
+DROP TABLE IF EXISTS `exchange_info`;
+CREATE TABLE `exchange_info`  (
+  `exchange_code` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `exchange_des` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `hide` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT 'N',
+  PRIMARY KEY (`exchange_code`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for focus_list
+-- ----------------------------
+DROP TABLE IF EXISTS `focus_list`;
+CREATE TABLE `focus_list`  (
+  `LIST_CODE` int(11) NULL DEFAULT NULL,
+  `LIST_TYPE` smallint(6) NULL DEFAULT NULL,
+  `USER_ID` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_ID` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LIST_NAME` varchar(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  INDEX `focus_list0`(`LIST_CODE`, `USER_ID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for focus_list_c
+-- ----------------------------
+DROP TABLE IF EXISTS `focus_list_c`;
+CREATE TABLE `focus_list_c`  (
+  `WORKING_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `LIST_CODE` int(11) NULL DEFAULT NULL,
+  `USER_ID` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  INDEX `focus_list_c0`(`LIST_CODE`, `WORKING_CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for form
+-- ----------------------------
+DROP TABLE IF EXISTS `form`;
+CREATE TABLE `form`  (
+  `FORM_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `FORM_CODE` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `FORM_DATA` longblob NULL,
+  `USER_ID` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `FORM_SYS` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_UPDATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_UPLOAD` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `COPIES` smallint(6) NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIDE` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT 'N',
+  INDEX `form1`(`FORM_CODE`, `FORM_SYS`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for gf
+-- ----------------------------
+DROP TABLE IF EXISTS `gf`;
+CREATE TABLE `gf`  (
+  `GF_NO` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `GF_DATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PJT_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_NO` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `AMOUNT` double NULL DEFAULT NULL,
+  `RUNNO` smallint(6) NOT NULL,
+  PRIMARY KEY (`GF_NO`, `RUNNO`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for holiday
+-- ----------------------------
+DROP TABLE IF EXISTS `holiday`;
+CREATE TABLE `holiday`  (
+  `HOL_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `HOL_NAME` varchar(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`HOL_DATE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for hosp
+-- ----------------------------
+DROP TABLE IF EXISTS `hosp`;
+CREATE TABLE `hosp`  (
+  `HOSP_CODE` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `HOSP_NAME` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`HOSP_CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for hosp_inv
+-- ----------------------------
+DROP TABLE IF EXISTS `hosp_inv`;
+CREATE TABLE `hosp_inv`  (
+  `HOSP_NAME` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HOSP_ID` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `KEEP_INV_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PHARM_DIRECTOR` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HOSP_DIRECTOR` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ADDRESS` varchar(150) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PROVINCE` varchar(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `GOVERNOR` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUPPLY_DIRECTOR` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DOC_REF_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DB_VERSION` double NULL DEFAULT NULL,
+  `LAST_DATA_SEND` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `START_EXPORT` datetime NULL DEFAULT NULL,
+  `URL_UPDATE` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `URL_DC` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TMTRF_VERSION` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PREFIX` varchar(80) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `INVS_CLIENT` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `INVSCL_USER` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `INVSCL_PASS` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SYNC_MED_ITEMS` smallint(6) NULL DEFAULT NULL,
+  `TOKEN` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TMTAPI_USERNAME` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TMTAPI_PASSWORD` varchar(200) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DMSIC_TOKEN` varchar(1000) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for hosp_list
+-- ----------------------------
+DROP TABLE IF EXISTS `hosp_list`;
+CREATE TABLE `hosp_list`  (
+  `HOSP_LIST_CODE` int(11) NOT NULL AUTO_INCREMENT,
+  `HOSP_LIST_DESC` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PROD_TYPE` smallint(6) NULL DEFAULT NULL,
+  `SHOW_BUYPLAN` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`HOSP_LIST_CODE`) USING BTREE,
+  UNIQUE INDEX `hosp_list0`(`HOSP_LIST_DESC`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 17 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for id_con
+-- ----------------------------
+DROP TABLE IF EXISTS `id_con`;
+CREATE TABLE `id_con`  (
+  `ID_CON` int(11) NULL DEFAULT NULL,
+  `LAST_UPD` datetime NULL DEFAULT NULL,
+  INDEX `index0`(`ID_CON`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for inst_name
+-- ----------------------------
+DROP TABLE IF EXISTS `inst_name`;
+CREATE TABLE `inst_name`  (
+  `INST_NAME` varchar(128) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REF_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_UPDATE` datetime NULL DEFAULT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  INDEX `inst_name0`(`INST_NAME`, `REF_CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for inv_has_his
+-- ----------------------------
+DROP TABLE IF EXISTS `inv_has_his`;
+CREATE TABLE `inv_has_his`  (
+  `INV_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIS_CODE` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `INVALID_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIS_NAME` varchar(80) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CONVER_FACT` double NULL DEFAULT NULL,
+  INDEX `inv_has_his0`(`INV_CODE`, `HIS_CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for inv_md
+-- ----------------------------
+DROP TABLE IF EXISTS `inv_md`;
+CREATE TABLE `inv_md`  (
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `WORKING_CODE` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `STD_PRICE` double NULL DEFAULT NULL,
+  `STD_RATIO` double NULL DEFAULT NULL,
+  `SALE_UNIT_PRICE` double NULL DEFAULT NULL,
+  `TOTAL_COST` double NULL DEFAULT NULL,
+  `QTY_ON_HAND` double NULL DEFAULT NULL,
+  `REORDER_QTY` double NULL DEFAULT NULL,
+  `MIN_LEVEL` double NULL DEFAULT NULL,
+  `RATE` double NULL DEFAULT NULL,
+  `PRODUCTION` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TOTAL_VALUE` double NULL DEFAULT NULL,
+  `WORK_CODE_KEY` char(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MAX_LEVEL` double NULL DEFAULT NULL,
+  `SPECIAL_CODE` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_UPDATE` datetime NULL DEFAULT NULL,
+  `NOTE` char(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LOCATION` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `QTY_UNIT` double NULL DEFAULT NULL,
+  `PACK_UNIT` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SELECT_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `QTY_REQ` double NULL DEFAULT NULL,
+  `QTY_DISP` double NULL DEFAULT NULL,
+  `FIRST_PACK_RATIO` double NULL DEFAULT NULL,
+  `QTY_ADV` double NULL DEFAULT NULL,
+  `ACCRUED_QTY` double NULL DEFAULT NULL,
+  `RATE_PER_DAY` double NULL DEFAULT NULL,
+  `ABC_USE` double NULL DEFAULT NULL,
+  `ABC_PERCENT` double NULL DEFAULT NULL,
+  `ABC_CUM` double NULL DEFAULT NULL,
+  `ABC_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_PACK_RATIO` double NULL DEFAULT NULL,
+  `LAST_PACK_CODE` int(11) NULL DEFAULT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `FORECAST` double NULL DEFAULT NULL,
+  `HIS_RATE` double NULL DEFAULT NULL,
+  `LAST_VENDOR_CODE` int(11) NULL DEFAULT NULL,
+  `KANBAN_RATIO` int(11) NULL DEFAULT NULL,
+  `USE_MINMAX` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT 'N',
+  `WA_COST` decimal(10, 0) NULL DEFAULT 0,
+  `COUNT_ON_HAND` int(11) NULL DEFAULT NULL,
+  `LAST_TRADE_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`RECORD_NUMBER`) USING BTREE,
+  UNIQUE INDEX `INDEX0`(`RECORD_NUMBER`) USING BTREE,
+  UNIQUE INDEX `inv_md_c1`(`WORKING_CODE`, `DEPT_ID`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5378 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for inv_md_c
+-- ----------------------------
+DROP TABLE IF EXISTS `inv_md_c`;
+CREATE TABLE `inv_md_c`  (
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `WORKING_CODE` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PACK_RATIO` double NULL DEFAULT NULL,
+  `QTY_ON_HAND` double NULL DEFAULT NULL,
+  `LOCATION` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LOT_COST` double NULL DEFAULT NULL,
+  `VENDOR_CODE` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MANUFAC_CODE` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RECORD_STATUS` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LOT_VALUE` double NULL DEFAULT NULL,
+  `BAR_CODE` char(13) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRADE_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LOT_NO` char(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EXPIRED_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PACK_COST` double NULL DEFAULT NULL,
+  `PACK_CODE` int(11) NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`RECORD_NUMBER`) USING BTREE,
+  INDEX `inv_md_c0`(`EXPIRED_DATE`, `TRADE_CODE`, `DEPT_ID`, `LOT_NO`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 49792 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for inv_rtn
+-- ----------------------------
+DROP TABLE IF EXISTS `inv_rtn`;
+CREATE TABLE `inv_rtn`  (
+  `RETURN_NO` char(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_ID` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `STOCK_ID` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RETURN_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RETURN_TIME` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_ID` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TOTAL_ITEM` int(11) NULL DEFAULT NULL,
+  `TOTAL_VALUE_RETURN` double NULL DEFAULT NULL,
+  `TOTAL_VALUE_ALL` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CONFIRM_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  INDEX `inv_return0`(`RETURN_NO`) USING BTREE,
+  INDEX `inv_return1`(`RETURN_NO`, `DEPT_ID`, `STOCK_ID`, `RETURN_DATE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for inv_rtn_c
+-- ----------------------------
+DROP TABLE IF EXISTS `inv_rtn_c`;
+CREATE TABLE `inv_rtn_c`  (
+  `RETURN_NO` char(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `WORKING_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRADE_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TOTAL_QTY` double NULL DEFAULT NULL,
+  `RETURN_QTY` double NULL DEFAULT NULL,
+  `UNIT_COST` double NULL DEFAULT NULL,
+  `EXPIRED_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LOT_NO` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TOTAL_COST` double NULL DEFAULT NULL,
+  `RETURN_COST` double NULL DEFAULT NULL,
+  `REASON_ID` int(11) NULL DEFAULT NULL,
+  `REF_DATA` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_ID` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RETURN_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RETURN_TIME` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ID` char(24) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `USER_CONFIRM` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_CANCEL` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LOCATION` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CANCEL_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ACTION_ID` int(11) NULL DEFAULT NULL,
+  `PACK_RATIO` int(11) NULL DEFAULT NULL,
+  `PACK_CODE` int(11) NULL DEFAULT NULL,
+  `FREE_FLAG` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`ID`) USING BTREE,
+  INDEX `INV_RETURN_C0`(`RETURN_NO`, `WORKING_CODE`, `TRADE_CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for inv_site
+-- ----------------------------
+DROP TABLE IF EXISTS `inv_site`;
+CREATE TABLE `inv_site`  (
+  `WORKING_CODE` char(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LOCATION` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRADE_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `DEPT_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `AUTO_DISP` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT 'Y',
+  `EFFECT_DATE` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`DEPT_ID`, `TRADE_CODE`) USING BTREE,
+  INDEX `inv_site0`(`TRADE_CODE`, `DEPT_ID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for invs_ref
+-- ----------------------------
+DROP TABLE IF EXISTS `invs_ref`;
+CREATE TABLE `invs_ref`  (
+  `RETURN_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RETURN_CON` int(11) NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for item_type
+-- ----------------------------
+DROP TABLE IF EXISTS `item_type`;
+CREATE TABLE `item_type`  (
+  `WORKING_CODE` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `HOSP_LIST` smallint(6) NOT NULL,
+  `FIRST_DATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `LAST_DATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `USER_ID` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`WORKING_CODE`, `HOSP_LIST`, `FIRST_DATE`, `LAST_DATE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for location
+-- ----------------------------
+DROP TABLE IF EXISTS `location`;
+CREATE TABLE `location`  (
+  `LOCATION_ID` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRADE_CODE` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `WORKING_CODE` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_ID` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  INDEX `location0`(`LOCATION_ID`, `TRADE_CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for mbs_re_m
+-- ----------------------------
+DROP TABLE IF EXISTS `mbs_re_m`;
+CREATE TABLE `mbs_re_m`  (
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `YEAR` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MONTH` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_QUAN` double NULL DEFAULT NULL,
+  `RCV_VALUE` double NULL DEFAULT NULL,
+  `SALE_QUAN` double NULL DEFAULT NULL,
+  `SALE_VALUE` double NULL DEFAULT NULL,
+  `REMAIN_QUAN` double NULL DEFAULT NULL,
+  `REMAIN_VALUE` double NULL DEFAULT NULL,
+  `DEPT_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_UPDATE` datetime NULL DEFAULT NULL,
+  `BFW_QTY` double NULL DEFAULT NULL,
+  `BFW_VALUE` double NULL DEFAULT NULL,
+  `IS_ED` smallint(6) NULL DEFAULT NULL,
+  `BUY_FLAG` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`RECORD_NUMBER`) USING BTREE,
+  INDEX `mbs_re_m`(`YEAR`, `MONTH`, `DEPT_ID`, `IS_ED`, `BUY_FLAG`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 194 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for mbs_re_y
+-- ----------------------------
+DROP TABLE IF EXISTS `mbs_re_y`;
+CREATE TABLE `mbs_re_y`  (
+  `RECORD_NUMBER` int(11) NOT NULL,
+  `YEA_` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `WORKING_CODE` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_QUAN` double NULL DEFAULT NULL,
+  `RCV_VALUE` double NULL DEFAULT NULL,
+  `SALE_QUAN` double NULL DEFAULT NULL,
+  `SALE_VALUE` double NULL DEFAULT NULL,
+  `REMAIN_QUAN` double NULL DEFAULT NULL,
+  `REMAIN_VALUE` double NULL DEFAULT NULL,
+  UNIQUE INDEX `INDEX0`(`RECORD_NUMBER`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for menucon
+-- ----------------------------
+DROP TABLE IF EXISTS `menucon`;
+CREATE TABLE `menucon`  (
+  `module` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `menu` char(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `des` char(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `Enable` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `parent` smallint(6) NULL DEFAULT NULL,
+  `id` smallint(6) NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for module_system
+-- ----------------------------
+DROP TABLE IF EXISTS `module_system`;
+CREATE TABLE `module_system`  (
+  `MODULE_ID` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `MODULE_NAME` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`MODULE_ID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for ms_ivo
+-- ----------------------------
+DROP TABLE IF EXISTS `ms_ivo`;
+CREATE TABLE `ms_ivo`  (
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `INVOICE_NO` char(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PO_NO` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `VENDOR_CODE` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUDGET_TYPE` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TOTAL_COST` double NULL DEFAULT NULL,
+  `TOTAL_ITEM` double NULL DEFAULT NULL,
+  `DISCOUNT` double NULL DEFAULT NULL,
+  `DISCOUNT2` double NULL DEFAULT NULL,
+  `PROCESS` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RECEIVE_NO` char(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ERROR_ENTER` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ERROR_PROCESS` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_CHKER1` char(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_CHKER2` char(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_CHKER3` char(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUY_METHOD` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUY_COMMON` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DATE_ACC` datetime NULL DEFAULT NULL,
+  `HOLD_ACC` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PO_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TOTAL_VALUE` double NULL DEFAULT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `INVOICE_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RECEIVE_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `AIC_NAME` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `AI_NO` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BILLING_DATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PRE_RECEIVE_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_TIME` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ASN_NO` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SEND_FLAG` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT 'N',
+  UNIQUE INDEX `ms_ivo0`(`RECORD_NUMBER`) USING BTREE,
+  INDEX `ms_ivo1`(`RECEIVE_NO`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5671 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for ms_ivo_c
+-- ----------------------------
+DROP TABLE IF EXISTS `ms_ivo_c`;
+CREATE TABLE `ms_ivo_c`  (
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `INVOICE_NO` char(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `WORKING_CODE` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MANUFAC_CODE` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUY_UNIT_COST` double NULL DEFAULT NULL,
+  `QTY_ORDER` double NULL DEFAULT NULL,
+  `PACK_RATIO` double NULL DEFAULT NULL,
+  `QTY_FREE` double NULL DEFAULT NULL,
+  `PACK_RATIO2` double NULL DEFAULT NULL,
+  `EXPIRED_DATE1` date NULL DEFAULT NULL,
+  `LOCATION` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EXPIRED_DATE2` datetime NULL DEFAULT NULL,
+  `LOCATION2` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PROCESS` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUB_PROCESS` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RECEIVE_NO` char(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BAR_CODE` char(13) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EXPIRED_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `FREE_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REF_FREE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRADE_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MSPOC_RECNO` int(11) NULL DEFAULT NULL,
+  `DEPT_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `VALUE` double NULL DEFAULT NULL,
+  `COST` double NULL DEFAULT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REV_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LOT_NO` varchar(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_CFM` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRANSDATA_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRANSDATA_DATE` datetime NULL DEFAULT NULL,
+  `PLAN_DATE` datetime NULL DEFAULT NULL,
+  `QTY_REMPLAN` double NULL DEFAULT NULL,
+  `VALUE_REMPLAN` double NULL DEFAULT NULL,
+  `QTY_RCV` double NULL DEFAULT NULL,
+  `PACK_CODE` int(11) NULL DEFAULT NULL,
+  `NLEM` smallint(6) NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REMAIN_QTY` float NULL DEFAULT NULL,
+  `PO_ITEM_TYPE` int(11) NULL DEFAULT NULL,
+  `SEND_FLAG` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT 'N',
+  INDEX `INDEX0`(`RECORD_NUMBER`) USING BTREE,
+  INDEX `ms_ivo_c0`(`INVOICE_NO`, `DEPT_ID`, `RECEIVE_NO`) USING BTREE,
+  INDEX `ms_ivo_c1`(`RECEIVE_NO`, `TRADE_CODE`) USING BTREE,
+  INDEX `ms_ivo_c2`(`RECEIVE_NO`, `FREE_FLAG`, `TRADE_CODE`, `LOT_NO`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 10500 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for ms_po
+-- ----------------------------
+DROP TABLE IF EXISTS `ms_po`;
+CREATE TABLE `ms_po`  (
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `PO_NO` char(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `VENDOR_CODE` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUDGET_TYPE` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TOTAL_ITEM` double NULL DEFAULT NULL,
+  `TOTAL_COST` double NULL DEFAULT NULL,
+  `TOTAL_COST_RCV` double NULL DEFAULT NULL,
+  `DISCOUNT` double NULL DEFAULT NULL,
+  `DISCOUNT2` double NULL DEFAULT NULL,
+  `OK` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PROCESS` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ERROR_ENTER` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUY_METHOD` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUY_COMMON` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PRINTED` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PO_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PROJECT_NO` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EGP_NO` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MIDPRICE` double NULL DEFAULT NULL,
+  `TRANS_CREDIT` varchar(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PRINT_PODATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PRINT_PO_USER` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PRINT_PO_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REMARK` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUPPLIER` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_DATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `OUTPLAN_REASON` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `VAT_COST` double NULL DEFAULT NULL,
+  `VAT_PERCENT` double NULL DEFAULT NULL,
+  `TOTAL_COST_AV` double NULL DEFAULT NULL,
+  `SUPPLIER_CODE` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REQ_APP_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DELIVERY_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BILLNUMBER_EX` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_NO_EX` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_DATE_EX` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BILLNUMBER_DATE_EX` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REF_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CNT_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `AIC_NAME` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TOTAL_COST_AD` double NULL DEFAULT NULL,
+  `REV_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SEND_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BDG_BF` double NULL DEFAULT NULL,
+  `BDG_RM` double NULL DEFAULT NULL,
+  `REQ_APP_NO` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RES_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `GF_NO` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EDI_FLAG` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EDI_RES` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SEND_PO_DATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ACK_DATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  UNIQUE INDEX `INDEX0`(`RECORD_NUMBER`) USING BTREE,
+  INDEX `ms_po0`(`PO_NO`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4823 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for ms_po_c
+-- ----------------------------
+DROP TABLE IF EXISTS `ms_po_c`;
+CREATE TABLE `ms_po_c`  (
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `PO_NO` char(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `WORKING_CODE` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `VENDOR_CODE` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MANUFAC_CODE` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUY_UNIT_COST` double NULL DEFAULT NULL,
+  `QTY_ORDER` double NULL DEFAULT NULL,
+  `QTY_ORDER_RCV` double NULL DEFAULT NULL,
+  `PACK_RATIO1` double NULL DEFAULT NULL,
+  `QTY_FREE` double NULL DEFAULT NULL,
+  `QTY_FREE_RCV` double NULL DEFAULT NULL,
+  `PACK_RATIO2` double NULL DEFAULT NULL,
+  `RCV_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PROCESS` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `FREE_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `del_flag` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ref_free` char(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PO_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRADE_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PACK_RATIO` double NULL DEFAULT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RUNNO` smallint(6) NULL DEFAULT NULL,
+  `MIDPRICE` double NULL DEFAULT NULL,
+  `PACKUNIT` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CONTRACT_DATE` datetime NULL DEFAULT NULL,
+  `USER_APPLOVE` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_CHECK` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRANS_CREDIT` varchar(3) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PRINT_PODATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PRINT_PO_USER` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PRINT_PO_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CP_FLAG_YEAR` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REMAIN_QTY_BUYPLAN_Y` double NULL DEFAULT NULL,
+  `REMAIN_VALUE_BUYPLAN_Y` double NULL DEFAULT NULL,
+  `SALE_UNIT_ID` int(11) NULL DEFAULT NULL,
+  `REV_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `COST` double NULL DEFAULT NULL,
+  `QTY_ON_HAND` double NULL DEFAULT NULL,
+  `RATE_3_MONTH` double NULL DEFAULT NULL,
+  `REMAIN_QTY_EX` double NULL DEFAULT NULL,
+  `RCV_QTY_EX` double NULL DEFAULT NULL,
+  `CNT_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SEND_EX_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REMAIN_QTY_BP` double NULL DEFAULT NULL,
+  `REMAIN_VALUE_BP` double NULL DEFAULT NULL,
+  `BF_QTY_BP` double NULL DEFAULT NULL,
+  `BF_VALUE_BP` double NULL DEFAULT NULL,
+  `SEND_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REMAIN_QTY_CNT` double NULL DEFAULT NULL,
+  `REMAIN_VALUE_CNT` double NULL DEFAULT NULL,
+  `BF_QTY_CNT` double NULL DEFAULT NULL,
+  `BF_VALUE_CNT` double NULL DEFAULT NULL,
+  `PACK_CODE` int(11) NULL DEFAULT NULL,
+  `NLEM` smallint(6) NULL DEFAULT NULL,
+  `RATE_PER_MONTH` double NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CHG_REF` varchar(13) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MSIVOC_RECNO` int(11) NULL DEFAULT NULL,
+  `BUY_COMMON` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EDI_FLAG` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_CANCEL` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REASON_CANCEL` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`RECORD_NUMBER`) USING BTREE,
+  UNIQUE INDEX `INDEX0`(`RECORD_NUMBER`) USING BTREE,
+  UNIQUE INDEX `ms_po_c1`(`PO_NO`, `FREE_FLAG`, `WORKING_CODE`, `VENDOR_CODE`) USING BTREE,
+  INDEX `ms_po_c0`(`PO_NO`) USING BTREE,
+  INDEX `ms_po_c2`(`PO_NO`, `WORKING_CODE`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 11760 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for pack_ratio
+-- ----------------------------
+DROP TABLE IF EXISTS `pack_ratio`;
+CREATE TABLE `pack_ratio`  (
+  `WORKING_CODE` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `VENDOR_CODE` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PACK_RATIO` double NULL DEFAULT NULL,
+  `BUY_UNIT_COST` double(10, 4) NULL DEFAULT NULL,
+  `MANUFAC_CODE` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_BUY` datetime NULL DEFAULT NULL,
+  `BAR_CODE` varchar(14) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SALE_UNIT_PRICE` double NULL DEFAULT NULL,
+  `TRADE_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PACK_UNIT` int(11) NULL DEFAULT NULL,
+  `SUBPACK_UNIT` int(11) NULL DEFAULT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PACK_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `USER_ID` varchar(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`PACK_CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for po_con
+-- ----------------------------
+DROP TABLE IF EXISTS `po_con`;
+CREATE TABLE `po_con`  (
+  `PO_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PO_CON` int(11) NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for po_reason
+-- ----------------------------
+DROP TABLE IF EXISTS `po_reason`;
+CREATE TABLE `po_reason`  (
+  `ID` int(11) NOT NULL,
+  `REASON_DES` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIDE` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`ID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for position_list
+-- ----------------------------
+DROP TABLE IF EXISTS `position_list`;
+CREATE TABLE `position_list`  (
+  `POSITION_DES` varchar(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for prcv_con
+-- ----------------------------
+DROP TABLE IF EXISTS `prcv_con`;
+CREATE TABLE `prcv_con`  (
+  `PRCV_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PRCV_CON` int(11) NULL DEFAULT NULL,
+  INDEX `PRCV_CON0`(`PRCV_DATE`, `PRCV_CON`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for pre_ms_ivo
+-- ----------------------------
+DROP TABLE IF EXISTS `pre_ms_ivo`;
+CREATE TABLE `pre_ms_ivo`  (
+  `ARRIVE_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `INVOICE_NO` varchar(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `VENDOR_CODE` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `GROSS_WEIGHT` double NULL DEFAULT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PRE_RECEIVE_NO` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `LAST_UPDATE` datetime NULL DEFAULT NULL,
+  `PO_NO` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RCV_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CANCEL_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REMARK` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `QTY` int(11) NULL DEFAULT NULL,
+  `AMOUNT` double NULL DEFAULT NULL,
+  `DEPT_ID` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`PRE_RECEIVE_NO`) USING BTREE,
+  INDEX `PRE_MS_IVO0`(`PRE_RECEIVE_NO`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for profile
+-- ----------------------------
+DROP TABLE IF EXISTS `profile`;
+CREATE TABLE `profile`  (
+  `UserCode` char(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `Password` char(32) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `Enable` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `slevel` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `StartDate` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `StartProgram` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `Login` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `deptCode` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `firstName` char(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `lastName` char(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEF_MODULE` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `accept_term` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`UserCode`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for quali_goal
+-- ----------------------------
+DROP TABLE IF EXISTS `quali_goal`;
+CREATE TABLE `quali_goal`  (
+  `QUALI_ID` int(11) NOT NULL,
+  `WORKING_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `MIN_VALUE` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MAX_VALUE` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `UOM_ID` int(11) NULL DEFAULT NULL,
+  PRIMARY KEY (`QUALI_ID`, `WORKING_CODE`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for quali_item
+-- ----------------------------
+DROP TABLE IF EXISTS `quali_item`;
+CREATE TABLE `quali_item`  (
+  `QUALI_ID` int(11) NOT NULL,
+  `QUALI_DES` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`QUALI_ID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for quali_rcv
+-- ----------------------------
+DROP TABLE IF EXISTS `quali_rcv`;
+CREATE TABLE `quali_rcv`  (
+  `RECEIVE_NO` char(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `WORKING_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `TRADE_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  `QUALI_ID` int(11) NOT NULL,
+  `QUALI_VALUE` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LOT_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NOT NULL,
+  PRIMARY KEY (`RECEIVE_NO`, `WORKING_CODE`, `TRADE_CODE`, `LOT_NO`, `QUALI_ID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for relationship
+-- ----------------------------
+DROP TABLE IF EXISTS `relationship`;
+CREATE TABLE `relationship`  (
+  `CONCEPT1` bigint(20) NULL DEFAULT NULL,
+  `CONCEPT2` bigint(20) NULL DEFAULT NULL,
+  INDEX `relationship0`(`CONCEPT1`) USING BTREE,
+  INDEX `relationship1`(`CONCEPT2`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for reports
+-- ----------------------------
+DROP TABLE IF EXISTS `reports`;
+CREATE TABLE `reports`  (
+  `ReportNo` int(11) NOT NULL,
+  `Name` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `Query` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+  `Reports` longblob NULL,
+  `Type` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `Menu` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `Color` int(11) NULL DEFAULT NULL,
+  `Program` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `Secret` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `Choice` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ReportType` int(11) NULL DEFAULT NULL,
+  `XData` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+  `Width` int(11) NULL DEFAULT NULL,
+  `Height` int(11) NULL DEFAULT NULL,
+  `Objects` longtext CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL,
+  `ReportFrx` longblob NULL,
+  `LAST_UPDATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_UPLOAD` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CREATE_DATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `VIEW_COUNT` int(11) NULL DEFAULT NULL,
+  `LAST_VIEW` datetime NULL DEFAULT NULL,
+  PRIMARY KEY (`ReportNo`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for req_con
+-- ----------------------------
+DROP TABLE IF EXISTS `req_con`;
+CREATE TABLE `req_con`  (
+  `STOCK_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `START_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `END_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `STOCK_FOR_WEEK` int(11) NULL DEFAULT NULL,
+  `DAYS_DISP` int(11) NULL DEFAULT NULL,
+  `A` smallint(6) NULL DEFAULT NULL,
+  `B` smallint(6) NULL DEFAULT NULL,
+  `C` smallint(6) NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for rs_con
+-- ----------------------------
+DROP TABLE IF EXISTS `rs_con`;
+CREATE TABLE `rs_con`  (
+  `RS_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RS_CON` int(11) NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for rtn_action
+-- ----------------------------
+DROP TABLE IF EXISTS `rtn_action`;
+CREATE TABLE `rtn_action`  (
+  `ID` int(11) NOT NULL,
+  `ACTION_DES` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`ID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for rtn_reason
+-- ----------------------------
+DROP TABLE IF EXISTS `rtn_reason`;
+CREATE TABLE `rtn_reason`  (
+  `ID` int(11) NOT NULL,
+  `RETURN_REASON` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`ID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for sale_unit
+-- ----------------------------
+DROP TABLE IF EXISTS `sale_unit`;
+CREATE TABLE `sale_unit`  (
+  `SALE_UNIT` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SU_ID` int(11) NOT NULL AUTO_INCREMENT,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SU_ID_EX` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`SU_ID`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 28 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for scan
+-- ----------------------------
+DROP TABLE IF EXISTS `scan`;
+CREATE TABLE `scan`  (
+  `REF_NO` varchar(20) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DOC_CODE` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `IMG_DATA` longblob NULL,
+  `USER_ID` varchar(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ID` varchar(17) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SYS_DATE` datetime NULL DEFAULT NULL,
+  INDEX `scan0`(`REF_NO`) USING BTREE,
+  INDEX `scan1`(`DOC_CODE`) USING BTREE,
+  INDEX `scan3`(`REF_NO`, `DOC_CODE`) USING BTREE,
+  INDEX `scan4`(`REF_NO`, `DOC_CODE`, `ID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for server_config
+-- ----------------------------
+DROP TABLE IF EXISTS `server_config`;
+CREATE TABLE `server_config`  (
+  `section` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ident` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `value` varchar(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  UNIQUE INDEX `server_config0`(`section`, `ident`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for sm_po
+-- ----------------------------
+DROP TABLE IF EXISTS `sm_po`;
+CREATE TABLE `sm_po`  (
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `SUB_PO_NO` char(12) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ACC_NO` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TOTAL_ITEM` double NULL DEFAULT NULL,
+  `TOTAL_COST` double NULL DEFAULT NULL,
+  `TOTAL_VALUE` double NULL DEFAULT NULL,
+  `SYSDATE` datetime NULL DEFAULT NULL,
+  `OK` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PROCESS` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ERROR_ENTER` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ERROR_PROCESS` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `STOCK_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUB_PO_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CONFIRM_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PRIOR_FLAG` smallint(6) NULL DEFAULT NULL,
+  `R_S_STATUS` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SEND_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PRINT_FLAG` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REF_NO` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CONFIRM_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CONFIRM_TIME` char(4) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DIST_TYPE` int(11) NULL DEFAULT NULL,
+  `RES_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUB_PO_UNO` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REQ_INTER` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT 'N',
+  `CFM_INTER` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT 'N',
+  PRIMARY KEY (`RECORD_NUMBER`) USING BTREE,
+  UNIQUE INDEX `INDEX0`(`RECORD_NUMBER`) USING BTREE,
+  INDEX `INDEX1`(`SUB_PO_NO`, `STOCK_ID`, `SUB_PO_DATE`) USING BTREE,
+  INDEX `sm_po2`(`SUB_PO_UNO`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 5756 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for sm_po_c
+-- ----------------------------
+DROP TABLE IF EXISTS `sm_po_c`;
+CREATE TABLE `sm_po_c`  (
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `SUB_PO_NO` char(12) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `WORKING_CODE` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `QTY_ORDER` double NULL DEFAULT NULL,
+  `QTY_RCV` double NULL DEFAULT NULL,
+  `PACK_RATIO` double NULL DEFAULT NULL,
+  `COST` double NULL DEFAULT NULL,
+  `VALUE` double NULL DEFAULT NULL,
+  `VENDOR_CODE` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MANUFAC_CODE` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `QTY_RCV1` double NULL DEFAULT NULL,
+  `PACK_RATIO1` double NULL DEFAULT NULL,
+  `EXPIRED_DATE1` datetime NULL DEFAULT NULL,
+  `LOCATION1` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `COST1` double NULL DEFAULT NULL,
+  `VALUE1` double NULL DEFAULT NULL,
+  `VENDOR_CODE2` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MANUFAC_CODE2` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `QTY_RCV2` double NULL DEFAULT NULL,
+  `PACK_RATIO2` double NULL DEFAULT NULL,
+  `EXPIRED_DATE2` datetime NULL DEFAULT NULL,
+  `LOCATION2` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `COST2` double NULL DEFAULT NULL,
+  `VALUE2` double NULL DEFAULT NULL,
+  `VENDOR_CODE3` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MANUFAC_CODE3` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `QTY_RCV3` double NULL DEFAULT NULL,
+  `PACK_RATIO3` double NULL DEFAULT NULL,
+  `EXPIRED_DATE3` datetime NULL DEFAULT NULL,
+  `LOCATION3` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `COST3` double NULL DEFAULT NULL,
+  `VALUE3` double NULL DEFAULT NULL,
+  `PROCESS` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUB_PROCESS` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BAR_CODE` char(13) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TRADE_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EXPIRED_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LOCATION` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CONFIRM_FLAG` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `BUY_UNIT_COST` double NULL DEFAULT NULL,
+  `LOT_NO` varchar(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_CFM` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CANCEL_DISP` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SUB_FLAG` int(11) NULL DEFAULT NULL,
+  `PACK_COST` double NULL DEFAULT NULL,
+  `REQ_DATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CONFIRM_DATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `PACK_CODE` int(11) NULL DEFAULT NULL,
+  `NLEM` smallint(6) NULL DEFAULT NULL,
+  `MOD_SYS` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `REMARK` varchar(100) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `APP_VERSION` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CLIENT_IP` varchar(15) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SEND_CANCEL` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `QTY_CFM` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LAST_UPD` datetime NULL DEFAULT NULL,
+  `REV_DATE` datetime NULL DEFAULT NULL,
+  `WA_COST` decimal(10, 0) NULL DEFAULT NULL,
+  `DISP_RECNO` int(11) NULL DEFAULT NULL,
+  UNIQUE INDEX `INDEX0`(`RECORD_NUMBER`) USING BTREE,
+  INDEX `SM_PO_C1`(`SUB_PO_NO`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 103659 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for sm_po_e
+-- ----------------------------
+DROP TABLE IF EXISTS `sm_po_e`;
+CREATE TABLE `sm_po_e`  (
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `SUB_PO_NO` char(12) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `WORKING_CODE` char(7) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `QTY_DIST` double NULL DEFAULT NULL,
+  `QTY_DIST_E` double NULL DEFAULT NULL,
+  `PACK_RATIO` double NULL DEFAULT NULL,
+  `COST` double NULL DEFAULT NULL,
+  `TRADE_CODE` varchar(18) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `EXPIRED_DATE` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LOCATION` char(5) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `USER_ID` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `COMPLETE_FLAG` varchar(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `LOT_NO` varchar(40) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `CANCEL_DIST` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `INV_NO` varchar(25) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `INV_REMAIN_QTY` double NULL DEFAULT NULL,
+  `RECEIVE_NO` varchar(10) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DEPT_ID` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DIST_DATE` varchar(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DIST_TIME` varchar(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MSIVOC_RECORD` int(11) NULL DEFAULT NULL,
+  `STOCK_ID` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`RECORD_NUMBER`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 1 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for special
+-- ----------------------------
+DROP TABLE IF EXISTS `special`;
+CREATE TABLE `special`  (
+  `SPECIAL_CODE` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `SPECIAL_NAME` char(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `AVG_RATE` double NULL DEFAULT NULL,
+  `MIN_LEVEL` double NULL DEFAULT NULL,
+  `MAX_LEVEL` double NULL DEFAULT NULL,
+  `REORDER_QTY` double NULL DEFAULT NULL,
+  `DEPT_ID` char(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for sub_com
+-- ----------------------------
+DROP TABLE IF EXISTS `sub_com`;
+CREATE TABLE `sub_com`  (
+  `SUB_COMMIT_CODE` int(11) NOT NULL AUTO_INCREMENT,
+  `SUB_COMMIT_DES` varchar(60) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `HIDE` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  PRIMARY KEY (`SUB_COMMIT_CODE`) USING BTREE,
+  INDEX `SUB_COM0`(`SUB_COMMIT_CODE`) USING BTREE
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for tmt
+-- ----------------------------
+DROP TABLE IF EXISTS `tmt`;
+CREATE TABLE `tmt`  (
+  `TPUCode` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `ActiveIngredient` varchar(999) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `Strength` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `dosageform` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `contvalue` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `contunit` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DispUnit` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TradeName` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `Manufacturer` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `FSN` varchar(999) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `Status` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `RegNo` varchar(30) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `DC24` varchar(24) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `TMTID` bigint(20) NULL DEFAULT NULL,
+  `TYPE_TMT` varchar(6) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for uom
+-- ----------------------------
+DROP TABLE IF EXISTS `uom`;
+CREATE TABLE `uom`  (
+  `UOM_ID` int(11) NOT NULL,
+  `UOM_NAME` varchar(255) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  INDEX `uom0`(`UOM_ID`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Table structure for usercon
+-- ----------------------------
+DROP TABLE IF EXISTS `usercon`;
+CREATE TABLE `usercon`  (
+  `UserCode` char(16) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `module` char(8) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `menu` char(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `Note` char(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `Systype` char(2) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `utype` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `report_flag_only` char(1) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL,
+  `MenuDesc` char(50) CHARACTER SET utf8 COLLATE utf8_unicode_ci NULL DEFAULT NULL
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_unicode_ci ROW_FORMAT = Compact;
+
+-- ----------------------------
+-- Function structure for begin_fy
+-- ----------------------------
+DROP FUNCTION IF EXISTS `begin_fy`;
+delimiter ;;
+CREATE FUNCTION `begin_fy`(`date` datetime)
+ RETURNS char(8) CHARSET utf8 COLLATE utf8_unicode_ci
+BEGIN
+  DECLARE monthx int;
+  DECLARE yearx int;
+
+  Set monthx = month(date);
+  Set yearx = year(date);
+
+	if  monthx < 10 then set yearx=yearx-1; end if ;
+
+	 RETURN concat(convert(yearx,char),'1001') ;
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for calBuyPlan
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `calBuyPlan`;
+delimiter ;;
+CREATE PROCEDURE `calBuyPlan`()
+BEGIN
+
+declare cal_y int ;
+declare M int;
+declare Y int;
+declare em3 char(2);
+declare sm3 VARCHAR(2);
+declare sy3 char(4);
+declare Dept varchar(6);
+
+declare emy3 VARCHAR(6);
+declare sym3 VARCHAR(6);
+
+declare emy3x VARCHAR(19);
+declare sym3x VARCHAR(19);
+
+
+declare ey2 CHAR(4);
+declare sy2 CHAR(4);
+declare ey1 CHAR(4);
+declare sy1 CHAR(4);
+declare eym2 char(6);
+declare sym2 char(6);
+declare eym1 char(6);
+declare sym1 char(6);
+declare bym  char(6);
+
+
+set Dept='STOCK1' ;
+set Y=2025 ;
+set M='7' ;
+set cal_y=2026 ;
+set bym='202210' ;
+
+set sm3 = M+1 ;
+
+
+
+if sm3 = 13 then set sm3=1 ;
+end if ;
+if sm3 < 10 then set sm3 =concat('0',sm3) ;
+end if;
+
+
+set sy3=Y-1 ;
+set ey2=sy3 ;
+set sy2=Y-2 ;
+set ey1=sy2 ;
+set sy1=Y-3 ;
+
+if M=12  then
+
+  set sy3=Y ;
+  set ey2=Y-1 ;
+  set sy2=ey2 ;
+  set ey1=Y-2 ;
+  set sy1=ey1  ;
+
+END if ;
+
+
+
+set em3=M ;
+if M < 10 then set em3 =concat('0',convert(M,char)) ; end if ;
+
+set emy3=concat(convert(Y,char),em3) ;
+set emy3x=CONCAT(LAST_DAY(concat(convert(Y,char),'-',em3,'-01')),' 00:00:00') ;
+
+
+set sym3=concat(sy3,'10') ;
+set sym3x=concat(sy3,'-10-01 00:00:00') ;
+
+set eym2=concat(ey2,'09') ;
+set sym2=concat(sy2,'10') ;
+set eym1=concat(ey1,'09') ;
+set sym1=concat(sy1,'10') ;
+
+
+
+
+
+insert INTO BUYPLAN_C (HIDE,DEPT_ID,`YEAR`,WORKING_CODE,CAL_MONTH,RATE_1_YEAR,RATE_2_YEAR,RATE_3_YEAR,QTY_ON_HAND,PACK_RATIO,LAST_UPDATE,PACK_UNIT_COST,FORECAST,MOD_SYS,PLAN_TYPE)
+
+
+select 'N' as HIDE, Dept as DEPT_ID,cal_y as 'YEAR',m.WORKING_CODE,M as 'CAL_MONTH',
+SUM(CASE when DATE_FORMAT(m.OPERATE_DATE,'%Y%m') BETWEEN sym1 AND eym1  then IFnull(m.ACTIVE_QTY,0) else 0 end) as RATE_1_YEAR,
+SUM(CASE when DATE_FORMAT(m.OPERATE_DATE,'%Y%m') BETWEEN sym2 AND eym2  then IFnull(m.ACTIVE_QTY,0) else 0 end) as RATE_2_YEAR,
+(SUM(CASE when DATE_FORMAT(m.OPERATE_DATE,'%Y%m') BETWEEN sym3 AND  emy3  then IFnull(m.ACTIVE_QTY,0) else 0 end))*12/(PERIOD_DIFF(emy3,sym3)+1) as RATE_3_YEAR,
+
+
+ifnull((select c.REMAIN_QTY from  CARD c
+        where 
+        left(DATE_FORMAT(c.OPERATE_DATE,'%Y%m'),6) <= emy3
+        and c.WORKING_CODE=m.WORKING_CODE
+        and c.STOCK_ID=Dept order by c.OPERATE_DATE DESC limit 1 ),0) as QTY_ON_HAND,
+
+ifnull((select  v1.LAST_PACK_RATIO from  DRUG_VN v1  where v1.WORKING_CODE=m.WORKING_CODE  and v1.LAST_BUY_COST > 0 order by v1.LAST_BUY DESC limit 1),
+ifnull((select  CARD.ACTIVE_PACK from CARD where WORKING_CODE=m.WORKING_CODE  and R_S_STATUS='R' and CARD.ACTIVE_PACK > 0
+order by OPERATE_DATE DESC limit 1),
+(select i.LAST_PACK_RATIO from INV_MD i where i.WORKING_CODE=m.WORKING_CODE AND i.DEPT_ID =Dept  )
+)) as PACK_RATIO,
+
+
+CURRENT_TIMESTAMP() as LAST_UPDATE,
+ifnull((select  c.BUY_UNIT_COST from MS_IVO_C c left join MS_IVO i on (c.RECEIVE_NO = i.RECEIVE_NO) WHERE c.WORKING_CODE=m.WORKING_CODE order by i.RECEIVE_DATE DESC limit 1  )
+,ifnull((select v.LAST_BUY_COST from DRUG_VN v  where v.WORKING_CODE=m.WORKING_CODE order by v.LAST_BUY DESC limit 1),
+(select  g1.LAST_BUY_COST from DRUG_GN g1 where g1.WORKING_CODE=m.WORKING_CODE
+ limit 1 )
+))as PACK_UNIT_COST,CASE WHEN IFNULL(d.FORECAST,0) > 0 THEN d.FORECAST ELSE IFNULL(e.FORECAST,0) END as FORECAST,d.MOD_SYS ,1
+
+FROM INV_MD d
+left join DRUG_GN g  on (g.WORKING_CODE = d.WORKING_CODE)
+left join ED_GROUP e  on (e.CODE = g.GROUP_CODE)
+LEFT JOIN (
+  select c.WORKING_CODE, DATE_FORMAT(c.OPERATE_DATE,'%Y%m%d') as R_S_DATE,c.OPERATE_DATE,c.STOCK_ID,
+  CASE when c.R_S_STATUS in ('T','S','P','D','O')  then c.ACTIVE_QTY
+when (c.R_S_STATUS='C') then c.ACTIVE_QTY*-1 else 0 end as ACTIVE_QTY,c.MOD_SYS
+from CARD c
+where  DATE_FORMAT(c.OPERATE_DATE,'%Y%m')  between bym and  emy3
+and c.STOCK_ID=Dept
+and c.WORKING_CODE is not null and c.WORKING_CODE <>''
+and exists(select * from DRUG_GN gn1 where  gn1.WORKING_CODE=c.WORKING_CODE )
+and c.R_S_STATUS in ('T','S','C')
+) as m
+
+ON (d.DEPT_ID=m.STOCK_ID and d.FIRST_PACK_RATIO is not null and d.WORKING_CODE=m.WORKING_CODE)
+Where (d.HIDE ='N' or d.HIDE is null or d.HIDE='')  and d.WORKING_CODE is not null  and d.WORKING_CODE<>''
+and m.WORKING_CODE is not null and m.WORKING_CODE<>''
+group by m.WORKING_CODE,d.FIRST_PACK_RATIO,d.QTY_ON_HAND,CASE WHEN IFNULL(d.FORECAST,0) > 0 THEN d.FORECAST ELSE IFNULL(e.FORECAST,0) END,d.MOD_SYS;
+
+
+
+update BUYPLAN_C set AVG_3_YEAR=ROUND((RATE_1_YEAR
++RATE_2_YEAR
++RATE_3_YEAR)/(IF(RATE_1_YEAR <=0 , 0 , 1 )+IF( RATE_2_YEAR <=0 , 0 , 1 )+IF( RATE_3_YEAR <=0 , 0 , 1 )),0)
+where
+(IF(RATE_1_YEAR <=0 , 0 , 1 )+IF( RATE_2_YEAR <=0 , 0 , 1 )+IF( RATE_3_YEAR <=0 , 0 , 1 )) > 0
+and `YEAR`=cal_y and DEPT_ID=Dept ;
+
+
+update BUYPLAN_C set QTY_PRE_PLAN=AVG_3_YEAR+ROUND((RATE_3_YEAR/12),0)-QTY_ON_HAND
+where `YEAR`=cal_y and DEPT_ID=Dept ;
+
+
+
+update BUYPLAN_C set QTY_PRE_PLAN=0
+where `YEAR`=cal_y and DEPT_ID=Dept  and QTY_PRE_PLAN < 0 ;
+
+update BUYPLAN_C set QTY_FORECAST=(QTY_PRE_PLAN*(ifnull(FORECAST,0)/100)) where `YEAR`=cal_y and DEPT_ID=Dept ;
+
+update BUYPLAN_C set VALUE_FREE_Y3 = 
+     (select 
+      SUM(cx.`VALUE`) 
+      from CARD cx 
+      where cx.STOCK_ID =BUYPLAN_C.DEPT_ID 
+      and cx.R_S_STATUS in ('R','A')
+      and cx.FREE_FLAG='Y'
+      and cx.WORKING_CODE=BUYPLAN_C.WORKING_CODE
+      
+      and  cx.OPERATE_DATE Between  sym3x and emy3x
+      )
+where  BUYPLAN_C.`YEAR`= cal_y and BUYPLAN_C.DEPT_ID=Dept;
+
+
+update BUYPLAN_C set QTY_FREE_Y3 =
+     (select 
+      SUM(cx.ACTIVE_QTY) 
+      from CARD cx 
+      where cx.STOCK_ID =BUYPLAN_C.DEPT_ID 
+      and cx.R_S_STATUS in ('R','A')
+      and cx.FREE_FLAG='Y'
+      and cx.WORKING_CODE=BUYPLAN_C.WORKING_CODE
+      
+      and  cx.OPERATE_DATE Between  sym3x and emy3x
+
+      )
+where  BUYPLAN_C.`YEAR`= cal_y and BUYPLAN_C.DEPT_ID=Dept;
+
+
+update BUYPLAN_C set QTY_THIS_YEAR=(ifnull(QTY_PRE_PLAN,0) + ifnull(QTY_FORECAST,0)- ifnull(QTY_FREE_Y3,0))/ifnull(PACK_RATIO,1)
+where `YEAR`=cal_y and DEPT_ID=Dept;
+
+update BUYPLAN_C set QTY_THIS_YEAR= floor((QTY_THIS_YEAR+ 9) / 10) * 10     
+where `YEAR`=cal_y and DEPT_ID=Dept;
+
+update BUYPLAN_C set QTY_THIS_YEAR= QTY_THIS_YEAR + 10
+where `YEAR`=cal_y and DEPT_ID=Dept  and  (convert(QTY_THIS_YEAR,decimal)%4 > 0 ) ;
+
+update BUYPLAN_C set QTY_THIS_YEAR= QTY_THIS_YEAR*ifnull(PACK_RATIO,1)
+where `YEAR`=cal_y and DEPT_ID=Dept  ;
+
+update BUYPLAN_C set QTY_THIS_YEAR= 0
+where `YEAR`=cal_y and DEPT_ID=Dept and QTY_THIS_YEAR < 0   ;
+
+update BUYPLAN_C set MIN_LEVEL=ROUND((QTY_THIS_YEAR/12),0)
+where `YEAR`=cal_y and DEPT_ID=Dept;
+
+update BUYPLAN_C set VALUE_THIS_YEAR=ROUND(ifnull(QTY_THIS_YEAR/ifnull(PACK_RATIO,1),0)*ifnull(PACK_UNIT_COST,0),2),
+REMAIN_QTY=QTY_THIS_YEAR
+where `YEAR`=cal_y and DEPT_ID=Dept ;
+
+update BUYPLAN_C set VALUE_DEFENCE=VALUE_THIS_YEAR
+where `YEAR`=cal_y and DEPT_ID=Dept ;
+
+
+
+update BUYPLAN_C set TRIMESTER1= VALUE_DEFENCE/4,TRIMESTER2=VALUE_DEFENCE/4,TRIMESTER3= VALUE_DEFENCE/4,TRIMESTER4= VALUE_DEFENCE/4,
+RM_TRIMES1= VALUE_DEFENCE/4,RM_TRIMES2= VALUE_DEFENCE/4,RM_TRIMES3= VALUE_DEFENCE/4,RM_TRIMES4= VALUE_DEFENCE/4
+where YEAR=cal_y and DEPT_ID=Dept;
+
+
+
+update BUYPLAN_C,
+(
+select T2.WORKING_CODE,T2.TRI1/TRI_ALL as R1,
+T2.TRI2/TRI_ALL as R2,
+T2.TRI3/TRI_ALL as R3,
+T2.TRI4/TRI_ALL as R4
+from
+(select T.WORKING_CODE,
+SUM(CASE when T.M  in ('10','11','12') then T.QTY else 0 end) as TRI1,
+SUM(CASE when T.M  in ('01','02','03') then T.QTY else 0 end) as TRI2,
+SUM(CASE when T.M  in ('04','05','06') then T.QTY else 0 end) as TRI3,
+SUM(CASE when T.M  in ('07','08','09') then T.QTY else 0 end) as TRI4,
+SUM(T.QTY) as TRI_ALL
+from
+(select c.WORKING_CODE, DATE_FORMAT(c.OPERATE_DATE,'%m') as M,
+CASE when c.R_S_STATUS in ('T','S')  then c.ACTIVE_QTY
+when (c.R_S_STATUS='C') then c.ACTIVE_QTY*-1 else 0 end as QTY
+from CARD c 
+where c.STOCK_ID=Dept
+
+  and  c.OPERATE_DATE Between  sym3x and emy3x
+and c.R_S_STATUS in ('T','S','C')
+) as T  
+group by T.WORKING_CODE
+) as T2
+WHERE T2.TRI_ALL > 0
+) as T3
+set BUYPLAN_C.DISP_RATIO1 = T3.R1,BUYPLAN_C.DISP_RATIO2 = T3.R2,BUYPLAN_C.DISP_RATIO3 = T3.R3,BUYPLAN_C.DISP_RATIO4 = T3.R4
+where BUYPLAN_C.WORKING_CODE=T3.WORKING_CODE
+and BUYPLAN_C.`YEAR`= cal_y and BUYPLAN_C.DEPT_ID=Dept;
+
+update BUYPLAN_C set BUYMET_CODE = 0
+where YEAR=cal_y and  DEPT_ID=Dept ;
+
+update BUYPLAN_C set BUYMET_CODE = (select  BUYMET_CODE from BUYMETHOD 
+where   MIN_AMT <= BUYPLAN_C.VALUE_DEFENCE and   MAX_AMT >= BUYPLAN_C.VALUE_DEFENCE  and HIDE = 'N' limit 1)
+where YEAR=cal_y and  DEPT_ID=Dept  and BUYPLAN_C.VALUE_DEFENCE > 0 ;
+
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for ce2cymd
+-- ----------------------------
+DROP FUNCTION IF EXISTS `ce2cymd`;
+delimiter ;;
+CREATE FUNCTION `ce2cymd`(`date` datetime)
+ RETURNS char(15) CHARSET utf8 COLLATE utf8_unicode_ci
+BEGIN
+
+	 DECLARE dayx int;
+   DECLARE monthx int;
+   DECLARE yearx int; 
+   DECLARE cmonth varchar(6) ;
+
+   Set dayx = day(date);
+   Set monthx = month(date);
+   SEt yearx = year(date);
+
+   RETURN CONCAT(convert(yearx,char) ,right(convert(100+monthx,char),2) , right(convert(100+dayx,char),2));
+
+    
+
+
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for cymd2be
+-- ----------------------------
+DROP FUNCTION IF EXISTS `cymd2be`;
+delimiter ;;
+CREATE FUNCTION `cymd2be`(`date` char(8))
+ RETURNS char(15) CHARSET utf8 COLLATE utf8_unicode_ci
+BEGIN
+
+	DECLARE dayx int;
+  DECLARE monthx int;
+  DECLARE yearx int;
+  DECLARE cmonth varchar(6);
+    
+    Set dayx =convert(mid(date,7,2),UNSIGNED);
+    Set monthx = convert( mid(date,5,2),UNSIGNED);
+    SEt yearx = convert(mid(date,1,4),UNSIGNED)+543;
+ 
+    set cmonth = (select case monthx when 1 then 'ม.ค.'
+        when 2 then 'ก.พ.'
+        when 3 then 'มี.ค.'
+        when 4 then 'เม.ย.'
+        when 5 then 'พ.ค.'
+        when 6 then 'มิ.ย.'
+        when 7 then 'ก.ค.'
+        when 8 then 'ส.ค.'
+        when 9 then 'ก.ย.'
+        when 10 then 'ต.ค.'
+        when 11 then 'พ.ย.'
+        when 12 then 'ธ.ค.'  end);
+    
+    RETURN   concat(convert(dayx,char), ' ' , cmonth , ' ' ,convert(yearx,char)) ;
+
+
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for cymd2tdmy
+-- ----------------------------
+DROP FUNCTION IF EXISTS `cymd2tdmy`;
+delimiter ;;
+CREATE FUNCTION `cymd2tdmy`(`date` char(8))
+ RETURNS varchar(15) CHARSET utf8 COLLATE utf8_unicode_ci
+BEGIN
+
+  DECLARE dayx int;
+  DECLARE monthx int;
+  DECLARE yearx int;
+
+    Set dayx =convert(mid(date,7,2),UNSIGNED);
+    Set monthx = convert( mid(date,5,2),UNSIGNED);
+    SEt yearx = convert(mid(date,1,4),UNSIGNED)+543;
+
+  RETURN   concat(convert(dayx,char), '/' , monthx , '/' ,convert(yearx,char)) ;
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for drugVN
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `drugVN`;
+delimiter ;;
+CREATE PROCEDURE `drugVN`()
+BEGIN
+  if 'Y' = 'Y' then
+
+     if LENGTH( NULL ) >= 13  then
+
+       select  g.WORKING_CODE,g.DRUG_NAME,v.TRADE_CODE,v.TRADE_NAME,c.COMPANY_NAME as MANUFAC_NAME,  g.SALE_UNIT_ID,
+        v.MANUFAC_CODE,g.IS_ED,g.COLOR,(select ifnull(p.PACK_CODE,'')
+        from PACK_RATIO p   where p.BAR_CODE=NULL ) as PACK_CODE,h.PROD_TYPE,
+        d.DFORM_NAME,u.SALE_UNIT
+        from DRUG_GN g
+        left join DRUG_VN v on (g.WORKING_CODE=v.WORKING_CODE)
+        left join COMPANY c on (v.MANUFAC_CODE=convert(c.COMPANY_CODE,char))
+        left join DOSAGE_FORM d on (d.DFORM_ID = g.DFORM_ID)
+        left join SALE_UNIT u on (u.SU_ID = g.SALE_UNIT_ID)
+        left join HOSP_LIST h  on (h.HOSP_LIST_CODE = g.HOSP_LIST)
+        where
+        (
+         v.TRADE_CODE=(select p.TRADE_CODE from PACK_RATIO p   where p.BAR_CODE=NULL limit 1 )
+        )
+        and v.MOD_SYS='MED'
+        and IFNULL(v.HIDE,'N')='N'
+        and IFNULL(g.HIDE,'N')='N'
+        order by  v.LAST_BUY DESC,g.DRUG_NAME ASC,v.TRADE_NAME  ASC  limit 20 ;
+
+ 
+     else
+   
+
+        select  g.WORKING_CODE,g.DRUG_NAME,v.TRADE_CODE,v.TRADE_NAME,c.COMPANY_NAME as MANUFAC_NAME, g.SALE_UNIT_ID,
+        v.MANUFAC_CODE,g.IS_ED,g.COLOR,0 as PACK_CODE,h.PROD_TYPE,
+        d.DFORM_NAME,u.SALE_UNIT
+        from DRUG_GN g  
+        left join DRUG_VN v on (g.WORKING_CODE=v.WORKING_CODE)
+        left join COMPANY c on (v.MANUFAC_CODE=convert(c.COMPANY_CODE,char))
+        left join DOSAGE_FORM d on (d.DFORM_ID = g.DFORM_ID)
+        left join SALE_UNIT u on (u.SU_ID = g.SALE_UNIT_ID)
+        left join HOSP_LIST h  on (h.HOSP_LIST_CODE = g.HOSP_LIST)
+        where
+        (
+        g.WORKING_CODE='1070170'  or v.TRADE_CODE='1070170'
+        )
+        and v.MOD_SYS='MED'
+        and IFNULL(v.HIDE,'N')='N'
+        and IFNULL(g.HIDE,'N')='N'
+        order by  v.LAST_BUY DESC,g.DRUG_NAME ASC,v.TRADE_NAME  ASC    limit 20 ;
+    
+     end if;
+
+  else
+
+    select  g.WORKING_CODE,g.DRUG_NAME,v.TRADE_CODE,v.TRADE_NAME,c.COMPANY_NAME as MANUFAC_NAME,g.SALE_UNIT_ID,
+    v.MANUFAC_CODE,g.IS_ED,g.COLOR,0 as PACK_CODE,h.PROD_TYPE,
+    d.DFORM_NAME,u.SALE_UNIT
+    from DRUG_GN g  
+    left join DRUG_VN v   on (g.WORKING_CODE=v.WORKING_CODE)
+    left join COMPANY c   on (v.MANUFAC_CODE=convert(c.COMPANY_CODE,char))
+    left join DOSAGE_FORM d on (d.DFORM_ID = g.DFORM_ID)
+    left join SALE_UNIT u on (u.SU_ID = g.SALE_UNIT_ID)
+    left join HOSP_LIST h  on (h.HOSP_LIST_CODE = g.HOSP_LIST)
+    where 
+    (
+    g.WORKING_CODE = NULL 
+    or upper(g.DRUG_NAME) like NULL 
+    or upper(v.TRADE_NAME) like NULL
+    or g.WORKING_CODE in (select distinct REF_CODE from INST_NAME  where INST_NAME like NULL )
+    or v.TRADE_CODE in (select distinct REF_CODE from INST_NAME  where INST_NAME like NULL )
+    )
+    and v.MOD_SYS='MED'
+    and IFNULL(v.HIDE,'N')='N'
+    and IFNULL(g.HIDE,'N')='N'
+    order by  v.LAST_BUY DESC,g.DRUG_NAME ASC,v.TRADE_NAME  ASC  limit 20 ;
+
+  end if ;
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for ED_LIST
+-- ----------------------------
+DROP FUNCTION IF EXISTS `ED_LIST`;
+delimiter ;;
+CREATE FUNCTION `ED_LIST`(`ed_list` int)
+ RETURNS varchar(5) CHARSET utf8 COLLATE utf8_unicode_ci
+BEGIN
+
+  declare returnx varchar(5) ;
+  
+  set returnx = (
+	select CASE ed_list
+	when 1 then 'ก'
+	when 2 then 'ข'
+	when 3 then 'ค'
+	when 4 then 'ง'
+	when 5 then 'จ (1)' 
+  when 6 then 'จ (2)' 
+  else '' end) ;
+
+
+  RETURN returnx ;
+ 
+
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for FiscalYear
+-- ----------------------------
+DROP FUNCTION IF EXISTS `FiscalYear`;
+delimiter ;;
+CREATE FUNCTION `FiscalYear`(`date_cymd` char(8))
+ RETURNS char(4) CHARSET utf8 COLLATE utf8_unicode_ci
+BEGIN
+
+
+	  declare resultx varchar(15);
+
+	   if substring(date_cymd,5,2) <= 09 then
+        set resultx = CONCAT( 'ปีงบประมาณ ' , convert(substring(date_cymd,1,4)+543,char)) ;
+     else
+        set resultx = CONCAT(  'ปีงบประมาณ ' ,convert(substring(date_cymd,1,4)+544,char)) ;
+     end if ;
+
+	Return resultx ;
+
+
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for getOnhandInfo
+-- ----------------------------
+DROP FUNCTION IF EXISTS `getOnhandInfo`;
+delimiter ;;
+CREATE FUNCTION `getOnhandInfo`(working_code VARCHAR(10),
+    stock_id VARCHAR(6),
+    date_onhand DATETIME)
+ RETURNS text CHARSET utf8 COLLATE utf8_unicode_ci
+  DETERMINISTIC
+BEGIN
+     DECLARE onhandInfo TEXT;
+
+    SELECT GROUP_CONCAT(
+        CONCAT(
+            '[', i.lot_no, ' : ',
+            DATE_FORMAT(i.expired_date, '%d/%m/%y'), ' : ',
+            FLOOR(c.remain_qty_lot / c.active_pack), ' x ', c.active_pack,
+            CASE
+                WHEN c.remain_qty_lot MOD c.active_pack > 0
+                THEN CONCAT(' (', c.remain_qty_lot MOD c.active_pack, ')')
+                ELSE ''
+            END,
+            ']'
+						) SEPARATOR 0x0A
+    ) INTO onhandInfo
+    FROM (
+        SELECT ci.trade_code, ci.lot_no, ci.expired_date,
+               MAX(ci.record_number) AS max_record_number
+        FROM card ci
+        WHERE ci.operate_date <= date_onhand
+          AND ci.stock_id = stock_id
+          AND ci.working_code = working_code
+          AND ci.active_qty > 0
+        GROUP BY ci.trade_code, ci.lot_no, ci.expired_date
+    ) AS i
+    LEFT JOIN card c ON c.record_number = i.max_record_number
+    LEFT JOIN drug_gn g ON g.working_code = c.working_code
+    LEFT JOIN drug_vn v ON v.trade_code = c.trade_code
+    WHERE c.remain_qty_lot > 0 AND c.remain_qty_lot IS NOT NULL;
+
+    RETURN onhandInfo;
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for insert_data_invs
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `insert_data_invs`;
+delimiter ;;
+CREATE PROCEDURE `insert_data_invs`()
+BEGIN
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id)
+select 'INVS','menuPreRCV', '', 'Y', '2', '65' from menucon
+where not EXISTS(select * from menucon where menu='menuPreRCV') limit 1 ;
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id) 
+select 'INVS','menuDocFlow', 'รับส่งเอกสารด้วยบาร์โค้ด', 'Y', '5', '69'  from menucon
+where not EXISTS(select * from menucon where menu='menuDocFlow') limit 1 ;
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id) 
+select 'INVS','menuAddInPrograms', 'เพิ่ม/ลบ โปรแกรมเสริม', 'Y', '0', '70'  from menucon
+where not EXISTS(select * from menucon where menu='menuAddInPrograms') limit 1 ;
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id) 
+select 'INVS','menuInvReturn', 'รับยาคืน', 'Y', '2', '71'  from menucon
+where not EXISTS(select * from menucon where menu='menuInvReturn') limit 1 ;
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id) 
+select 'INVS','menuDistX', 'จ่ายยาด่วน', 'Y', '2', '72'  from menucon
+where not EXISTS(select * from menucon where menu='menuDistX') limit 1 ;
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id) 
+select 'INVS','menuDisType', 'ประเภทเบิกจ่าย', 'Y', '0', '73'  from menucon
+where not EXISTS(select * from menucon where menu='menuDisType') limit 1 ;
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id) 
+select 'INVS','menuRtnReas', 'เหตุผลยาคืน', 'Y', '0', (select max(id)+1 from menucon)  from menucon
+where not EXISTS(select * from menucon where menu='menuRtnReas') limit 1 ;
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id) 
+select 'INVS','menuRtnAct', 'แผนดำเนินการ', 'Y', '0', (select max(id)+1 from menucon)  from menucon
+where not EXISTS(select * from menucon where menu='menuRtnAct') limit 1 ;
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id) 
+select 'INVS','canSetEPO', 'ตั้งค่าการส่งอีเมล์สั่งซื้อ', 'Y', '1', (select max(id)+1 from menucon)  from menucon
+where not EXISTS(select * from menucon where menu='canSetEPO') limit 1 ;
+
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id) 
+select 'INVS','menuReqList', 'ตั้งค่าบัญชีขอเบิก', 'Y', '2', (select max(id)+1 from menucon)  from menucon
+where not EXISTS(select * from menucon where menu='menuReqList') limit 1 ;
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id) 
+select 'INVS','menuGFMIS', 'ข้อมูล GFMIS', 'Y', '1', (select max(id)+1 from menucon)  from menucon
+where not EXISTS(select * from menucon where menu='menuGFMIS') limit 1 ;
+
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id)
+select 'INVS','CanAdjOnhand', 'ปรับจำนวนคงคลัง', 'Y', '0', (select max(id)+1 from menucon)  from menucon
+where not EXISTS(select * from menucon where menu='CanAdjOnhand') limit 1 ;
+
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id)
+select 'INVS','AppBuyPlan', 'ยืนยันแผน/เปิดแก้ไข', 'Y', '0', (select max(id)+1 from menucon)  from menucon
+where not EXISTS(select * from menucon where menu='AppBuyPlan') limit 1 ;
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id)
+select 'INVS','menuSumInv', 'ประมวลผลข้อมูลบริหารคลัง', 'Y', '0', (select max(id)+1 from menucon)  from menucon
+where not EXISTS(select * from menucon where menu='menuSumInv') limit 1 ;
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id)
+select 'INVS','setUserSock', 'ตั้งค่า INVS Client', 'Y', '0', (select max(id)+1 from menucon)  from menucon
+where not EXISTS(select * from menucon where menu='setUserSock') limit 1 ;
+
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id)
+select 'INVS','menuCancelPO', 'เหตุผลยกเลิกซื้อ', 'Y', '0', (select max(id)+1 from menucon)  from menucon
+where not EXISTS(select * from menucon where menu='menuCancelPO') limit 1 ;
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id)
+select 'INVS','canSetMinMAX', 'ตั้งค่าระบบ Min-Max ได้', 'Y', '0', (select max(id)+1 from menucon)  from menucon
+where not EXISTS(select * from menucon where menu='canSetMinMAX') limit 1 ;
+
+INSERT INTO `dept_id`(DEPT_ID,DEPT_NAME,DEPT_TYPE,MOD_SYS,HIDE)
+SELECT 'PT01' , 'จ่ายผู้ป่วย','4', 'MED','N' FROM DEPT_ID
+where not EXISTS(select * from dept_id where DEPT_ID='PT01') limit 1 ;
+
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id)
+select 'INVS','ChangeSTC', 'เปลี่ยนคลังในหน้า stock card', 'Y', '0', (select max(id)+1 from menucon)  from menucon
+where not EXISTS(select * from menucon where menu='ChangeSTC') limit 1 ;
+
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id)
+select 'INVS','CheckMapHIS', 'ตรวจสอบการจับคู่รหัสยา HIS', 'Y', '0', (select max(id)+1 from menucon)  from menucon
+where not EXISTS(select * from menucon where menu='CheckMapHIS') limit 1 ;
+
+
+INSERT INTO menucon  (module,menu,des,`Enable`,parent,id)
+select 'INVS','PrintOrder', 'พิมพ์ใบสั่งซื้อ', 'Y', '1', (select max(id)+1 from menucon)  from menucon
+where not EXISTS(select * from menucon where menu='PrintOrder') limit 1 ;
+
+
+  IF (SELECT COUNT(*) FROM exchange_info) = 0 THEN
+    INSERT INTO `exchange_info` VALUES ('0', '', 'N');
+    INSERT INTO `exchange_info` VALUES ('1', 'แลกเปลี่ยนไม่ได้', 'N');
+    INSERT INTO `exchange_info` VALUES ('2', 'แลกเปลี่ยนได้หลังหมดอายุ', 'N');
+    INSERT INTO `exchange_info` VALUES ('3', 'แลกเปลี่ยนได้อายุ > 3 เดือน', 'N');
+    INSERT INTO `exchange_info` VALUES ('4', 'แลกเปลี่ยนได้อายุ > 6 เดือน', 'N');
+    INSERT INTO `exchange_info` VALUES ('5', 'แลกเปลี่ยนได้อายุ > 12 เดือน', 'N');
+  END IF;
+
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for IS_ED
+-- ----------------------------
+DROP FUNCTION IF EXISTS `IS_ED`;
+delimiter ;;
+CREATE FUNCTION `IS_ED`(`ised` int)
+ RETURNS varchar(5) CHARSET utf8 COLLATE utf8_unicode_ci
+BEGIN
+
+  declare returnx varchar(4) ;
+  
+  set returnx = (
+	select CASE ised
+	when 1 then 'ED'
+	when 2 then 'NED'
+	when 3 then 'NDMS'
+	when 4 then 'CM'
+	when 5 then 'PS' end) ;
+
+
+  RETURN returnx ;
+ 
+
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for month_Y
+-- ----------------------------
+DROP FUNCTION IF EXISTS `month_Y`;
+delimiter ;;
+CREATE FUNCTION `month_Y`(`date` char(8))
+ RETURNS char(15) CHARSET utf8 COLLATE utf8_unicode_ci
+BEGIN
+
+-- 	DECLARE dayx int;
+  DECLARE monthx int;
+  DECLARE yearx int;
+  DECLARE cmonth varchar(50);
+    
+--     Set dayx =convert(mid(date,7,2),UNSIGNED);
+    Set monthx = convert( mid(date,5,2),UNSIGNED);
+    SEt yearx = convert(mid(date,1,4),UNSIGNED)+543;
+ 
+    set cmonth = (select case monthx when 1 then 'มกราคม'
+        when 2 then 'กุมภาพันธ์'
+        when 3 then 'มีนาคม'
+        when 4 then 'เมษายน'
+        when 5 then 'พฤษภาคม'
+        when 6 then 'มิถุนายน'
+        when 7 then 'กรกฎาคม'
+        when 8 then 'สิงหาคม'
+        when 9 then 'กันยายน'
+        when 10 then 'ตุลาคม'
+        when 11 then 'พฤศจิกายน'
+        when 12 then 'ธันวาคม'  end);
+    
+    RETURN   concat( cmonth , ' ' ,convert(yearx,char)) ;
+
+
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for NLEM
+-- ----------------------------
+DROP FUNCTION IF EXISTS `NLEM`;
+delimiter ;;
+CREATE FUNCTION `NLEM`(`ed` int)
+ RETURNS varchar(30) CHARSET utf8 COLLATE utf8_unicode_ci
+BEGIN
+
+   declare returnx varchar(30) ;
+
+   If ed=1 then
+          Set returnx = 'ยาในบัญชียาหลักแห่งชาติ'  ;
+   elseIf ed=2 then
+          Set returnx = 'ยานอกบัญชียาหลักแห่งชาติ'  ;
+   elseIf ed=3 then
+          Set returnx = 'เวชภัณฑ์มิใช่ยา' ;
+   elseIf ed=4 then
+          Set returnx = 'เคมีภัณฑ์' ;
+   elseIf ed=5 then
+          Set returnx = 'วัสดุห้องปฏิบัติการ' ;
+   elseIf ed=6 then
+          Set returnx = 'วัสดุเภสัชกรรม' ;
+   elseIf ed=7 then
+          Set returnx = 'วัสดุทางทันตกรรม' ;
+   elseIf ed=8 then
+          Set returnx = 'วัสดุการแพทย์ทั่วไป' ;
+   elseIf ed=9 then
+          Set returnx = 'วัสดุทางรังสี' ;
+   elseIf ed=10 then
+          Set returnx = 'วัสดุทั่วไป' ;
+   elseIf ed=11 then
+          Set returnx = 'ครุภัณฑ์' ;
+   elseIf ed=12 then
+          Set returnx = 'ครุภัณฑ์การแพทย์' ;
+   else
+           Set returnx = '' ;
+   end if ;
+
+   RETURN returnx ;
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for NowFiscalYear
+-- ----------------------------
+DROP FUNCTION IF EXISTS `NowFiscalYear`;
+delimiter ;;
+CREATE FUNCTION `NowFiscalYear`(`YearType` char(1))
+ RETURNS char(4) CHARSET utf8 COLLATE utf8_unicode_ci
+BEGIN
+
+	  declare resultx char(4);
+
+
+	if  DATE_FORMAT(CURDATE(),'%m') > 9 then
+		set resultx = YEAR(CURDATE()+1 );
+	else
+		set resultx = YEAR(CURDATE()) ;
+	end if;
+	
+   	if YearType='B' then set resultx=resultx+543; end if;
+
+	Return resultx ;
+
+
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for SearchDrugItem
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `SearchDrugItem`;
+delimiter ;;
+CREATE PROCEDURE `SearchDrugItem`()
+BEGIN
+
+  if 'Y' = 'Y' then
+
+     if LENGTH( NULL ) >= 13  then
+
+      select  DISTINCT  i.*,d.DRUG_NAME,s.SALE_UNIT,d.IS_ED,d.USE_TRADE_DIS,
+      IFNULL((select px.PACK_RATIO from PACK_RATIO px
+      where px.WORKING_CODE=i.WORKING_CODE  and px.PACK_RATIO is not NULL  and px.BAR_CODE=NULL order by  LAST_BUY DESC limit 1),IFNULL(i.FIRST_PACK_RATIO,IFNULL(i.LAST_PACK_RATIO,1))) as PACK_RATIO,
+      ifnull(d.COLOR,16777215) as COLOR
+      from DRUG_GN d
+      left join INV_MD i  on (i.WORKING_CODE=d.WORKING_CODE)
+      left join SALE_UNIT s on (d.SALE_UNIT_ID=s.SU_ID)
+      where
+      i.WORKING_CODE=(select   WORKING_CODE from PACK_RATIO where BAR_CODE=NULL limit 1 )
+      and i.DEPT_ID='STOCK1'
+      and (i.HIDE='N' or i.HIDE='' or i.HIDE is null)
+      and exists(select x.WORKING_CODE from INV_SITE x where x.WORKING_CODE=i.WORKING_CODE and x.DEPT_ID='HOS01' )
+      order by d.DRUG_NAME ;
+
+ 
+     else
+   
+
+      select  DISTINCT  i.*,d.DRUG_NAME,s.SALE_UNIT,d.IS_ED,d.USE_TRADE_DIS,
+      CASE when  (i.FIRST_PACK_RATIO is null) then
+      (select  px.PACK_RATIO from PACK_RATIO px
+      where px.WORKING_CODE=i.WORKING_CODE  and px.PACK_RATIO is not NULL order by  LAST_BUY DESC limit 1 ) else
+      i.FIRST_PACK_RATIO end as PACK_RATIO,ifnull(d.COLOR,16777215) as COLOR
+      from  DRUG_GN d
+      left join INV_MD i   on (i.WORKING_CODE=d.WORKING_CODE)
+      left join SALE_UNIT s on (d.SALE_UNIT_ID=s.SU_ID)
+      where
+      (i.WORKING_CODE='1230120'
+       or
+       i.WORKING_CODE= (select  WORKING_CODE from DRUG_VN where TRADE_CODE='1230120' limit 1  )
+       )
+      and i.DEPT_ID='STOCK1'
+      and (i.HIDE='N' or i.HIDE='' or i.HIDE is null)
+      and exists(select x.WORKING_CODE from INV_SITE x where x.WORKING_CODE=i.WORKING_CODE and x.DEPT_ID='HOS01' )
+      order by d.DRUG_NAME ;
+    
+     end if;
+
+  else
+
+    select  DISTINCT  i.*,d.DRUG_NAME,s.SALE_UNIT,d.IS_ED,d.USE_TRADE_DIS,
+    CASE when  (i.FIRST_PACK_RATIO is null) then
+    (select  px.PACK_RATIO from PACK_RATIO px 
+    where px.WORKING_CODE=i.WORKING_CODE  and px.PACK_RATIO is not NULL order by  LAST_BUY DESC limit 1 ) else
+    i.FIRST_PACK_RATIO end as PACK_RATIO,ifnull(d.COLOR,16777215) as COLOR
+    from DRUG_GN d
+    left join INV_MD i  on (i.WORKING_CODE=d.WORKING_CODE)
+    left join SALE_UNIT s on (d.SALE_UNIT_ID=s.SU_ID)
+    where
+    ( d.WORKING_CODE=NULL
+    or upper(d.DRUG_NAME) like NULL 
+    or i.WORKING_CODE in (select distinct t.REF_CODE from INST_NAME  t  
+    where t.INST_NAME like NULL ) )
+
+    and i.DEPT_ID='STOCK1'
+    and (i.HIDE='N' or i.HIDE='' or i.HIDE is null)
+    and exists(select x.WORKING_CODE from INV_SITE x where x.WORKING_CODE=i.WORKING_CODE and x.DEPT_ID='HOS01' )
+    order by d.DRUG_NAME ;
+
+  end if ;
+  
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for ThaiFiscalYear
+-- ----------------------------
+DROP FUNCTION IF EXISTS `ThaiFiscalYear`;
+delimiter ;;
+CREATE FUNCTION `ThaiFiscalYear`(`date_cymd` char(8))
+ RETURNS char(4) CHARSET utf8 COLLATE utf8_unicode_ci
+BEGIN
+
+	  declare resultx char(4);
+
+	   if substring(date_cymd,5,2) <= 09 then
+        set resultx = convert(substring(date_cymd,1,4)+543,char);
+     else
+        set resultx = convert(substring(date_cymd,1,4)+544,char);
+     end if ;
+
+	Return resultx ;
+
+
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for thaiquarter
+-- ----------------------------
+DROP FUNCTION IF EXISTS `thaiquarter`;
+delimiter ;;
+CREATE FUNCTION `thaiquarter`(`datex` char(8))
+ RETURNS smallint(6)
+BEGIN
+   DECLARE resx smallint ;
+
+	if  QUARTER(convert(datex,date))=4 then set resx = 1 ;
+	elseif  QUARTER(convert(datex,date))=1 then set resx = 2 ;
+  elseif  QUARTER(convert(datex,date))=2 then set resx = 3 ;
+	elseif  QUARTER(convert(datex,date))=3 then set resx = 4	 ;
+	else set resx = 0 ;
+  end if;
+
+	 RETURN resx ;
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Procedure structure for UPDATE_TABLE
+-- ----------------------------
+DROP PROCEDURE IF EXISTS `UPDATE_TABLE`;
+delimiter ;;
+CREATE PROCEDURE `UPDATE_TABLE`()
+BEGIN
+
+CREATE TABLE IF NOT EXISTS `PRCV_CON` (
+  `PRCV_DATE` char(8)  DEFAULT NULL,
+  `PRCV_CON` int(11) DEFAULT NULL,
+  KEY `PRCV_CON0` (`PRCV_DATE`,`PRCV_CON`)
+) ENGINE=InnoDB ;
+
+
+CREATE TABLE IF NOT EXISTS `PRE_MS_IVO` (
+  `ARRIVE_DATE` char(8)  DEFAULT NULL,
+  `INVOICE_NO` varchar(25)  DEFAULT NULL,
+  `VENDOR_CODE` char(6)  DEFAULT NULL,
+  `GROSS_WEIGHT` double DEFAULT NULL,
+  `QTY` int(11) DEFAULT NULL,
+  `AMOUNT` double DEFAULT NULL,
+  `USER_ID` varchar(30)  DEFAULT NULL,
+  `PRE_RECEIVE_NO` char(7)  NOT NULL,
+  `LAST_UPDATE` datetime DEFAULT NULL,
+  `PO_NO` varchar(15)  DEFAULT NULL,
+  `RCV_FLAG` char(1)  DEFAULT NULL,
+  `CANCEL_FLAG` char(1)  DEFAULT NULL,
+  `REMARK` varchar(255)  DEFAULT NULL,
+  PRIMARY KEY (`PRE_RECEIVE_NO`),
+  KEY `PRE_MS_IVO` (`PRE_RECEIVE_NO`)
+) ENGINE=InnoDB ;
+
+
+
+CREATE TABLE IF NOT EXISTS `quali_goal` (
+  `QUALI_ID` int(11) NOT NULL,
+  `WORKING_CODE` varchar(18)  NOT NULL,
+  `MIN_VALUE` varchar(30)  DEFAULT NULL,
+  `MAX_VALUE` varchar(30)  DEFAULT NULL,
+  `UOM_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`QUALI_ID`,`WORKING_CODE`)
+) ENGINE=InnoDB ;
+
+
+CREATE TABLE IF NOT EXISTS `quali_item` (
+  `QUALI_ID` int(11) NOT NULL,
+  `QUALI_DES` varchar(60)  DEFAULT NULL,
+  PRIMARY KEY (`QUALI_ID`)
+) ENGINE=InnoDB ;
+
+CREATE TABLE IF NOT EXISTS `quali_rcv` (
+  `RECEIVE_NO` char(10) NOT NULL,
+  `WORKING_CODE` varchar(18) NOT NULL,
+  `TRADE_CODE` varchar(18) NOT NULL,
+  `LOT_NO` varchar(20) NOT NULL,
+  `QUALI_ID` int(11) NOT NULL,
+  `QUALI_VALUE` varchar(20) default NULL,
+  `USER_ID` varchar(30) default NULL,
+  PRIMARY KEY  (`RECEIVE_NO`,`WORKING_CODE`,`TRADE_CODE`,`LOT_NO`,`QUALI_ID`)
+) ENGINE=InnoDB ;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'quali_rcv' AND COLUMN_NAME='LOT_NO' and table_schema = DATABASE()) THEN
+ ALTER TABLE quali_rcv ADD LOT_NO VARCHAR(20) NULL  ;
+ ALTER TABLE quali_rcv drop primary key, ADD PRIMARY KEY (`RECEIVE_NO`,`WORKING_CODE`,`TRADE_CODE`,`LOT_NO`,`QUALI_ID`) ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'FORM' AND COLUMN_NAME='MOD_SYS' and table_schema = DATABASE()) THEN
+ ALTER TABLE FORM ADD MOD_SYS VARCHAR(10) NULL  ;
+ UPDATE FORM SET MOD_SYS='MED' WHERE MOD_SYS IS NULL;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'FORM' AND COLUMN_NAME='HIDE' and table_schema = DATABASE()) THEN
+ ALTER TABLE FORM ADD HIDE VARCHAR(1) DEFAULT 'N'  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'HOSP_INV' AND COLUMN_NAME='URL_DC' and table_schema = DATABASE()) THEN
+
+ ALTER TABLE HOSP_INV ADD URL_DC VARCHAR(255) NULL  ;
+
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'HOSP_INV' AND COLUMN_NAME='TMTRF_VERSION' and table_schema = DATABASE()) THEN
+
+ ALTER TABLE HOSP_INV ADD TMTRF_VERSION VARCHAR(8) NULL  ;
+
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'HOSP_INV' AND COLUMN_NAME='URL_DC' and table_schema = DATABASE()) THEN
+ ALTER TABLE HOSP_INV ADD URL_DC VARCHAR(255) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'HOSP_INV' AND COLUMN_NAME='INVSCL_USER' and table_schema = DATABASE()) THEN
+ ALTER TABLE HOSP_INV ADD INVSCL_USER VARCHAR(50) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'HOSP_INV' AND COLUMN_NAME='INVSCL_PASS' and table_schema = DATABASE()) THEN
+ ALTER TABLE HOSP_INV ADD INVSCL_PASS VARCHAR(50) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'HOSP_INV' AND COLUMN_NAME='SYNC_MED_ITEMS' and table_schema = DATABASE()) THEN
+ ALTER TABLE HOSP_INV ADD SYNC_MED_ITEMS smallint NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'HOSP_INV' AND COLUMN_NAME='TOKEN' and table_schema = DATABASE()) THEN
+ ALTER TABLE HOSP_INV ADD TOKEN VARCHAR(200) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'HOSP_INV' AND COLUMN_NAME='TMTAPI_USERNAME' and table_schema = DATABASE()) THEN
+ ALTER TABLE HOSP_INV ADD TMTAPI_USERNAME VARCHAR(200) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'HOSP_INV' AND COLUMN_NAME='TMTAPI_PASSWORD' and table_schema = DATABASE()) THEN
+ ALTER TABLE HOSP_INV ADD TMTAPI_PASSWORD VARCHAR(200) NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'PRE_MS_IVO' AND COLUMN_NAME='QTY' and table_schema = DATABASE()) THEN
+ ALTER TABLE PRE_MS_IVO ADD QTY  int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'PRE_MS_IVO' AND COLUMN_NAME='DEPT_ID' and table_schema = DATABASE()) THEN
+ ALTER TABLE PRE_MS_IVO ADD DEPT_ID  varchar(6) NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'BUYPLAN' AND COLUMN_NAME='MOD_SYS' and table_schema = DATABASE()) THEN
+ ALTER TABLE BUYPLAN ADD MOD_SYS VARCHAR(10) NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'BUYPLAN_C' AND COLUMN_NAME='BUYMET_CODE' and table_schema = DATABASE()) THEN
+ ALTER TABLE BUYPLAN_C ADD BUYMET_CODE  int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'BUYPLAN_C' AND COLUMN_NAME='QTY_FREE_Y3' and table_schema = DATABASE()) THEN
+ ALTER TABLE BUYPLAN_C ADD QTY_FREE_Y3  float NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'BUYPLAN_C' AND COLUMN_NAME='HIDE' and table_schema = DATABASE()) THEN
+ ALTER TABLE BUYPLAN_C ADD HIDE  VARCHAR(1) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'BUYPLAN_C' AND COLUMN_NAME='PLAN_TYPE' and table_schema = DATABASE()) THEN
+ ALTER TABLE BUYPLAN_C ADD PLAN_TYPE  int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'BUYPLAN_C' AND COLUMN_NAME='MOD_SYS' and table_schema = DATABASE()) THEN
+ ALTER TABLE BUYPLAN_C ADD MOD_SYS VARCHAR(10) NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'BDG_AMT' AND COLUMN_NAME = 'LIMIT_FLAG' and table_schema = DATABASE()) THEN
+  ALTER TABLE BDG_AMT ADD  LIMIT_FLAG   CHAR(1)  NULL ;
+     ALTER TABLE BDG_AMT ADD  BUDGET_AMT_TRI1   float  NULL ;
+     ALTER TABLE BDG_AMT ADD  BUDGET_AMT_TRI2   float  NULL ;
+     ALTER TABLE BDG_AMT ADD  BUDGET_AMT_TRI3   float  NULL ;
+     ALTER TABLE BDG_AMT ADD  BUDGET_AMT_TRI4   float  NULL ;
+     ALTER TABLE BDG_AMT ADD  TOTAL_BUY_TRI1   float  NULL ;
+     ALTER TABLE BDG_AMT ADD  TOTAL_BUY_TRI2   float  NULL ;
+     ALTER TABLE BDG_AMT ADD  TOTAL_BUY_TRI3   float  NULL ;
+     ALTER TABLE BDG_AMT ADD  TOTAL_BUY_TRI4   float  NULL ;
+     ALTER TABLE BDG_AMT ADD  BUDGET_RM_TRI1   float  NULL ;
+     ALTER TABLE BDG_AMT ADD  BUDGET_RM_TRI2   float  NULL ;
+     ALTER TABLE BDG_AMT ADD  BUDGET_RM_TRI3   float  NULL ;
+     ALTER TABLE BDG_AMT ADD  BUDGET_RM_TRI4   float  NULL ;
+END IF;
+
+
+
+CREATE TABLE IF NOT EXISTS `DOC_FLOW` (
+    `REF_NO` varchar(7)  NOT NULL,
+  `SEND_DATE` char(8)  DEFAULT NULL,
+  `RCV_DATE` char(8)  DEFAULT NULL,
+  `SEND_DEPT` char(6)  DEFAULT NULL,
+  `RCV_DEPT` char(6)  DEFAULT NULL,
+  `USER_ID` varchar(30)  DEFAULT NULL,
+  `LAST_UPDATE` datetime DEFAULT NULL,
+  `TOTAL_INVOICE` int(11) DEFAULT NULL,
+  `CONFIRM_FLAG` char(1)  DEFAULT NULL,
+  `BUDGET_TYPE` int(11) DEFAULT NULL,
+  PRIMARY KEY (`REF_NO`)
+) ENGINE=InnoDB ;
+
+
+CREATE TABLE IF NOT EXISTS `doc_flow_c` (
+  `REF_NO` varchar(7)  NOT NULL,
+  `INVOICE_NO` varchar(25)  NOT NULL,
+  `PO_NO` varchar(25)  NOT NULL,
+  `RCV_FLAG` char(1)  DEFAULT NULL,
+  `USER_SEND` varchar(30)  DEFAULT NULL,
+  `USER_RCV` varchar(30)  DEFAULT NULL,
+  `LAST_UPDATE` datetime DEFAULT NULL,
+  PRIMARY KEY (`INVOICE_NO`,`REF_NO`)
+) ENGINE=InnoDB ;
+
+
+CREATE TABLE IF NOT EXISTS `dist_type` (
+  `DIST_TYPE_CODE` int(11) NOT NULL,
+  `DIST_TYPE_NAME` varchar(60)  NOT NULL,
+  `HIDE` char(1)  NOT NULL,
+  PRIMARY KEY (`DIST_TYPE_CODE`)
+) ENGINE=InnoDB ;
+
+CREATE TABLE IF NOT EXISTS `ADD_IN_PROGRAMS` (
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  `BAR_CAPTION` varchar(30)  DEFAULT NULL,
+  `MENU_CAPTION` varchar(30)  DEFAULT NULL,
+  `ICON` longblob,
+  `USER_ID` varchar(35)  DEFAULT NULL,
+  `ISSUE_DATE` datetime DEFAULT NULL,
+  `PROGRAM_DATA` longblob,
+  `CHANGE_DATE` datetime DEFAULT NULL,
+  `PROGRAM_NAME` varchar(30)  DEFAULT NULL,
+  `VERSION` float DEFAULT 0,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB ;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_PO_C' AND COLUMN_NAME='CHG_REF' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_PO_C ADD CHG_REF  VARCHAR(13) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_PO_C' AND COLUMN_NAME='MSIVOC_RECNO' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_PO_C ADD MSIVOC_RECNO  int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_PO_C' AND COLUMN_NAME='BUY_COMMON' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_PO_C ADD BUY_COMMON  VARCHAR(2) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_PO_C' AND COLUMN_NAME='EDI_FLAG' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_PO_C ADD EDI_FLAG  VARCHAR(1) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_PO_C' AND COLUMN_NAME='USER_CANCEL' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_PO_C ADD USER_CANCEL  VARCHAR(30) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_PO_C' AND COLUMN_NAME='REASON_CANCEL' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_PO_C ADD REASON_CANCEL  int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO' AND COLUMN_NAME='REF_NO' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO ADD REF_NO VARCHAR(15) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO' AND COLUMN_NAME='SUB_PO_UNO' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO ADD SUB_PO_UNO VARCHAR(10) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_PO' AND COLUMN_NAME='RES_DATE' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_PO ADD RES_DATE CHAR(8) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO' AND COLUMN_NAME='REQ_INTER' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO ADD REQ_INTER CHAR(1) DEFAULT 'N'  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO' AND COLUMN_NAME='CFM_INTER' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO ADD CFM_INTER CHAR(1) DEFAULT 'N'  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_PO' AND COLUMN_NAME='PROJECT_NO' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_PO ADD PROJECT_NO VARCHAR(30) DEFAULT null  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_PO' AND COLUMN_NAME='EGP_NO' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_PO ADD EGP_NO VARCHAR(30) DEFAULT null  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_PO' AND COLUMN_NAME='GF_NO' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_PO ADD GF_NO VARCHAR(10) DEFAULT null  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_PO' AND COLUMN_NAME='EDI_FLAG' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_PO ADD EDI_FLAG VARCHAR(1) DEFAULT null  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_PO' AND COLUMN_NAME='EDI_RES' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_PO ADD EDI_RES VARCHAR(50) DEFAULT null  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_PO' AND COLUMN_NAME='SEND_PO_DATE' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_PO ADD SEND_PO_DATE VARCHAR(8) DEFAULT null  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_PO' AND COLUMN_NAME='ACK_DATE' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_PO ADD ACK_DATE VARCHAR(8) DEFAULT null  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO_C' AND COLUMN_NAME='REMARK' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO_C ADD REMARK VARCHAR(100) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO_C' AND COLUMN_NAME='CLIENT_IP' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO_C ADD CLIENT_IP VARCHAR(15) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO_C' AND COLUMN_NAME='SEND_CANCEL' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO_C ADD SEND_CANCEL VARCHAR(1) NULL  ;
+END IF;
+
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO_C' AND COLUMN_NAME='QTY_CFM' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO_C ADD  QTY_CFM  VARCHAR(1) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO_C' AND COLUMN_NAME='LAST_UPD' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO_C ADD  LAST_UPD  DateTime NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO_C' AND COLUMN_NAME='REV_DATE' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO_C ADD  REV_DATE  DateTime NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO_C' AND COLUMN_NAME='APP_VERSION' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO_C ADD  APP_VERSION  VARCHAR(10) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO_C' AND COLUMN_NAME='WA_COST' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO_C ADD  WA_COST  decimal NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO_C' AND COLUMN_NAME='DISP_RECNO' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO_C ADD  DISP_RECNO  INT NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_IVO_C' AND COLUMN_NAME='REMAIN_QTY' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_IVO_C ADD REMAIN_QTY float NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_IVO_C' AND COLUMN_NAME='PO_ITEM_TYPE' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_IVO_C ADD PO_ITEM_TYPE int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_IVO_C' AND COLUMN_NAME='SEND_FLAG' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_IVO_C ADD SEND_FLAG varchar(1) DEFAULT 'N'  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_IVO' AND COLUMN_NAME='SEND_FLAG' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_IVO ADD SEND_FLAG varchar(1) DEFAULT 'N'  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_IVO' AND COLUMN_NAME='PRE_RECEIVE_NO' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_IVO ADD PRE_RECEIVE_NO VARCHAR(15) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_IVO' AND COLUMN_NAME='RCV_TIME' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_IVO ADD RCV_TIME CHAR(4) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'MS_IVO' AND COLUMN_NAME='ASN_NO' and table_schema = DATABASE()) THEN
+ ALTER TABLE MS_IVO ADD ASN_NO VARCHAR(10) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'PRE_MS_IVO' AND COLUMN_NAME='QTY' and table_schema = DATABASE()) THEN
+ ALTER TABLE PRE_MS_IVO ADD QTY int NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'PRE_MS_IVO' AND COLUMN_NAME='AMOUNT' and table_schema = DATABASE()) THEN
+ ALTER TABLE PRE_MS_IVO ADD AMOUNT double NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO' AND COLUMN_NAME='CONFIRM_DATE' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO ADD CONFIRM_DATE VARCHAR(8) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO' AND COLUMN_NAME='CONFIRM_TIME' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO ADD CONFIRM_TIME VARCHAR(4) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'SM_PO' AND COLUMN_NAME='DIST_TYPE' and table_schema = DATABASE()) THEN
+ ALTER TABLE SM_PO ADD DIST_TYPE int NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'INV_MD' AND COLUMN_NAME='FORECAST' and table_schema = DATABASE()) THEN
+ ALTER TABLE INV_MD ADD FORECAST  float NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'INV_MD' AND COLUMN_NAME='LAST_VENDOR_CODE' and table_schema = DATABASE()) THEN
+ ALTER TABLE INV_MD ADD LAST_VENDOR_CODE  int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'INV_MD' AND COLUMN_NAME='HIS_RATE' and table_schema = DATABASE()) THEN
+ ALTER TABLE INV_MD ADD HIS_RATE float NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'INV_MD' AND COLUMN_NAME='LAST_VENDOR_CODE' and table_schema = DATABASE()) THEN
+ ALTER TABLE INV_MD ADD LAST_VENDOR_CODE int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'INV_MD' AND COLUMN_NAME='KANBAN_RATIO' and table_schema = DATABASE()) THEN
+ ALTER TABLE INV_MD ADD KANBAN_RATIO int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'INV_MD' AND COLUMN_NAME='USE_MINMAX' and table_schema = DATABASE()) THEN
+ ALTER TABLE INV_MD ADD USE_MINMAX varchar(1) DEFAULT 'N'  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'INV_MD' AND COLUMN_NAME='WA_COST' and table_schema = DATABASE()) THEN
+ ALTER TABLE INV_MD ADD WA_COST decimal DEFAULT 0  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'INV_MD' AND COLUMN_NAME='COUNT_ON_HAND' and table_schema = DATABASE()) THEN
+ ALTER TABLE INV_MD ADD COUNT_ON_HAND int DEFAULT NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'INV_MD' AND COLUMN_NAME='LAST_TRADE_CODE' AND table_schema = DATABASE()) THEN
+ ALTER TABLE INV_MD ADD LAST_TRADE_CODE varchar(18) DEFAULT NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_GN' AND COLUMN_NAME='IS_HAD' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_GN ADD IS_HAD CHAR(1) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_GN' AND COLUMN_NAME='REF_PRICE_DATE' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_GN ADD REF_PRICE_DATE CHAR(8) NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_GN' AND COLUMN_NAME='USE_TRADE_DIS' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_GN ADD USE_TRADE_DIS CHAR(1) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_GN' AND COLUMN_NAME='LAST_NOTIFY_HAD' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_GN ADD LAST_NOTIFY_HAD datetime NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_GN' AND COLUMN_NAME='USER_ID' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_GN ADD USER_ID varchar(32) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_GN' AND COLUMN_NAME='MIT' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_GN ADD MIT varchar(1) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_GN' AND COLUMN_NAME='CONT_VALUE' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_GN ADD CONT_VALUE float NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_GN' AND COLUMN_NAME='CONT_UNIT_ID' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_GN ADD CONT_UNIT_ID int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_GN' AND COLUMN_NAME='CHANGE_DATE' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_GN ADD CHANGE_DATE datetime NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_GN' AND COLUMN_NAME='STD_PRICE4' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_GN ADD STD_PRICE4 double NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_GN' AND COLUMN_NAME='STD_PRICE5' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_GN ADD STD_PRICE5 double NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_GN' AND COLUMN_NAME='STD_RATIO4' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_GN ADD STD_RATIO4 double NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_GN' AND COLUMN_NAME='STD_RATIO5' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_GN ADD STD_RATIO5 double NULL  ;
+END IF;
+
+
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_VN' AND COLUMN_NAME='USER_ID' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_VN ADD USER_ID varchar(32) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_VN' AND COLUMN_NAME='CHANGE_DATE' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_VN ADD CHANGE_DATE datetime NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_VN' AND COLUMN_NAME='PREMA_FLAG' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_VN ADD PREMA_FLAG varchar(1) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_VN' AND COLUMN_NAME='DEF_BUYCOM' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_VN ADD DEF_BUYCOM int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_VN' AND COLUMN_NAME='REMARK' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_VN ADD REMARK varchar(255) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_VN' AND COLUMN_NAME='USE_IMPORT_PROD' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_VN ADD USE_IMPORT_PROD varchar(255) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_VN' AND COLUMN_NAME='GPSC' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_VN ADD GPSC varchar(20) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DRUG_VN' AND COLUMN_NAME='exchange_code' and table_schema = DATABASE()) THEN
+ ALTER TABLE DRUG_VN ADD exchange_code varchar(6) NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'COMPANY' AND COLUMN_NAME='ISSUE_DATE' and table_schema = DATABASE()) THEN
+ ALTER TABLE COMPANY ADD ISSUE_DATE CHAR(8) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'COMPANY' AND COLUMN_NAME='EMAIL' and table_schema = DATABASE()) THEN
+ ALTER TABLE COMPANY ADD EMAIL varCHAR(20) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'COMPANY' AND COLUMN_NAME='BANK_ACC_NAME' and table_schema = DATABASE()) THEN
+ ALTER TABLE COMPANY ADD BANK_ACC_NAME varCHAR(30) NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'COMPANY' AND COLUMN_NAME='BANK_NAME' and table_schema = DATABASE()) THEN
+ ALTER TABLE COMPANY ADD BANK_NAME varCHAR(30) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'COMPANY' AND COLUMN_NAME='FAX' and table_schema = DATABASE()) THEN
+ ALTER TABLE COMPANY ADD FAX varCHAR(40) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'COMPANY' AND COLUMN_NAME='DETAILER' and table_schema = DATABASE()) THEN
+ ALTER TABLE COMPANY ADD DETAILER varCHAR(40) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'COMPANY' AND COLUMN_NAME='EDI_VENDOR_CODE' and table_schema = DATABASE()) THEN
+ ALTER TABLE COMPANY ADD EDI_VENDOR_CODE varCHAR(10) NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DEPT_ID' AND COLUMN_NAME='SUPPLY_DIRECTOR_ID' and table_schema = DATABASE()) THEN
+ ALTER TABLE DEPT_ID ADD SUPPLY_DIRECTOR_ID int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DEPT_ID' AND COLUMN_NAME='SUPPLY_OFFICER_ID' and table_schema = DATABASE()) THEN
+ ALTER TABLE DEPT_ID ADD SUPPLY_OFFICER_ID int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DEPT_ID' AND COLUMN_NAME='INV_DIRECTOR_ID' and table_schema = DATABASE()) THEN
+ ALTER TABLE DEPT_ID ADD INV_DIRECTOR_ID int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DEPT_ID' AND COLUMN_NAME='DEPT_UID' and table_schema = DATABASE()) THEN
+ ALTER TABLE DEPT_ID ADD DEPT_UID VARCHAR(10) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DEPT_ID' AND COLUMN_NAME='LINE_TOKEN' and table_schema = DATABASE()) THEN
+ ALTER TABLE DEPT_ID ADD LINE_TOKEN VARCHAR(50) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DEPT_ID' AND COLUMN_NAME='CAL_RATE' and table_schema = DATABASE()) THEN
+ ALTER TABLE DEPT_ID ADD CAL_RATE VARCHAR(1) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DEPT_ID' AND COLUMN_NAME='EMAIL' and table_schema = DATABASE()) THEN
+ ALTER TABLE DEPT_ID ADD EMAIL VARCHAR(60) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'dept_id' AND COLUMN_NAME='RCV_TRANSFER' and table_schema = DATABASE()) THEN
+ ALTER TABLE dept_id ADD RCV_TRANSFER VARCHAR(1) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'dept_id' AND COLUMN_NAME='cost_center_id' and table_schema = DATABASE()) THEN
+ ALTER TABLE dept_id ADD cost_center_id VARCHAR(6) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'ADD_IN_PROGRAMS' AND COLUMN_NAME='VERSION' and table_schema = DATABASE()) THEN
+ ALTER TABLE ADD_IN_PROGRAMS ADD VERSION float NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CNT_C' AND COLUMN_NAME='TRADE_CODE' and table_schema = DATABASE()) THEN
+ ALTER TABLE CNT_C ADD TRADE_CODE varchar(18) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CNT_C' AND COLUMN_NAME='BUY_COMMON' and table_schema = DATABASE()) THEN
+ ALTER TABLE CNT_C ADD BUY_COMMON varchar(2) NULL  ;
+END IF;
+
+
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CARD' AND COLUMN_NAME='REMAIN_QTY_T' and table_schema = DATABASE()) THEN
+ ALTER TABLE CARD ADD REMAIN_QTY_T decimal NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CARD' AND COLUMN_NAME='REMAIN_COST_T' and table_schema = DATABASE()) THEN
+ ALTER TABLE CARD ADD REMAIN_COST_T decimal NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CARD' AND COLUMN_NAME='REMAIN_VALUE_T' and table_schema = DATABASE()) THEN
+ ALTER TABLE CARD ADD REMAIN_VALUE_T decimal NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CARD' AND COLUMN_NAME='APP_VERSION' and table_schema = DATABASE()) THEN
+ ALTER TABLE CARD ADD APP_VERSION varchar(10) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CARD' AND COLUMN_NAME='SMPOC_RECNO' and table_schema = DATABASE()) THEN
+ ALTER TABLE CARD ADD SMPOC_RECNO int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CARD' AND COLUMN_NAME='REMAIN_QTY_LOT' and table_schema = DATABASE()) THEN
+ ALTER TABLE CARD ADD REMAIN_QTY_LOT decimal NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CARD' AND COLUMN_NAME='REMAIN_COST_LOT' and table_schema = DATABASE()) THEN
+ ALTER TABLE CARD ADD REMAIN_COST_LOT decimal NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CARD' AND COLUMN_NAME='REMAIN_VALUE_LOT' and table_schema = DATABASE()) THEN
+ ALTER TABLE CARD ADD REMAIN_VALUE_LOT decimal NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CARD' AND COLUMN_NAME='VENDOR_CODE' and table_schema = DATABASE()) THEN
+ ALTER TABLE CARD ADD VENDOR_CODE int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CARD' AND COLUMN_NAME='PACK_CODE' and table_schema = DATABASE()) THEN
+ ALTER TABLE CARD ADD PACK_CODE int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CARD' AND COLUMN_NAME='PACK_COST' and table_schema = DATABASE()) THEN
+ ALTER TABLE CARD ADD PACK_COST decimal NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CARD' AND COLUMN_NAME='WT_AVG' and table_schema = DATABASE()) THEN
+ ALTER TABLE CARD ADD WT_AVG decimal NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CARD' AND COLUMN_NAME='HN' and table_schema = DATABASE()) THEN
+ ALTER TABLE CARD ADD HN varchar(7) NULL  ;
+END IF;
+
+ IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CARD' AND COLUMN_NAME='VN' and table_schema = DATABASE()) THEN
+ ALTER TABLE CARD ADD VN varchar(4) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CARD' AND COLUMN_NAME='DISP_NO' and table_schema = DATABASE()) THEN
+ ALTER TABLE CARD ADD DISP_NO int NULL  ;
+END IF;
+
+
+
+CREATE TABLE IF NOT EXISTS `SM_PO_E` (
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `SUB_PO_NO` char(12)  DEFAULT NULL,
+  `WORKING_CODE` char(7)  DEFAULT NULL,
+  `QTY_DIST` double DEFAULT NULL,
+  `QTY_DIST_E` double DEFAULT NULL,
+  `PACK_RATIO` double DEFAULT NULL,
+  `COST` double DEFAULT NULL,
+  `TRADE_CODE` varchar(18)  DEFAULT NULL,
+  `EXPIRED_DATE` char(8)  DEFAULT NULL,
+  `LOCATION` char(5)  DEFAULT NULL,
+  `USER_ID` varchar(30)  DEFAULT NULL,
+  `COMPLETE_FLAG` varchar(1)  DEFAULT NULL,
+  `LOT_NO` varchar(40)  DEFAULT NULL,
+  `CANCEL_DIST` char(1)  DEFAULT NULL,
+  `INV_NO` varchar(25)  DEFAULT NULL,
+  `INV_REMAIN_QTY` double DEFAULT NULL,
+  `RECEIVE_NO` varchar(10)  DEFAULT NULL,
+  `DEPT_ID` varchar(6)  DEFAULT NULL,
+  `DIST_DATE` varchar(8)  DEFAULT NULL,
+  `DIST_TIME` varchar(2)  DEFAULT NULL,
+  `MSIVOC_RECORD` int(11) DEFAULT NULL,
+  `STOCK_ID` varchar(6)  DEFAULT NULL,
+  PRIMARY KEY (`RECORD_NUMBER`)
+) ENGINE=InnoDB ;
+
+
+CREATE TABLE IF NOT EXISTS `INVS_REF` (
+  `RETURN_DATE` char(8)  DEFAULT NULL,
+  `RETURN_CON` int(11) DEFAULT NULL
+) ENGINE=InnoDB ;
+
+CREATE TABLE IF NOT EXISTS `RTN_REASON` (
+  `ID` int(11) NOT NULL,
+  `RETURN_REASON` varchar(60)  DEFAULT NULL,
+  `HIDE` char(1)  DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB ;
+
+CREATE TABLE IF NOT EXISTS `INV_RTN` (
+  `RETURN_NO` char(10)  DEFAULT NULL,
+  `DEPT_ID` varchar(6)  DEFAULT NULL,
+  `STOCK_ID` varchar(6)  DEFAULT NULL,
+  `RETURN_DATE` char(8)  DEFAULT NULL,
+  `RETURN_TIME` char(4)  DEFAULT NULL,
+  `USER_ID` varchar(16)  DEFAULT NULL,
+  `TOTAL_ITEM` int(11) DEFAULT NULL,
+  `TOTAL_VALUE_RETURN` double DEFAULT NULL,
+  `TOTAL_VALUE_ALL` varchar(255)  DEFAULT NULL,
+  `CONFIRM_FLAG` char(1)  DEFAULT NULL,
+  KEY `inv_return0` (`RETURN_NO`),
+  KEY `inv_return1` (`RETURN_NO`,`DEPT_ID`,`STOCK_ID`,`RETURN_DATE`)
+) ENGINE=InnoDB ;
+
+
+CREATE TABLE IF NOT EXISTS `INV_RTN_C` (
+  `RETURN_NO` char(10)  DEFAULT NULL,
+  `WORKING_CODE` varchar(18)  DEFAULT NULL,
+  `TRADE_CODE` varchar(18)  DEFAULT NULL,
+  `TOTAL_QTY` double DEFAULT NULL,
+  `RETURN_QTY` double DEFAULT NULL,
+  `PACK_RATIO` int(11) DEFAULT NULL,
+  `UNIT_COST` double DEFAULT NULL,
+  `EXPIRED_DATE` char(8)  DEFAULT NULL,
+  `LOT_NO` varchar(10)  DEFAULT NULL,
+  `TOTAL_COST` double DEFAULT NULL,
+  `RETURN_COST` double DEFAULT NULL,
+  `REASON_ID` int(11) DEFAULT NULL,
+  `REF_DATA` varchar(10)  DEFAULT NULL,
+  `USER_ID` varchar(16)  DEFAULT NULL,
+  `RETURN_DATE` char(8)  DEFAULT NULL,
+  `RETURN_TIME` char(4)  DEFAULT NULL,
+  `ID` char(24)  NOT NULL,
+  `USER_CONFIRM` varchar(16)  DEFAULT NULL,
+  `USER_CANCEL` varchar(16)  DEFAULT NULL,
+  `RCV_FLAG` char(1)  DEFAULT NULL,
+  `LOCATION` varchar(10)  DEFAULT NULL,
+  `CANCEL_FLAG` char(1)  DEFAULT NULL,
+  `ACTION_ID` int(11) DEFAULT NULL,
+  PRIMARY KEY (`ID`),
+  KEY `INV_RETURN_C0` (`RETURN_NO`,`WORKING_CODE`,`TRADE_CODE`)
+) ENGINE=InnoDB ;
+
+CREATE TABLE IF NOT EXISTS `RTN_ACTION` (
+  `ID` int(11) NOT NULL,
+  `ACTION_DES` varchar(60)  DEFAULT NULL,
+  `HIDE` char(1)  DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB ;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'INV_RTN_C' AND COLUMN_NAME='ACTION_ID' and table_schema = DATABASE()) THEN
+ ALTER TABLE INV_RTN_C ADD ACTION_ID int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'INV_RTN_C' AND COLUMN_NAME='PACK_RATIO' and table_schema = DATABASE()) THEN
+ ALTER TABLE INV_RTN_C ADD PACK_RATIO int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'INV_RTN_C' AND COLUMN_NAME='PACK_CODE' and table_schema = DATABASE()) THEN
+ ALTER TABLE INV_RTN_C ADD PACK_CODE int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'INV_RTN_C' AND COLUMN_NAME='FREE_FLAG' and table_schema = DATABASE()) THEN
+ ALTER TABLE INV_RTN_C ADD FREE_FLAG varchar(1) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'BUYMETHOD' AND COLUMN_NAME='DEFAULT_FLAG' and table_schema = DATABASE()) THEN
+ ALTER TABLE BUYMETHOD ADD DEFAULT_FLAG varchar(1) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'BUYCOMMON' AND COLUMN_NAME='DEFAULT_FLAG' and table_schema = DATABASE()) THEN
+ ALTER TABLE BUYCOMMON ADD DEFAULT_FLAG varchar(1) NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'BDG_TYPE' AND COLUMN_NAME='DEFAULT_FLAG' and table_schema = DATABASE()) THEN
+ ALTER TABLE BDG_TYPE ADD DEFAULT_FLAG varchar(1) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CNT' AND COLUMN_NAME='GF_NO' and table_schema = DATABASE()) THEN
+ ALTER TABLE CNT ADD GF_NO varchar(10) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'CNT' AND COLUMN_NAME='CNT_DATE' and table_schema = DATABASE()) THEN
+ ALTER TABLE CNT ADD CNT_DATE varchar(8) NULL  ;
+END IF;
+
+
+
+CREATE TABLE IF NOT EXISTS `location` (
+  `LOCATION_ID` varchar(6)  DEFAULT NULL,
+  `TRADE_CODE` varchar(10)  DEFAULT NULL,
+  `WORKING_CODE` varchar(10)  DEFAULT NULL,
+  `DEPT_ID` varchar(6)  DEFAULT NULL,
+  KEY `location0` (`LOCATION_ID`,`TRADE_CODE`)
+) ENGINE=InnoDB ;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'HOSP_INV' AND COLUMN_NAME='PREFIX' and table_schema = DATABASE()) THEN
+ ALTER TABLE HOSP_INV ADD PREFIX varchar(80) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'HOSP_INV' AND COLUMN_NAME='DMSIC_TOKEN' and table_schema = DATABASE()) THEN
+ ALTER TABLE HOSP_INV ADD DMSIC_TOKEN varchar(1000) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DEPT_MAP' AND COLUMN_NAME='AUTO_DISP' and table_schema = DATABASE()) THEN
+ ALTER TABLE DEPT_MAP ADD AUTO_DISP varchar(1)  DEFAULT 'N'  ;
+END IF;
+
+CREATE TABLE IF NOT EXISTS`focus_list` (
+  `LIST_CODE` int(11) DEFAULT NULL,
+  `LIST_TYPE` smallint(6) DEFAULT NULL,
+  `USER_ID` varchar(32)  DEFAULT NULL,
+  `DEPT_ID` varchar(6)  DEFAULT NULL,
+  `LIST_NAME` varchar(25)  DEFAULT NULL,
+  KEY `focus_list0` (`LIST_CODE`,`USER_ID`)
+) ENGINE=InnoDB ;
+
+
+CREATE TABLE IF NOT EXISTS`focus_list_c` (
+  `WORKING_CODE` varchar(18)  NOT NULL,
+  `LIST_CODE` int(11) DEFAULT NULL,
+  `USER_ID` varchar(32)  DEFAULT NULL,
+  KEY `focus_list_c0` (`LIST_CODE`,`WORKING_CODE`)
+) ENGINE=InnoDB ;
+
+
+CREATE TABLE IF NOT EXISTS`inv_site` (
+  `WORKING_CODE` char(18)  DEFAULT NULL,
+  `LOCATION` char(5)  DEFAULT NULL,
+  `TRADE_CODE` varchar(18)  NOT NULL,
+  `DEPT_ID` char(6)  NOT NULL,
+  `USER_ID` varchar(30)  DEFAULT NULL,
+  `AUTO_DISP` char(1)  DEFAULT 'Y',
+  PRIMARY KEY (`DEPT_ID`,`TRADE_CODE`),
+  KEY `inv_site0` (`TRADE_CODE`,`DEPT_ID`) USING BTREE
+) ENGINE=InnoDB ;
+
+
+ CREATE TABLE IF NOT EXISTS`e_po` (
+  `EMAIL_ACC` varchar(30)  DEFAULT NULL,
+  `EMAIL_PASS` varchar(32)  DEFAULT NULL,
+  `EMAIL_CC` varchar(60)  DEFAULT NULL,
+  `EMAIL_SUBJECT` varchar(100)  DEFAULT NULL,
+  `DEPT_ID` varchar(6)  DEFAULT NULL,
+  `EMAIL_MSG` varchar(255)  DEFAULT NULL,
+  `ID` int(11) NOT NULL AUTO_INCREMENT,
+  PRIMARY KEY (`ID`),
+  KEY `e_po0` (`DEPT_ID`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 ;
+
+CREATE TABLE IF NOT EXISTS `gf` (
+  `GF_NO` varchar(10)  NOT NULL,
+  `GF_DATE` varchar(8)  DEFAULT NULL,
+  `PJT_NO` varchar(20)  DEFAULT NULL,
+  `RCV_NO` varchar(10)  DEFAULT NULL,
+  `AMOUNT` double DEFAULT NULL,
+  `RUNNO` smallint(6) NOT NULL,
+  PRIMARY KEY (`GF_NO`,`RUNNO`)
+) ENGINE=InnoDB ;
+
+
+CREATE TABLE IF NOT EXISTS `gf` (
+  `GF_NO` varchar(10)  NOT NULL,
+  `GF_DATE` varchar(8)  DEFAULT NULL,
+  `PJT_NO` varchar(20)  DEFAULT NULL,
+  `RCV_NO` varchar(10)  DEFAULT NULL,
+  `AMOUNT` double DEFAULT NULL,
+  `RUNNO` smallint(6) NOT NULL,
+  PRIMARY KEY (`GF_NO`,`RUNNO`)
+) ENGINE=InnoDB ;
+
+CREATE TABLE IF NOT EXISTS`drug_compos` (
+  `WORKING_CODE` varchar(7) DEFAULT NULL,
+  `COMPOS_NAME` varchar(100) DEFAULT NULL,
+  `COMPOS_CODE` int(11) NOT NULL,
+  `TMTID` bigint(20) DEFAULT NULL,
+  PRIMARY KEY (`COMPOS_CODE`),
+  KEY `drug_compos0` (`WORKING_CODE`),
+  KEY `drug_compos1` (`TMTID`)
+) ENGINE=InnoDB ;
+
+CREATE TABLE IF NOT EXISTS `drug_spec` (
+  `WORKING_CODE` varchar(7) NOT NULL,
+  `ATTACH_FILE` longblob,
+  `FILE_NAME` varchar(30) DEFAULT NULL,
+  KEY `drug_spec0` (`WORKING_CODE`)
+) ENGINE=InnoDB ;
+
+CREATE TABLE IF NOT EXISTS `df_con` (
+  `REF_NO_CON` int(11) NOT NULL,
+  `LAST_UPDATE` char(8)  DEFAULT NULL,
+  PRIMARY KEY (`REF_NO_CON`)
+) ENGINE=InnoDB ;
+
+
+CREATE TABLE IF NOT EXISTS `po_reason` (
+  `ID` int(11) NOT NULL,
+  `REASON_DES` varchar(60)  DEFAULT NULL,
+  `HIDE` varchar(1)  DEFAULT NULL,
+  PRIMARY KEY (`ID`)
+) ENGINE=InnoDB ;
+
+
+CREATE TABLE IF NOT EXISTS `server_config`  (
+  `section` varchar(50)  NULL DEFAULT NULL,
+  `ident` varchar(50)  NULL DEFAULT NULL,
+  `value` varchar(50)  NULL DEFAULT NULL,
+  UNIQUE INDEX `server_config0`(`section` ASC, `ident` ASC) USING BTREE
+) ENGINE = InnoDB ROW_FORMAT = Compact;
+
+SET FOREIGN_KEY_CHECKS = 1;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'drug_spec' AND COLUMN_NAME='SPEC_TEXT' and table_schema = DATABASE()) THEN
+ ALTER TABLE drug_spec ADD SPEC_TEXT text  DEFAULT NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'INV_SITE' AND COLUMN_NAME='EFFECT_DATE' and table_schema = DATABASE()) THEN
+ ALTER TABLE INV_SITE ADD EFFECT_DATE datetime NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DOC_FLOW_C' AND COLUMN_NAME='RECEIVE_NO' and table_schema = DATABASE()) THEN
+ ALTER TABLE DOC_FLOW_C ADD RECEIVE_NO varchar(15) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DOC_FLOW_C' AND COLUMN_NAME='PO_NO' and table_schema = DATABASE()) THEN
+ ALTER TABLE DOC_FLOW_C ADD PO_NO varchar(15)  NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'profile' AND COLUMN_NAME='DEPT_ID' and table_schema = DATABASE()) THEN
+ ALTER TABLE profile ADD DEPT_ID char(6) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'profile' AND COLUMN_NAME='accept_term' and table_schema = DATABASE()) THEN
+ ALTER TABLE profile ADD accept_term varchar(1) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'ed_group' AND COLUMN_NAME='hide' and table_schema = DATABASE()) THEN
+ ALTER TABLE ed_group ADD hide varchar(1) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'pack_ratio' AND COLUMN_NAME='USER_ID' and table_schema = DATABASE()) THEN
+ ALTER TABLE pack_ratio ADD USER_ID varchar(32) NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'aic' AND COLUMN_NAME='MOD_SYS' and table_schema = DATABASE()) THEN
+ ALTER TABLE aic ADD MOD_SYS varchar(10) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'DEPT_ID' AND COLUMN_NAME='ADDRESS' and table_schema = DATABASE()) THEN
+ ALTER TABLE DEPT_ID ADD ADDRESS varchar(150) NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'Reports' AND COLUMN_NAME='CREATE_DATE' and table_schema = DATABASE()) THEN
+ ALTER TABLE Reports ADD CREATE_DATE varchar(8) NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'Reports' AND COLUMN_NAME='VIEW_COUNT' and table_schema = DATABASE()) THEN
+ ALTER TABLE Reports ADD VIEW_COUNT int NULL  ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'Reports' AND COLUMN_NAME='LAST_VIEW' and table_schema = DATABASE()) THEN
+ ALTER TABLE Reports ADD LAST_VIEW datetime NULL  ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'dispensed' AND COLUMN_NAME='record_number' and table_schema = DATABASE()) THEN
+  ALTER TABLE dispensed ADD RECORD_NUMBER INT PRIMARY KEY  NOT NULL AUTO_INCREMENT ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'dispensed' AND COLUMN_NAME='hn' and table_schema = DATABASE()) THEN
+  ALTER TABLE dispensed ADD hn varchar(13) NULL ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'dispensed' AND COLUMN_NAME='vn' and table_schema = DATABASE()) THEN
+  ALTER TABLE dispensed ADD vn varchar(17) NULL ;
+END IF;
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'dispensed' AND COLUMN_NAME='operate_date' and table_schema = DATABASE()) THEN
+  ALTER TABLE dispensed ADD operate_date datetime NULL ;
+END IF;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.COLUMNS WHERE TABLE_NAME = 'E_PO' AND COLUMN_NAME='GoogleToken' and table_schema = DATABASE()) THEN
+  ALTER TABLE E_PO ADD GoogleToken varchar(255) null ;
+END IF;
+
+
+CREATE TABLE IF NOT EXISTS`mbs_re_m` (
+  `RECORD_NUMBER` int(11) NOT NULL AUTO_INCREMENT,
+  `YEAR` char(4)  DEFAULT NULL,
+  `MONTH` char(2)  DEFAULT NULL,
+  `RCV_QUAN` double DEFAULT NULL,
+  `RCV_VALUE` double DEFAULT NULL,
+  `SALE_QUAN` double DEFAULT NULL,
+  `SALE_VALUE` double DEFAULT NULL,
+  `REMAIN_QUAN` double DEFAULT NULL,
+  `REMAIN_VALUE` double DEFAULT NULL,
+  `DEPT_ID` char(6)  DEFAULT NULL,
+  `LAST_UPDATE` datetime DEFAULT NULL,
+  `BFW_QTY` double DEFAULT NULL,
+  `BFW_VALUE` double DEFAULT NULL,
+  `IS_ED` smallint(6) DEFAULT NULL,
+  `BUY_FLAG` varchar(1)  DEFAULT NULL,
+  PRIMARY KEY (`RECORD_NUMBER`),
+  KEY `mbs_re_m` (`YEAR`,`MONTH`,`DEPT_ID`,`IS_ED`,`BUY_FLAG`)
+) ENGINE=InnoDB ;
+
+
+
+CREATE TABLE IF NOT EXISTS `edi_drug_vn` (
+  `VENDOR_TRADE_CODE` varchar(10)  NOT NULL,
+  `INVS_TRADE_CODE` varchar(18)  NOT NULL,
+  `VENDOR_CODE` varchar(10)  NOT NULL,
+  `TMTID` varchar(18)  DEFAULT NULL,
+  PRIMARY KEY (`VENDOR_TRADE_CODE`,`INVS_TRADE_CODE`,`VENDOR_CODE`)
+) ENGINE=InnoDB ;
+
+CREATE TABLE IF NOT EXISTS `item_type` (
+  `WORKING_CODE` varchar(10)  NOT NULL,
+  `HOSP_LIST` smallint(6) NOT NULL,
+  `FIRST_DATE` varchar(8)  NOT NULL,
+  `LAST_DATE` varchar(8)  NOT NULL,
+  `USER_ID` varchar(32)  DEFAULT NULL,
+  PRIMARY KEY (`WORKING_CODE`,`HOSP_LIST`,`FIRST_DATE`,`LAST_DATE`)
+) ENGINE=InnoDB ;
+
+CREATE TABLE IF NOT EXISTS `exchange_info` (
+  `exchange_code` varchar(2) NOT NULL,
+  `exchange_des` varchar(100) NULL,
+  `hide` varchar(1) NULL DEFAULT 'N',
+  PRIMARY KEY (`exchange_code`)
+) ENGINE=InnoDB ;
+
+
+IF NOT EXISTS(SELECT * FROM information_schema.statistics   WHERE  table_name = 'BDG_AMT' and INDEX_NAME='bdg_amt0'  and COLUMN_NAME ='MOD_SYS' and table_schema = DATABASE()
+) THEN
+
+    IF EXISTS(SELECT * FROM information_schema.statistics   WHERE  table_name = 'BDG_AMT' and INDEX_NAME='bdg_amt0'  and table_schema = DATABASE())
+    THEN
+      ALTER TABLE `BDG_AMT` DROP INDEX `bdg_amt0`;
+    END IF ;
+
+  ALTER TABLE `BDG_AMT` ADD INDEX  `bdg_amt0` (`BUDGET_TYPE`,`FISCAL_YEAR`,`MOD_SYS`);
+
+END IF ;
+
+
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for ymd2cbe
+-- ----------------------------
+DROP FUNCTION IF EXISTS `ymd2cbe`;
+delimiter ;;
+CREATE FUNCTION `ymd2cbe`(`date` char(8))
+ RETURNS char(15) CHARSET utf8 COLLATE utf8_unicode_ci
+BEGIN
+
+	DECLARE dayx int;
+  DECLARE monthx int;
+  DECLARE yearx int;
+  DECLARE cmonth varchar(6);
+    
+    Set dayx =convert(mid(date,7,2),UNSIGNED);
+    Set monthx = convert( mid(date,5,2),UNSIGNED);
+    SEt yearx = convert(mid(date,1,4),UNSIGNED)+543;
+ 
+    set cmonth = (select case monthx when 1 then 'ม.ค.'
+        when 2 then 'ก.พ.'
+        when 3 then 'มี.ค.'
+        when 4 then 'เม.ย.'
+        when 5 then 'พ.ค.'
+        when 6 then 'มิ.ย.'
+        when 7 then 'ก.ค.'
+        when 8 then 'ส.ค.'
+        when 9 then 'ก.ย.'
+        when 10 then 'ต.ค.'
+        when 11 then 'พ.ย.'
+        when 12 then 'ธ.ค.'  end);
+    
+    RETURN   concat(convert(dayx,char), ' ' , cmonth , ' ' ,convert(yearx,char)) ;
+
+
+END
+;;
+delimiter ;
+
+-- ----------------------------
+-- Function structure for ymd2dmy
+-- ----------------------------
+DROP FUNCTION IF EXISTS `ymd2dmy`;
+delimiter ;;
+CREATE FUNCTION `ymd2dmy`(`date` char(8))
+ RETURNS datetime
+BEGIN
+  Declare md Char(4);
+  Set md=Right(date,4);
+  IF md='0000' then
+  Set md='0101' ; END IF ;
+   
+  RETURN   convert(concat(left(date,4),md),datetime);
+END
+;;
+delimiter ;
+
+SET FOREIGN_KEY_CHECKS = 1;

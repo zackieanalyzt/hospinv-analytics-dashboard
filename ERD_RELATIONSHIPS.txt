@@ -1,0 +1,849 @@
+================================================================================================================================================
+ENTITY RELATIONSHIP DIAGRAM (ERD) FORMAT - Database: invslee
+================================================================================================================================================
+
+This document provides a structured format suitable for importing into ER diagram tools such as:
+- MySQL Workbench, Lucidchart, Draw.io, ERDPlus, Diagram.ly, etc.
+
+================================================================================================================================================
+TABLE DEFINITIONS WITH PRIMARY AND INFERRED FOREIGN KEYS
+================================================================================================================================================
+
+TABLE: drug_gn (DRUG/PRODUCT MASTER)
+  TYPE: Master/Core
+  PK: WORKING_CODE
+  COLUMNS: WORKING_CODE, DRUG_NAME_KEY, DRUG_NAME, DOSAGE_FORM, SALE_UNIT, COMPOSITION, ...
+  RELATIONSHIPS:
+    -> drug_vn (via WORKING_CODE)
+    -> drug_spec (via WORKING_CODE)
+    -> drug_compos (via WORKING_CODE)
+    -> quali_goal (via WORKING_CODE)
+    -> inv_md (via WORKING_CODE)
+    -> ms_po_c (via WORKING_CODE)
+    -> ms_ivo_c (via WORKING_CODE)
+    -> sm_po_c (via WORKING_CODE)
+    -> card (via WORKING_CODE)
+
+TABLE: company (VENDOR/COMPANY MASTER)
+  TYPE: Master/Reference
+  PK: COMPANY_CODE
+  COLUMNS: COMPANY_CODE, VENDOR_FLAG, MANUFAC_FLAG, COMPANY_NAME, ADDRESS, ...
+  RELATIONSHIPS:
+    -> ms_po (via VENDOR_CODE)
+    -> drug_vn (via VENDOR_CODE)
+    -> edi_drug_vn (via VENDOR_CODE)
+
+TABLE: dept_id (DEPARTMENT MASTER)
+  TYPE: Master/Organization
+  PK: RECORD_NUMBER, DEPT_ID
+  UNIQUE: DEPT_ID
+  COLUMNS: RECORD_NUMBER, DEPT_ID, DEPT_NAME, KEEP_INV, HIDE, INV_TYPE, ...
+  RELATIONSHIPS:
+    -> dept_map (via INVS_DEPT)
+    -> inv_site (via DEPT_ID)
+    -> hosp_inv (via DEPT_ID implied)
+    -> card (via DEPT_ID)
+    -> buyplan_c (via DEPT_ID)
+
+TABLE: hosp (HOSPITAL MASTER)
+  TYPE: Master/Organization
+  PK: HOSP_CODE
+  COLUMNS: HOSP_CODE, HOSP_NAME
+  RELATIONSHIPS:
+    -> hosp_inv (via HOSP_CODE)
+    -> hosp_list (via HOSP_LIST_CODE)
+
+================================================================================================================================================
+PURCHASE ORDER TRANSACTION FLOW
+================================================================================================================================================
+
+TABLE: ms_po (MEDICAL SUPPLY PO HEADER)
+  TYPE: Transaction Header
+  PK: RECORD_NUMBER
+  UNIQUE: RECORD_NUMBER
+  INDEX: PO_NO
+  COLUMNS: RECORD_NUMBER, PO_NO, VENDOR_CODE, BUDGET_TYPE, TOTAL_ITEM, TOTAL_COST, ...
+  FOREIGN KEY REFERENCES:
+    VENDOR_CODE -> company.COMPANY_CODE
+    BUDGET_TYPE -> bdg_type.BUDGET_TYPE
+  CHILD_TABLES:
+    -> ms_po_c (PK: RECORD_NUMBER)
+    -> ms_ivo (FK: PO_NO)
+  PARENT_TABLES:
+    <- bdg_type (BUDGET_TYPE)
+    <- company (VENDOR_CODE)
+
+TABLE: ms_po_c (MEDICAL SUPPLY PO DETAIL)
+  TYPE: Transaction Detail
+  PK: RECORD_NUMBER
+  INDEX: PO_NO, PO_NO+FREE_FLAG+WORKING_CODE+VENDOR_CODE, PO_NO+WORKING_CODE
+  COLUMNS: RECORD_NUMBER, PO_NO, WORKING_CODE, VENDOR_CODE, MANUFAC_CODE, BUY_UNIT_COST, ...
+  FOREIGN KEY REFERENCES:
+    PO_NO -> ms_po.PO_NO (via ms_po.RECORD_NUMBER relationship)
+    WORKING_CODE -> drug_gn.WORKING_CODE
+    VENDOR_CODE -> company.COMPANY_CODE
+  PARENT_TABLES:
+    <- ms_po (via PO_NO)
+    <- drug_gn (WORKING_CODE)
+    <- company (VENDOR_CODE)
+
+TABLE: ms_ivo (MEDICAL SUPPLY INVOICE HEADER)
+  TYPE: Transaction Header
+  PK: RECORD_NUMBER
+  UNIQUE: RECORD_NUMBER
+  INDEX: RECEIVE_NO
+  COLUMNS: RECORD_NUMBER, INVOICE_NO, PO_NO, VENDOR_CODE, BUDGET_TYPE, TOTAL_COST, ...
+  FOREIGN KEY REFERENCES:
+    PO_NO -> ms_po.PO_NO
+    VENDOR_CODE -> company.COMPANY_CODE
+    RECEIVE_NO -> pre_ms_ivo.PRE_RECEIVE_NO
+  CHILD_TABLES:
+    -> ms_ivo_c (PK: RECORD_NUMBER)
+    -> doc_flow_c (FK: INVOICE_NO)
+  PARENT_TABLES:
+    <- ms_po (PO_NO)
+    <- company (VENDOR_CODE)
+    <- pre_ms_ivo (RECEIVE_NO)
+
+TABLE: ms_ivo_c (MEDICAL SUPPLY INVOICE DETAIL)
+  TYPE: Transaction Detail
+  COLUMNS: RECORD_NUMBER, INVOICE_NO, WORKING_CODE, MANUFAC_CODE, BUY_UNIT_COST, ...
+  INDEX: INVOICE_NO+DEPT_ID+RECEIVE_NO, RECEIVE_NO+TRADE_CODE, RECEIVE_NO+FREE_FLAG+TRADE_CODE+LOT_NO
+  FOREIGN KEY REFERENCES:
+    INVOICE_NO -> ms_ivo.INVOICE_NO
+    WORKING_CODE -> drug_gn.WORKING_CODE
+    TRADE_CODE -> drug_vn.TRADE_CODE
+  CHILD_TABLES:
+    -> quali_rcv (FK: RECEIVE_NO, WORKING_CODE, TRADE_CODE, LOT_NO)
+  PARENT_TABLES:
+    <- ms_ivo (INVOICE_NO)
+    <- drug_gn (WORKING_CODE)
+    <- drug_vn (TRADE_CODE)
+
+================================================================================================================================================
+RECEIVING & QUALITY CONTROL FLOW
+================================================================================================================================================
+
+TABLE: pre_ms_ivo (PRE-RECEIPT INVOICE)
+  TYPE: Transaction Header
+  PK: PRE_RECEIVE_NO
+  INDEX: PRE_RECEIVE_NO
+  COLUMNS: ARRIVE_DATE, INVOICE_NO, VENDOR_CODE, GROSS_WEIGHT, USER_ID, PRE_RECEIVE_NO, ...
+  FOREIGN KEY REFERENCES:
+    VENDOR_CODE -> company.COMPANY_CODE
+  PARENT_TABLES:
+    <- ms_ivo (FK: PRE_RECEIVE_NO)
+
+TABLE: quali_rcv (QUALITY RECEIPT)
+  TYPE: Transaction Detail
+  PK: RECEIVE_NO, WORKING_CODE, TRADE_CODE, LOT_NO, QUALI_ID
+  COLUMNS: RECEIVE_NO, WORKING_CODE, TRADE_CODE, QUALI_ID, QUALI_VALUE, USER_ID, ...
+  FOREIGN KEY REFERENCES:
+    WORKING_CODE -> drug_gn.WORKING_CODE
+    TRADE_CODE -> drug_vn.TRADE_CODE
+    QUALI_ID -> quali_item.QUALI_ID
+    RECEIVE_NO -> ms_ivo.RECEIVE_NO (via ms_ivo_c)
+  PARENT_TABLES:
+    <- ms_ivo_c (RECEIVE_NO, WORKING_CODE, TRADE_CODE, LOT_NO)
+    <- drug_gn (WORKING_CODE)
+    <- drug_vn (TRADE_CODE)
+    <- quali_item (QUALI_ID)
+
+TABLE: quali_goal (QUALITY GOAL)
+  TYPE: Master/Configuration
+  PK: QUALI_ID, WORKING_CODE
+  COLUMNS: QUALI_ID, WORKING_CODE, MIN_VALUE, MAX_VALUE, UOM_ID
+  FOREIGN KEY REFERENCES:
+    QUALI_ID -> quali_item.QUALI_ID
+    WORKING_CODE -> drug_gn.WORKING_CODE
+    UOM_ID -> uom.UOM_ID
+  PARENT_TABLES:
+    <- drug_gn (WORKING_CODE)
+    <- quali_item (QUALI_ID)
+
+TABLE: quali_item (QUALITY ITEM MASTER)
+  TYPE: Master/Reference
+  PK: QUALI_ID
+  COLUMNS: QUALI_ID, QUALI_DES
+  CHILD_TABLES:
+    -> quali_goal (FK: QUALI_ID)
+    -> quali_rcv (FK: QUALI_ID)
+
+================================================================================================================================================
+INVENTORY MANAGEMENT FLOW
+================================================================================================================================================
+
+TABLE: inv_md (INVENTORY MASTER)
+  TYPE: Master/Aggregated
+  PK: RECORD_NUMBER
+  UNIQUE: RECORD_NUMBER
+  INDEX: WORKING_CODE+DEPT_ID
+  COLUMNS: RECORD_NUMBER, WORKING_CODE, STD_PRICE, STD_RATIO, SALE_UNIT_PRICE, TOTAL_COST, ...
+  FOREIGN KEY REFERENCES:
+    WORKING_CODE -> drug_gn.WORKING_CODE
+  CHILD_TABLES:
+    -> inv_md_c (FK: RECORD_NUMBER)
+  PARENT_TABLES:
+    <- drug_gn (WORKING_CODE)
+
+TABLE: inv_md_c (INVENTORY DETAIL BY LOT/EXPIRATION)
+  TYPE: Master/Detail
+  PK: RECORD_NUMBER
+  INDEX: EXPIRED_DATE+TRADE_CODE+DEPT_ID+LOT_NO
+  COLUMNS: RECORD_NUMBER, WORKING_CODE, PACK_RATIO, QTY_ON_HAND, LOCATION, LOT_COST, ...
+  FOREIGN KEY REFERENCES:
+    RECORD_NUMBER -> inv_md.RECORD_NUMBER
+    WORKING_CODE -> drug_gn.WORKING_CODE
+    TRADE_CODE -> drug_vn.TRADE_CODE
+  CHILD_TABLES:
+    -> inv_site (FK: DEPT_ID, TRADE_CODE)
+  PARENT_TABLES:
+    <- inv_md (RECORD_NUMBER)
+    <- drug_gn (WORKING_CODE)
+    <- drug_vn (TRADE_CODE)
+
+TABLE: inv_site (INVENTORY SITE/STORAGE LOCATION)
+  TYPE: Master/Location
+  PK: DEPT_ID, TRADE_CODE
+  INDEX: TRADE_CODE+DEPT_ID
+  COLUMNS: WORKING_CODE, LOCATION, TRADE_CODE, DEPT_ID, USER_ID, AUTO_DISP, ...
+  FOREIGN KEY REFERENCES:
+    DEPT_ID -> dept_id.DEPT_ID
+    TRADE_CODE -> drug_vn.TRADE_CODE
+    WORKING_CODE -> drug_gn.WORKING_CODE
+    LOCATION -> location.LOCATION_ID
+  PARENT_TABLES:
+    <- dept_id (DEPT_ID)
+    <- drug_vn (TRADE_CODE)
+    <- drug_gn (WORKING_CODE)
+    <- location (LOCATION_ID)
+
+TABLE: location (STORAGE LOCATION)
+  TYPE: Master/Reference
+  COLUMNS: LOCATION_ID, TRADE_CODE, WORKING_CODE, DEPT_ID
+  INDEX: LOCATION_ID+TRADE_CODE
+  CHILD_TABLES:
+    -> inv_site (FK: LOCATION_ID)
+
+================================================================================================================================================
+DISPENSING & RETURN FLOW
+================================================================================================================================================
+
+TABLE: accr_disp (ACCREDITATION DISPENSING)
+  TYPE: Transaction Header
+  PK: REQ_NO, WORKING_CODE
+  COLUMNS: REQ_NO, WORKING_CODE, QTY_REQ, PACK_RATIO, USER_ID, REQ_DATE, ...
+  FOREIGN KEY REFERENCES:
+    WORKING_CODE -> drug_gn.WORKING_CODE
+    DEPT_ID -> dept_id.DEPT_ID
+  PARENT_TABLES:
+    <- drug_gn (WORKING_CODE)
+    <- dept_id (DEPT_ID)
+
+TABLE: dispensed (DISPENSED ITEMS)
+  TYPE: Transaction Detail
+  PK: RECORD_NUMBER
+  INDEX: DISP_DATE+MED_CODE+DISP_DEPT, DISP_DATE+MED_CODE+DISP_DEPT+PROCESS_FLAG
+  COLUMNS: DISP_DATE, MED_CODE, DISP_QTY, DISP_DEPT, PROCESS_FLAG, SUB_PO_NO, ...
+  FOREIGN KEY REFERENCES:
+    DISP_DEPT -> dept_id.DEPT_ID (implied)
+    MED_CODE -> drug_gn.WORKING_CODE (implied)
+    SUB_PO_NO -> sm_po.SUB_PO_NO (implied)
+  PARENT_TABLES:
+    <- dept_id (DEPT_ID)
+    <- drug_gn (via MED_CODE)
+    <- sm_po (via SUB_PO_NO)
+
+TABLE: inv_rtn (INVENTORY RETURN HEADER)
+  TYPE: Transaction Header
+  INDEX: RETURN_NO, RETURN_NO+DEPT_ID+STOCK_ID+RETURN_DATE
+  COLUMNS: RETURN_NO, DEPT_ID, STOCK_ID, RETURN_DATE, RETURN_TIME, USER_ID, ...
+  FOREIGN KEY REFERENCES:
+    DEPT_ID -> dept_id.DEPT_ID
+  CHILD_TABLES:
+    -> inv_rtn_c (FK: RETURN_NO)
+  PARENT_TABLES:
+    <- dept_id (DEPT_ID)
+
+TABLE: inv_rtn_c (INVENTORY RETURN DETAIL)
+  TYPE: Transaction Detail
+  PK: ID
+  INDEX: RETURN_NO+WORKING_CODE+TRADE_CODE
+  COLUMNS: RETURN_NO, WORKING_CODE, TRADE_CODE, TOTAL_QTY, RETURN_QTY, UNIT_COST, ...
+  FOREIGN KEY REFERENCES:
+    RETURN_NO -> inv_rtn.RETURN_NO
+    WORKING_CODE -> drug_gn.WORKING_CODE
+    TRADE_CODE -> drug_vn.TRADE_CODE
+  PARENT_TABLES:
+    <- inv_rtn (RETURN_NO)
+    <- drug_gn (WORKING_CODE)
+    <- drug_vn (TRADE_CODE)
+
+================================================================================================================================================
+INVENTORY TRANSACTION CARD (LEDGER)
+================================================================================================================================================
+
+TABLE: card (INVENTORY TRANSACTION CARD)
+  TYPE: Transaction Log/Ledger
+  PK: RECORD_NUMBER
+  UNIQUE: RECORD_NUMBER
+  INDEX: WORKING_CODE+OPERATE_DATE, WORKING_CODE+OPERATE_DATE+R_S_STATUS+DEPT_ID+STOCK_ID
+         R_S_NUMBER+R_S_STATUS+TRADE_CODE+LOT_NO, R_S_STATUS+R_S_NUMBER+TRADE_CODE
+         R_S_NUMBER, R_S_STATUS
+  COLUMNS: RECORD_NUMBER, WORKING_CODE, OPERATE_DATE, R_S_STATUS, BDG_TYPE, R_S_NUMBER, ...
+  FOREIGN KEY REFERENCES:
+    WORKING_CODE -> drug_gn.WORKING_CODE
+    R_S_NUMBER -> (PO/Invoice/Return number)
+    DEPT_ID -> dept_id.DEPT_ID
+    TRADE_CODE -> drug_vn.TRADE_CODE
+  PARENT_TABLES:
+    <- drug_gn (WORKING_CODE)
+    <- drug_vn (TRADE_CODE)
+    <- dept_id (DEPT_ID)
+
+================================================================================================================================================
+BUDGET & PLANNING FLOW
+================================================================================================================================================
+
+TABLE: buyplan (BUY PLAN MASTER)
+  TYPE: Master/Planning
+  COLUMNS: YEAR, VALUE_1_YEAR, VALUE_2_YEAR, VALUE_3_YEAR, VALUE_THIS_YEAR, ...
+  FOREIGN KEY REFERENCES:
+    DEPT_ID -> dept_id.DEPT_ID (implied)
+  CHILD_TABLES:
+    -> buyplan_c (FK: YEAR, WORKING_CODE)
+
+TABLE: buyplan_c (BUY PLAN DETAIL)
+  TYPE: Master/Planning Detail
+  PK: YEAR, WORKING_CODE
+  INDEX: YEAR+WORKING_CODE+DEPT_ID
+  COLUMNS: YEAR, WORKING_CODE, PACK_RATIO, RATE_1_YEAR, RATE_2_YEAR, RATE_3_YEAR, ...
+  FOREIGN KEY REFERENCES:
+    WORKING_CODE -> drug_gn.WORKING_CODE
+    DEPT_ID -> dept_id.DEPT_ID
+    BUYMET_CODE -> buymethod.BUYMET_CODE
+    ADJ_REASON -> adj_reason.AR_ID
+  CHILD_TABLES:
+    -> buyplan_log (FK: YEAR, WORKING_CODE)
+  PARENT_TABLES:
+    <- buyplan (FK: YEAR)
+    <- drug_gn (WORKING_CODE)
+    <- dept_id (DEPT_ID)
+    <- buymethod (BUYMET_CODE)
+
+TABLE: buyplan_log (BUY PLAN LOG/HISTORY)
+  TYPE: Master/Audit Log
+  INDEX: YEAR+WORKING_CODE+MOD_SYS
+  COLUMNS: YEAR, WORKING_CODE, PACK_RATIO, QTY_THIS_YEAR, CHANGE_DATE, DEPT_ID, ...
+  FOREIGN KEY REFERENCES:
+    YEAR -> buyplan.YEAR
+    WORKING_CODE -> drug_gn.WORKING_CODE
+  PARENT_TABLES:
+    <- buyplan_c (YEAR, WORKING_CODE)
+    <- drug_gn (WORKING_CODE)
+
+TABLE: bdg_type (BUDGET TYPE MASTER)
+  TYPE: Master/Reference
+  UNIQUE: RECORD_NUMBER
+  COLUMNS: RECORD_NUMBER, BUDGET_TYPE, BUDGET_NAME, BUDGET_AMOUNT, TOTAL_BUY, HIDE, ...
+  CHILD_TABLES:
+    -> bdg_amt (FK: BUDGET_TYPE)
+    -> ms_po (FK: BUDGET_TYPE)
+    -> ms_ivo (FK: BUDGET_TYPE)
+
+TABLE: bdg_amt (BUDGET AMOUNT)
+  TYPE: Master/Planning
+  INDEX: BUDGET_TYPE+FISCAL_YEAR+MOD_SYS
+  COLUMNS: BUDGET_TYPE, FISCAL_YEAR, BUDGET_AMOUNT, TOTAL_BUY, BUDGET_REMAIN, DEBT, ...
+  FOREIGN KEY REFERENCES:
+    BUDGET_TYPE -> bdg_type.BUDGET_TYPE
+  PARENT_TABLES:
+    <- bdg_type (BUDGET_TYPE)
+
+TABLE: buycommon (BUY COMMON CONFIGURATION)
+  TYPE: Master/Configuration
+  PK: COMMON_CODE
+  COLUMNS: COMMON_CODE, COMMON_DES, HIDE, AUTHOR_SIGN, STD_CODE, DEAL_DAYS, ...
+
+TABLE: buymethod (BUY METHOD)
+  TYPE: Master/Configuration
+  PK: BUYMET_CODE
+  COLUMNS: BUYMET_CODE, BUYMET_DES, HIDE, REPORT_NAME, DEAL_DAYS, MIN_AMT, MAX_AMT, ...
+  CHILD_TABLES:
+    -> buyplan_c (FK: BUYMET_CODE)
+
+================================================================================================================================================
+SUB-MEDICINE (DEPARTMENT-LEVEL) PO FLOW
+================================================================================================================================================
+
+TABLE: sm_po (SUB-MEDICINE PO HEADER)
+  TYPE: Transaction Header
+  PK: RECORD_NUMBER
+  UNIQUE: RECORD_NUMBER
+  INDEX: SUB_PO_NO+STOCK_ID+SUB_PO_DATE, SUB_PO_UNO
+  COLUMNS: RECORD_NUMBER, SUB_PO_NO, DEPT_ID, ACC_NO, TOTAL_ITEM, TOTAL_COST, ...
+  FOREIGN KEY REFERENCES:
+    DEPT_ID -> dept_id.DEPT_ID
+  CHILD_TABLES:
+    -> sm_po_c (FK: SUB_PO_NO)
+    -> sm_po_e (FK: SUB_PO_NO)
+    -> dispensed (FK: SUB_PO_NO implied)
+  PARENT_TABLES:
+    <- dept_id (DEPT_ID)
+
+TABLE: sm_po_c (SUB-MEDICINE PO DETAIL)
+  TYPE: Transaction Detail
+  PK: RECORD_NUMBER
+  UNIQUE: RECORD_NUMBER
+  INDEX: SUB_PO_NO
+  COLUMNS: RECORD_NUMBER, SUB_PO_NO, WORKING_CODE, QTY_ORDER, QTY_RCV, PACK_RATIO, ...
+  FOREIGN KEY REFERENCES:
+    SUB_PO_NO -> sm_po.SUB_PO_NO
+    WORKING_CODE -> drug_gn.WORKING_CODE
+  PARENT_TABLES:
+    <- sm_po (SUB_PO_NO)
+    <- drug_gn (WORKING_CODE)
+
+TABLE: sm_po_e (SUB-MEDICINE PO EXECUTION)
+  TYPE: Transaction Detail
+  PK: RECORD_NUMBER
+  COLUMNS: RECORD_NUMBER, SUB_PO_NO, WORKING_CODE, QTY_DIST, QTY_DIST_E, PACK_RATIO, ...
+  FOREIGN KEY REFERENCES:
+    SUB_PO_NO -> sm_po.SUB_PO_NO
+    WORKING_CODE -> drug_gn.WORKING_CODE
+  PARENT_TABLES:
+    <- sm_po (SUB_PO_NO)
+    <- drug_gn (WORKING_CODE)
+
+================================================================================================================================================
+DOCUMENT FLOW & CONTROL
+================================================================================================================================================
+
+TABLE: doc_flow (DOCUMENT FLOW HEADER)
+  TYPE: Transaction Header
+  PK: REF_NO
+  COLUMNS: REF_NO, SEND_DATE, RCV_DATE, SEND_DEPT, RCV_DEPT, USER_ID, ...
+  CHILD_TABLES:
+    -> doc_flow_c (FK: REF_NO)
+    -> scan (FK: REF_NO)
+
+TABLE: doc_flow_c (DOCUMENT FLOW DETAIL)
+  TYPE: Transaction Detail
+  PK: REF_NO, INVOICE_NO
+  COLUMNS: REF_NO, INVOICE_NO, RCV_FLAG, USER_SEND, USER_RCV, LAST_UPDATE, ...
+  FOREIGN KEY REFERENCES:
+    REF_NO -> doc_flow.REF_NO
+    INVOICE_NO -> ms_ivo.INVOICE_NO
+  PARENT_TABLES:
+    <- doc_flow (REF_NO)
+    <- ms_ivo (INVOICE_NO)
+
+TABLE: scan (SCANNED DOCUMENT)
+  TYPE: Transaction Detail
+  INDEX: REF_NO, DOC_CODE, REF_NO+DOC_CODE, REF_NO+DOC_CODE+ID
+  COLUMNS: REF_NO, DOC_CODE, IMG_DATA, USER_ID, ID, SYS_DATE
+  FOREIGN KEY REFERENCES:
+    REF_NO -> doc_flow.REF_NO
+    DOC_CODE -> doc_type.DOC_CODE
+  PARENT_TABLES:
+    <- doc_flow (REF_NO)
+    <- doc_type (DOC_CODE)
+
+================================================================================================================================================
+DRUG/PRODUCT REFERENCE DATA
+================================================================================================================================================
+
+TABLE: drug_vn (DRUG VENDOR/TRADE NAME)
+  TYPE: Master/Product
+  PK: TRADE_CODE
+  UNIQUE: RECORD_NUMBER
+  INDEX: TRADE_CODE, TRADE_NAME, WORKING_CODE
+  COLUMNS: RECORD_NUMBER, WORKING_CODE, VENDOR_CODE, TRADE_NAME_KEY, TRADE_NAME, ...
+  FOREIGN KEY REFERENCES:
+    WORKING_CODE -> drug_gn.WORKING_CODE
+    VENDOR_CODE -> company.COMPANY_CODE
+  CHILD_TABLES:
+    -> edi_drug_vn (FK: INVS_TRADE_CODE)
+  PARENT_TABLES:
+    <- drug_gn (WORKING_CODE)
+    <- company (VENDOR_CODE)
+
+TABLE: drug_spec (DRUG SPECIFICATION)
+  TYPE: Master/Product
+  INDEX: WORKING_CODE
+  COLUMNS: WORKING_CODE, ATTACH_FILE, FILE_NAME, SPEC_TEXT
+  FOREIGN KEY REFERENCES:
+    WORKING_CODE -> drug_gn.WORKING_CODE
+  PARENT_TABLES:
+    <- drug_gn (WORKING_CODE)
+
+TABLE: drug_compos (DRUG COMPOSITION)
+  TYPE: Master/Product
+  PK: COMPOS_CODE
+  INDEX: WORKING_CODE, TMTID
+  COLUMNS: WORKING_CODE, COMPOS_NAME, COMPOS_CODE, TMTID
+  FOREIGN KEY REFERENCES:
+    WORKING_CODE -> drug_gn.WORKING_CODE
+    TMTID -> tmt.TPUCode
+  PARENT_TABLES:
+    <- drug_gn (WORKING_CODE)
+    <- tmt (TMTID)
+
+TABLE: pack_ratio (PACK RATIO)
+  TYPE: Master/Configuration
+  PK: PACK_CODE
+  COLUMNS: WORKING_CODE, VENDOR_CODE, PACK_RATIO, BUY_UNIT_COST, MANUFAC_CODE, ...
+  FOREIGN KEY REFERENCES:
+    WORKING_CODE -> drug_gn.WORKING_CODE
+    VENDOR_CODE -> company.COMPANY_CODE
+  PARENT_TABLES:
+    <- drug_gn (WORKING_CODE)
+    <- company (VENDOR_CODE)
+
+TABLE: edi_drug_vn (EDI DRUG-VENDOR MAPPING)
+  TYPE: Master/Integration
+  PK: VENDOR_TRADE_CODE, INVS_TRADE_CODE, VENDOR_CODE
+  COLUMNS: VENDOR_TRADE_CODE, INVS_TRADE_CODE, VENDOR_CODE, TMTID
+  FOREIGN KEY REFERENCES:
+    INVS_TRADE_CODE -> drug_vn.TRADE_CODE
+    VENDOR_CODE -> company.COMPANY_CODE
+    TMTID -> tmt.TPUCode
+  PARENT_TABLES:
+    <- drug_vn (TRADE_CODE)
+    <- company (VENDOR_CODE)
+    <- tmt (TMTID)
+
+================================================================================================================================================
+REFERENCE/LOOKUP TABLES
+================================================================================================================================================
+
+TABLE: dosage_form (DOSAGE FORM)
+  TYPE: Master/Reference
+  PK: DFORM_ID
+  COLUMNS: DFORM_NAME, DFORM_ID, HIDE
+
+TABLE: sale_unit (SALE UNIT OF MEASURE)
+  TYPE: Master/Reference
+  PK: SU_ID
+  COLUMNS: SALE_UNIT, SU_ID, HIDE, SU_ID_EX
+
+TABLE: uom (UNIT OF MEASURE)
+  TYPE: Master/Reference
+  COLUMNS: UOM_ID, UOM_NAME
+  CHILD_TABLES:
+    -> quali_goal (FK: UOM_ID)
+
+TABLE: dist_type (DISTRIBUTION TYPE)
+  TYPE: Master/Reference
+  PK: DIST_TYPE_CODE
+  COLUMNS: DIST_TYPE_CODE, DIST_TYPE_NAME, HIDE
+
+TABLE: doc_type (DOCUMENT TYPE)
+  TYPE: Master/Reference
+  INDEX: DOC_CODE
+  COLUMNS: DOC_CODE, DOC_DES, HIDE
+  CHILD_TABLES:
+    -> scan (FK: DOC_CODE)
+
+TABLE: po_reason (PO REASON/REJECTION REASON)
+  TYPE: Master/Reference
+  PK: ID
+  COLUMNS: ID, REASON_DES, HIDE
+
+TABLE: rtn_action (RETURN ACTION)
+  TYPE: Master/Reference
+  PK: ID
+  COLUMNS: ID, ACTION_DES, HIDE
+
+TABLE: rtn_reason (RETURN REASON)
+  TYPE: Master/Reference
+  PK: ID
+  COLUMNS: ID, RETURN_REASON, HIDE
+
+TABLE: tmt (TMT/PRODUCT CODE MASTER)
+  TYPE: Master/Reference
+  COLUMNS: TPUCode, ActiveIngredient, Strength, dosageform, contvalue, contunit, ...
+  CHILD_TABLES:
+    -> drug_compos (FK: TMTID)
+    -> edi_drug_vn (FK: TMTID)
+    -> concept (FK: TMTID)
+
+TABLE: aic (AIC MASTER)
+  TYPE: Master/Reference
+  PK: RECORD_NUMBER
+  UNIQUE: AIC_CODE, REF_NO, MOD_SYS
+  INDEX: AIC_CODE, REF_NO, MOD_SYS
+  COLUMNS: AIC_CODE, AIC_NAME, REF_NO, PRESID_FLAG, RECORD_NUMBER, MOD_SYS
+  CHILD_TABLES:
+    -> aic_name (FK: AIC_CODE)
+
+TABLE: aic_name (AIC NAME)
+  TYPE: Master/Reference
+  PK: AIC_CODE
+  INDEX: AIC_NAME
+  COLUMNS: AIC_CODE, AIC_NAME, HIDE, TITLE_NAME, POSITION
+  PARENT_TABLES:
+    <- aic (AIC_CODE)
+
+TABLE: concept (THERAPEUTIC CONCEPT)
+  TYPE: Master/Reference
+  UNIQUE: TMTID
+  INDEX: TMTID
+  COLUMNS: TMTID, FSN
+  CHILD_TABLES:
+    -> relationship (FK: CONCEPT1)
+    -> relationship (FK: CONCEPT2)
+  PARENT_TABLES:
+    <- tmt (TMTID)
+
+TABLE: relationship (CONCEPT RELATIONSHIP)
+  TYPE: Master/Reference
+  INDEX: CONCEPT1, CONCEPT2
+  COLUMNS: CONCEPT1, CONCEPT2
+  FOREIGN KEY REFERENCES:
+    CONCEPT1 -> concept.TMTID
+    CONCEPT2 -> concept.TMTID
+  PARENT_TABLES:
+    <- concept (TMTID)
+
+TABLE: item_type (ITEM TYPE)
+  TYPE: Master/Configuration
+  PK: WORKING_CODE, HOSP_LIST, FIRST_DATE, LAST_DATE
+  COLUMNS: WORKING_CODE, HOSP_LIST, FIRST_DATE, LAST_DATE, USER_ID
+  FOREIGN KEY REFERENCES:
+    WORKING_CODE -> drug_gn.WORKING_CODE
+    HOSP_LIST -> hosp_list.HOSP_LIST_CODE
+  PARENT_TABLES:
+    <- drug_gn (WORKING_CODE)
+    <- hosp_list (HOSP_LIST_CODE)
+
+TABLE: special (SPECIAL ITEMS)
+  TYPE: Master/Reference
+  COLUMNS: SPECIAL_CODE, SPECIAL_NAME, AVG_RATE, MIN_LEVEL, MAX_LEVEL, REORDER_QTY, ...
+
+TABLE: sub_com (SUB-COMMITTEE)
+  TYPE: Master/Reference
+  PK: SUB_COMMIT_CODE
+  INDEX: SUB_COMMIT_CODE
+  COLUMNS: SUB_COMMIT_CODE, SUB_COMMIT_DES, HIDE
+
+TABLE: ed_group (ED GROUP)
+  TYPE: Master/Reference
+  PK: CODE
+  UNIQUE: RECORD_NUMBER
+  INDEX: RECORD_NUMBER, CODE
+  COLUMNS: RECORD_NUMBER, CODE, NAME, SUB_COMMIT_CODE, FORECAST, HIDE
+  FOREIGN KEY REFERENCES:
+    SUB_COMMIT_CODE -> sub_com.SUB_COMMIT_CODE
+  PARENT_TABLES:
+    <- sub_com (SUB_COMMIT_CODE)
+
+TABLE: holiday (HOLIDAY CALENDAR)
+  TYPE: Master/Reference
+  PK: HOL_DATE
+  COLUMNS: HOL_DATE, HOL_NAME
+
+TABLE: adj_reason (ADJUSTMENT REASON)
+  TYPE: Master/Reference
+  INDEX: AR_ID
+  COLUMNS: AR_ID, AR_DES
+
+================================================================================================================================================
+REPORTING & ANALYTICS TABLES
+================================================================================================================================================
+
+TABLE: buy_re_m (BUY REPORT MONTHLY)
+  TYPE: Report/Analytics
+  COLUMNS: RECORD_NUMBER, YEAR, MONTH, SUPPLY_TYPE, BUDGET_TYPE, MONTH_VALUE
+  FOREIGN KEY REFERENCES:
+    BUDGET_TYPE -> bdg_type.BUDGET_TYPE
+
+TABLE: buy_re_y (BUY REPORT YEARLY)
+  TYPE: Report/Analytics
+  UNIQUE: RECORD_NUMBER
+  COLUMNS: RECORD_NUMBER, YEA_, SUPPLY_TYPE, BUDGET_TYPE, YEAR_VALUE
+  FOREIGN KEY REFERENCES:
+    BUDGET_TYPE -> bdg_type.BUDGET_TYPE
+
+TABLE: mbs_re_m (MBS REPORT MONTHLY)
+  TYPE: Report/Analytics
+  PK: RECORD_NUMBER
+  INDEX: YEAR+MONTH+DEPT_ID+IS_ED+BUY_FLAG
+  COLUMNS: RECORD_NUMBER, YEAR, MONTH, RCV_QUAN, RCV_VALUE, SALE_QUAN, ...
+  FOREIGN KEY REFERENCES:
+    DEPT_ID -> dept_id.DEPT_ID
+
+TABLE: mbs_re_y (MBS REPORT YEARLY)
+  TYPE: Report/Analytics
+  UNIQUE: RECORD_NUMBER
+  COLUMNS: RECORD_NUMBER, YEA_, WORKING_CODE, RCV_QUAN, RCV_VALUE, SALE_QUAN, ...
+
+TABLE: inv_has_his (INVENTORY-HIS MAPPING)
+  TYPE: Master/Integration
+  INDEX: INV_CODE+HIS_CODE
+  COLUMNS: INV_CODE, HIS_CODE, INVALID_DATE, HIS_NAME, CONVER_FACT
+  FOREIGN KEY REFERENCES:
+    INV_CODE -> drug_gn.WORKING_CODE (implied)
+
+TABLE: hosp_inv (HOSPITAL INVENTORY)
+  TYPE: Master/Organization
+  COLUMNS: HOSP_NAME, HOSP_ID, KEEP_INV_DATE, PHARM_DIRECTOR, HOSP_DIRECTOR, ADDRESS, ...
+  FOREIGN KEY REFERENCES:
+    HOSP_ID -> hosp.HOSP_CODE (implied)
+
+TABLE: hosp_list (HOSPITAL LIST)
+  TYPE: Master/Configuration
+  PK: HOSP_LIST_CODE
+  UNIQUE: HOSP_LIST_DESC
+  INDEX: HOSP_LIST_DESC
+  COLUMNS: HOSP_LIST_CODE, HOSP_LIST_DESC, HIDE, PROD_TYPE, SHOW_BUYPLAN
+  CHILD_TABLES:
+    -> item_type (FK: HOSP_LIST)
+
+TABLE: focus_list (FOCUS LIST)
+  TYPE: Master/Configuration
+  INDEX: LIST_CODE+USER_ID
+  COLUMNS: LIST_CODE, LIST_TYPE, USER_ID, DEPT_ID, LIST_NAME
+  CHILD_TABLES:
+    -> focus_list_c (FK: LIST_CODE, USER_ID)
+
+TABLE: focus_list_c (FOCUS LIST DETAIL)
+  TYPE: Master/Configuration
+  INDEX: LIST_CODE+WORKING_CODE
+  COLUMNS: WORKING_CODE, LIST_CODE, USER_ID
+  FOREIGN KEY REFERENCES:
+    LIST_CODE -> focus_list.LIST_CODE
+    WORKING_CODE -> drug_gn.WORKING_CODE
+  PARENT_TABLES:
+    <- focus_list (LIST_CODE, USER_ID)
+    <- drug_gn (WORKING_CODE)
+
+================================================================================================================================================
+USER & SYSTEM CONFIGURATION
+================================================================================================================================================
+
+TABLE: profile (USER PROFILE)
+  TYPE: System/Configuration
+  PK: UserCode
+  COLUMNS: UserCode, Password, Enable, slevel, StartDate, StartProgram, ...
+  CHILD_TABLES:
+    -> usercon (FK: UserCode)
+
+TABLE: usercon (USER CONTROL/PERMISSIONS)
+  TYPE: System/Configuration
+  COLUMNS: UserCode, module, menu, Note, Systype, utype, ...
+  FOREIGN KEY REFERENCES:
+    UserCode -> profile.UserCode
+
+TABLE: module_system (MODULE SYSTEM)
+  TYPE: System/Configuration
+  PK: MODULE_ID
+  COLUMNS: MODULE_ID, MODULE_NAME
+  CHILD_TABLES:
+    -> menucon (FK: MODULE_ID implied)
+
+TABLE: menucon (MENU CONTROL)
+  TYPE: System/Configuration
+  COLUMNS: module, menu, des, Enable, parent, id
+  FOREIGN KEY REFERENCES:
+    module -> module_system.MODULE_ID (implied)
+
+TABLE: form (FORM MASTER)
+  TYPE: System/Configuration
+  PK: FORM_CODE, FORM_SYS, MOD_SYS
+  COLUMNS: FORM_NAME, FORM_CODE, FORM_DATA, USER_ID, FORM_SYS, LAST_UPDATE, ...
+
+TABLE: reports (REPORTS MASTER)
+  TYPE: System/Configuration
+  PK: ReportNo
+  COLUMNS: ReportNo, Name, Query, Reports, Type, Menu, ...
+
+TABLE: add_in_programs (ADD-IN PROGRAMS)
+  TYPE: System/Configuration
+  PK: ID
+  COLUMNS: ID, BAR_CAPTION, MENU_CAPTION, ICON, USER_ID, ISSUE_DATE, ...
+
+TABLE: e_po (EMAIL PO CONFIGURATION)
+  TYPE: System/Configuration
+  PK: ID
+  INDEX: DEPT_ID
+  COLUMNS: EMAIL_ACC, EMAIL_PASS, EMAIL_CC, EMAIL_SUBJECT, DEPT_ID, EMAIL_MSG, ...
+  FOREIGN KEY REFERENCES:
+    DEPT_ID -> dept_id.DEPT_ID
+
+================================================================================================================================================
+CONTROL & REFERENCE TABLES
+================================================================================================================================================
+
+TABLE: dept_map (DEPARTMENT MAPPING)
+  TYPE: Master/Integration
+  INDEX: INVS_DEPT+HIS_DEPT
+  COLUMNS: INVS_DEPT, HIS_DEPT, HIS_DEPT_NAME, AUTO_DISP
+  FOREIGN KEY REFERENCES:
+    INVS_DEPT -> dept_id.DEPT_ID
+
+TABLE: inst_name (INSTITUTION NAME)
+  TYPE: Master/Reference
+  INDEX: INST_NAME+REF_CODE
+  COLUMNS: INST_NAME, REF_CODE, LAST_UPDATE, USER_ID
+
+TABLE: df_con (DOCUMENT FLOW CONTROL)
+  TYPE: Master/Control
+  PK: REF_NO_CON
+  COLUMNS: REF_NO_CON, LAST_UPDATE
+
+TABLE: po_con (PO CONTROL)
+  TYPE: Master/Control
+  COLUMNS: PO_DATE, PO_CON
+
+TABLE: prcv_con (PROCUREMENT CONTROL)
+  TYPE: Master/Control
+  INDEX: PRCV_DATE+PRCV_CON
+  COLUMNS: PRCV_DATE, PRCV_CON
+
+TABLE: rs_con (RS CONTROL)
+  TYPE: Master/Control
+  COLUMNS: RS_DATE, RS_CON
+
+TABLE: req_con (REQUEST CONTROL)
+  TYPE: Master/Control
+  COLUMNS: STOCK_ID, START_DATE, END_DATE, STOCK_FOR_WEEK, DAYS_DISP, A, ...
+
+TABLE: id_con (ID CONTROL)
+  TYPE: Master/Control
+  INDEX: ID_CON
+  COLUMNS: ID_CON, LAST_UPD
+
+TABLE: invs_ref (INVS REFERENCE)
+  TYPE: Master/Reference
+  COLUMNS: RETURN_DATE, RETURN_CON
+
+TABLE: gf (GOODS FLOW/GOOD RECEIPT)
+  TYPE: Transaction Header
+  PK: GF_NO, RUNNO
+  COLUMNS: GF_NO, GF_DATE, PJT_NO, RCV_NO, AMOUNT, RUNNO
+
+TABLE: cnt (CONTRACT)
+  TYPE: Master/Transaction
+  COLUMNS: CNT_NO, EGP_NO, PJT_NO, PARTIES_CODE, EFFECTIVE_DATE, END_DATE, ...
+  CHILD_TABLES:
+    -> cnt_c (FK: CNT_NO)
+
+TABLE: cnt_c (CONTRACT DETAIL)
+  TYPE: Master/Transaction Detail
+  PK: RECORD_NUMBER, CNT_NO
+  COLUMNS: CNT_NO, WORKING_CODE, BUY_UNIT_COST, QTY_CNT, PACK_RATIO, ITEM_TYPE, ...
+  FOREIGN KEY REFERENCES:
+    CNT_NO -> cnt.CNT_NO
+    WORKING_CODE -> drug_gn.WORKING_CODE
+  PARENT_TABLES:
+    <- cnt (CNT_NO)
+    <- drug_gn (WORKING_CODE)
+
+TABLE: position_list (POSITION LIST)
+  TYPE: Master/Reference
+  COLUMNS: POSITION_DES
+
+================================================================================================================================================
+END OF ERD RELATIONSHIPS
+================================================================================================================================================
