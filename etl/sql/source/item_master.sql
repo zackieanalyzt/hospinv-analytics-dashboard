@@ -1,17 +1,16 @@
--- TODO: Replace with real invs2019 source query
 SELECT
-    item_code AS source_item_code,
-    item_name,
-    generic_name,
-    item_type,
-    item_group,
-    item_category,
-    abc_class,
-    ven_class,
-    is_active,
-    standard_unit,
-    strength_text,
-    dosage_form,
-    manufacturer_name,
-    updated_at AS source_updated_ts
-FROM your_item_master_table;
+    g.WORKING_CODE AS source_item_code,
+    g.DRUG_NAME AS item_name,
+    g.DRUG_NAME_KEY AS generic_name,
+    g.GROUP_CODE AS item_group,
+    g.SUPPLY_TYPE AS item_type,
+    g.GROUP_KEY AS item_category,
+    g.VEN_FLAG AS ven_class,
+    CASE WHEN g.HIDE = 'N' THEN true ELSE false END AS is_active,
+    g.SALE_UNIT AS standard_unit,
+    g.STRENGTH_UNIT AS strength_text,
+    g.DOSAGE_FORM AS dosage_form,
+    COALESCE(c.COMPANY_NAME, g.LAST_VENDOR_CODE) AS manufacturer_name,
+    NOW() AS source_updated_ts
+FROM drug_gn g
+LEFT JOIN company c ON g.LAST_VENDOR_CODE = c.COMPANY_CODE;

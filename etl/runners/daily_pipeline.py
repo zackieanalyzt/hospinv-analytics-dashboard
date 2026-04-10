@@ -26,20 +26,20 @@ JOB_REGISTRY = {
     "ETL-010": Job010RefreshFreshness(),
 }
 
-def run_daily_pipeline():
-    etl_batch_id = create_batch("daily_inventory_pipeline", "incremental")
-    logger.info(f"Started ETL batch_id={etl_batch_id}")
+def run_daily_pipeline(mode: str = "incremental"):
+    etl_batch_id = create_batch("daily_inventory_pipeline", mode)
+    logger.info(f"Started ETL batch_id={etl_batch_id}, mode={mode}")
 
     try:
-        JOB_REGISTRY["ETL-001"].run(etl_batch_id)
-        JOB_REGISTRY["ETL-002"].run(etl_batch_id)
-        JOB_REGISTRY["ETL-003"].run(etl_batch_id)
+        JOB_REGISTRY["ETL-001"].run(etl_batch_id, mode=mode)
+        JOB_REGISTRY["ETL-002"].run(etl_batch_id, mode=mode)
+        JOB_REGISTRY["ETL-003"].run(etl_batch_id, mode=mode)
 
-        JOB_REGISTRY["ETL-004"].run(etl_batch_id)
-        JOB_REGISTRY["ETL-005"].run(etl_batch_id)
-        JOB_REGISTRY["ETL-006"].run(etl_batch_id)
-        JOB_REGISTRY["ETL-007"].run(etl_batch_id)
-        JOB_REGISTRY["ETL-008"].run(etl_batch_id)
+        JOB_REGISTRY["ETL-004"].run(etl_batch_id, mode=mode)
+        JOB_REGISTRY["ETL-005"].run(etl_batch_id, mode=mode)
+        JOB_REGISTRY["ETL-006"].run(etl_batch_id, mode=mode)
+        JOB_REGISTRY["ETL-007"].run(etl_batch_id, mode=mode)
+        JOB_REGISTRY["ETL-008"].run(etl_batch_id, mode=mode)
 
         from_date = str(days_ago(120))
         to_date = str(today_date())
@@ -64,13 +64,14 @@ def run_daily_pipeline():
         logger.exception(f"ETL batch_id={etl_batch_id} failed")
         raise
 
-def run_single_job(job_code: str):
+def run_single_job(job_code: str, mode: str = "incremental"):
     if job_code not in JOB_REGISTRY:
         raise ValueError(f"Unknown job code: {job_code}")
 
-    etl_batch_id = create_batch(f"single_{job_code}", "repair")
+    batch_type = "full" if mode == "full" else "repair"
+    etl_batch_id = create_batch(f"single_{job_code}", batch_type)
     try:
-        JOB_REGISTRY[job_code].run(etl_batch_id)
+        JOB_REGISTRY[job_code].run(etl_batch_id, mode=mode)
         mark_batch_success(etl_batch_id)
     except Exception as e:
         mark_batch_failed(etl_batch_id, str(e))

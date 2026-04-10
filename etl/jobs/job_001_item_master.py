@@ -21,6 +21,10 @@ class Job001ItemMaster(BaseETLJob):
 
         df["etl_batch_id"] = etl_batch_id
         df["source_pk_hash"] = df["source_item_code"].apply(lambda x: sha256_hash(x))
+        
+        if "is_active" in df.columns:
+            df["is_active"] = df["is_active"].astype(bool)
+        
         return df
 
     def load(self, df: pd.DataFrame, etl_batch_id: int, **kwargs):
