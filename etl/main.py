@@ -6,28 +6,29 @@ from runners.backfill_runner import run_backfill
 
 def main():
     if len(sys.argv) < 2:
-        logger.error("Usage: python main.py [daily|repair|backfill|job]")
+        logger.error("Usage: python main.py [daily|repair|backfill|job] [options]")
         sys.exit(1)
 
     command = sys.argv[1].lower()
+    args = parse_args(sys.argv[2:]) if len(sys.argv) > 2 else {}
 
     if command == "daily":
-        run_daily_pipeline()
+        mode = args.get("mode", "incremental")
+        run_daily_pipeline(mode=mode)
 
     elif command == "repair":
-        args = parse_args(sys.argv[2:])
         run_repair(args)
 
     elif command == "backfill":
-        args = parse_args(sys.argv[2:])
         run_backfill(args)
 
     elif command == "job":
         if len(sys.argv) < 3:
-            logger.error("Usage: python main.py job ETL-001")
+            logger.error("Usage: python main.py job ETL-001 [--mode incremental|full]")
             sys.exit(1)
         from runners.daily_pipeline import run_single_job
-        run_single_job(sys.argv[2])
+        mode = args.get("mode", "incremental")
+        run_single_job(sys.argv[2], mode=mode)
 
     else:
         logger.error(f"Unknown command: {command}")

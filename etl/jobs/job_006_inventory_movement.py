@@ -53,9 +53,9 @@ class Job006InventoryMovement(BaseETLJob):
                 s.etl_batch_id,
                 s.source_txn_id, s.ref_doc_no, s.ref_doc_type,
                 s.txn_date, s.txn_ts, TO_CHAR(s.txn_date, 'YYYYMMDD')::INTEGER,
-                COALESCE(i.dim_item_id, 0),
-                COALESCE(w.dim_warehouse_id, 0),
-                COALESCE(v.dim_vendor_id, 0),
+                COALESCE(i.dim_item_id, -1),
+                COALESCE(w.dim_warehouse_id, -1),
+                COALESCE(v.dim_vendor_id, -1),
                 LOWER(s.movement_type),
                 CASE
                     WHEN LOWER(s.movement_type) IN ('receive','transfer_in','return_in','adjust_in') THEN 'in'

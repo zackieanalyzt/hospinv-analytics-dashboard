@@ -30,7 +30,7 @@ class Job004StockBalance(BaseETLJob):
 
     def load(self, df: pd.DataFrame, etl_batch_id: int, **kwargs):
         engine = get_postgres_engine()
-        snapshot_dates = tuple(df["snapshot_date"].astype(str).unique().tolist())
+        snapshot_dates = [str(d) for d in df["snapshot_date"].unique().tolist()]
 
         with engine.begin() as conn:
             conn.execute(text("DELETE FROM stg.stock_balance WHERE etl_batch_id = :etl_batch_id"), {"etl_batch_id": etl_batch_id})
@@ -39,7 +39,7 @@ class Job004StockBalance(BaseETLJob):
 
         delete_sql = text("""
             DELETE FROM core.fact_stock_snapshot
-            WHERE snapshot_date = ANY(:snapshot_dates)
+            WHERE snapshot_date::text = ANY(:snapshot_dates)
         """)
         insert_sql = text("""
             INSERT INTO core.fact_stock_snapshot (
@@ -51,8 +51,8 @@ class Job004StockBalance(BaseETLJob):
                 s.etl_batch_id,
                 s.snapshot_date,
                 TO_CHAR(s.snapshot_date, 'YYYYMMDD')::INTEGER,
-                COALESCE(i.dim_item_id, 0),
-                COALESCE(w.dim_warehouse_id, 0),
+                COALESCE(i.dim_item_id, -1),
+                COALESCE(w.dim_warehouse_id, -1),
                 s.qty_on_hand,
                 s.avg_unit_cost,
                 s.stock_value,
