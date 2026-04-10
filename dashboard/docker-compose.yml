@@ -1,0 +1,45 @@
+version: '3.8'
+
+services:
+  dashboard:
+    build:
+      context: .
+      dockerfile: dashboard/Dockerfile
+    container_name: hospital-inventory-dashboard
+    ports:
+      - "8501:8501"
+    environment:
+      - POSTGRES_HOST=postgres
+      - POSTGRES_PORT=5432
+      - POSTGRES_DB=analytics
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - HOSPITAL_NAME=Hospital Inventory Analytics
+    depends_on:
+      - postgres
+    volumes:
+      - ./dashboard/.streamlit:/app/.streamlit
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+  postgres:
+    image: postgres:15-alpine
+    container_name: hospital-analytics-db
+    environment:
+      - POSTGRES_DB=analytics
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    networks:
+      - hospital-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  hospital-network:
